@@ -540,3 +540,18 @@ body {
 
 .animate-float { animation: float 4s ease-in-out infinite; }
 .animate-pulse-ring { animation: pulse-ring 1.5s ease-out infinite; }
+
+/* ===== CONTRAST SAFEGUARDS ===== */
+/* Ensure text is always readable in light sections */
+section.bg-white, section[style*="background: white"], section[style*="background:#fff"] {
+  color: var(--text-primary);
+}
+section.bg-white h1, section.bg-white h2, section.bg-white h3,
+section.bg-white h4, section.bg-white p {
+  color: inherit;
+}
+
+/* Navbar always readable */
+header nav a, header nav button {
+  text-shadow: none;
+}
