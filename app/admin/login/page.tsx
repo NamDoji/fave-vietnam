@@ -30,17 +30,33 @@ export default function AdminLoginPage() {
     setLoading(true)
     setError('')
     try {
-      const result = await signIn('credentials', {
-        email: data.email,
-        password: data.password,
-        redirect: false,
+      // Use direct fetch to bypass NextAuth redirect URL issue
+      const csrfRes = await fetch('/api/auth/csrf')
+      const { csrfToken } = await csrfRes.json()
+
+      const res = await fetch('/api/auth/callback/credentials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          email: data.email,
+          password: data.password,
+          csrfToken,
+          callbackUrl: '/admin',
+        }),
+        redirect: 'manual',  // Don't follow redirects
       })
 
-      if (result?.error) {
-        setError('Email hoặc mật khẩu không đúng')
+      // If session cookie was set (302 redirect = success)
+      if (res.status === 302 || res.status === 200) {
+        const location = res.headers.get('location') || ''
+        if (location.includes('error=')) {
+          setError('Email hoặc mật khẩu không đúng')
+        } else {
+          // Force navigate to admin (bypass localhost redirect)
+          window.location.href = '/admin'
+        }
       } else {
-        router.push('/admin')
-        router.refresh()
+        setError('Email hoặc mật khẩu không đúng')
       }
     } catch {
       setError('Có lỗi xảy ra. Vui lòng thử lại.')
