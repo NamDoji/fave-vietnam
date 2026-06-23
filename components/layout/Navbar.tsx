@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { useRouter } from '@/i18n/navigation'
-import { Menu, X, ChevronDown, Phone, ArrowRight, Sun, Moon } from 'lucide-react'
+import { Menu, X, ChevronDown, Phone, ArrowRight, Wind, Sun, Moon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface NavItem {
@@ -118,13 +118,15 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 lg:h-20">
 
             {/* Logo */}
-            <Link href={getHref('/')} className="flex items-center flex-shrink-0 group">
-              <img
-                src="/logo-fave.jpg"
-                alt="FAVE Việt Nam - Nghe Diện Lạnh"
-                className="h-10 w-auto object-contain filter brightness-0 invert group-hover:opacity-90 transition-opacity"
-                style={{ maxWidth: '140px' }}
-              />
+            <Link href={getHref('/')} className="flex items-center gap-2.5 group flex-shrink-0">
+              <div className="relative w-9 h-9 bg-gradient-to-br from-[#0066ff] to-[#3385ff] rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-all duration-300">
+                <Wind size={18} className="text-white" />
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-white/20 to-transparent" />
+              </div>
+              <div className="leading-none">
+                <div className="font-black text-xl text-white tracking-tight gradient-text">FAVE</div>
+                <div className="text-[10px] text-blue-400/80 font-semibold tracking-[0.2em] uppercase">Vietnam</div>
+              </div>
             </Link>
 
             {/* Desktop nav */}
