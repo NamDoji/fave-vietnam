@@ -34,9 +34,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Skip intl for API routes and static files
+  // Skip intl for API routes, admin routes, and static files
   if (
     pathname.startsWith('/api/') ||
+    pathname.startsWith('/admin') ||
     pathname.startsWith('/_next/') ||
     pathname.includes('.')
   ) {
