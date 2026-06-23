@@ -1,0 +1,475 @@
+// Prisma 7 Schema for FAVE Vietnam HVAC Website
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum QuoteStatus {
+  NEW
+  CONTACTED
+  IN_PROGRESS
+  DONE
+}
+
+enum ApplicantStatus {
+  NEW
+  REVIEWING
+  INTERVIEWED
+  ACCEPTED
+  REJECTED
+}
+
+// ============================================================
+// USER & MEDIA
+// ============================================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      Role     @default(EDITOR)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  filename  String
+  url       String
+  mimeType  String
+  size      Int
+  alt       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("media")
+}
+
+// ============================================================
+// SITE SETTINGS
+// ============================================================
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+// ============================================================
+// MENU
+// ============================================================
+
+model Menu {
+  id        String    @id @default(cuid())
+  labelVi   String
+  labelEn   String
+  href      String
+  parentId  String?
+  parent    Menu?     @relation("MenuChildren", fields: [parentId], references: [id])
+  children  Menu[]    @relation("MenuChildren")
+  sortOrder Int       @default(0)
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("menus")
+}
+
+// ============================================================
+// SERVICES
+// ============================================================
+
+model ServiceCategory {
+  id            String    @id @default(cuid())
+  nameVi        String
+  nameEn        String
+  slug          String    @unique
+  services      Service[]
+  sortOrder     Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("service_categories")
+}
+
+model Service {
+  id              String           @id @default(cuid())
+  slug            String           @unique
+  titleVi         String
+  titleEn         String
+  descriptionVi   String           @db.Text
+  descriptionEn   String           @db.Text
+  contentVi       String           @db.Text
+  contentEn       String           @db.Text
+  icon            String?
+  imageUrl        String?
+  bannerUrl       String?
+  categoryId      String?
+  category        ServiceCategory? @relation(fields: [categoryId], references: [id])
+  isActive        Boolean          @default(true)
+  sortOrder       Int              @default(0)
+  metaTitleVi     String?
+  metaTitleEn     String?
+  metaDescVi      String?
+  metaDescEn      String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@map("services")
+}
+
+// ============================================================
+// PRODUCTS
+// ============================================================
+
+model ProductCategory {
+  id        String    @id @default(cuid())
+  nameVi    String
+  nameEn    String
+  slug      String    @unique
+  imageUrl  String?
+  products  Product[]
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("product_categories")
+}
+
+model Product {
+  id              String          @id @default(cuid())
+  slug            String          @unique
+  nameVi          String
+  nameEn          String
+  descriptionVi   String          @db.Text
+  descriptionEn   String          @db.Text
+  contentVi       String          @db.Text
+  contentEn       String          @db.Text
+  imageUrl        String?
+  gallery         Json?
+  specs           Json?
+  categoryId      String?
+  category        ProductCategory? @relation(fields: [categoryId], references: [id])
+  isActive        Boolean         @default(true)
+  isFeatured      Boolean         @default(false)
+  sortOrder       Int             @default(0)
+  metaTitleVi     String?
+  metaTitleEn     String?
+  metaDescVi      String?
+  metaDescEn      String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@map("products")
+}
+
+// ============================================================
+// PROJECTS
+// ============================================================
+
+model ProjectCategory {
+  id        String    @id @default(cuid())
+  nameVi    String
+  nameEn    String
+  slug      String    @unique
+  projects  Project[]
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("project_categories")
+}
+
+model Project {
+  id              String           @id @default(cuid())
+  slug            String           @unique
+  titleVi         String
+  titleEn         String
+  descriptionVi   String           @db.Text
+  descriptionEn   String           @db.Text
+  contentVi       String           @db.Text
+  contentEn       String           @db.Text
+  imageUrl        String?
+  gallery         Json?
+  location        String?
+  scale           String?
+  sectorVi        String?
+  sectorEn        String?
+  clientName      String?
+  clientLogo      String?
+  startDate       DateTime?
+  completedDate   DateTime?
+  categoryId      String?
+  category        ProjectCategory? @relation(fields: [categoryId], references: [id])
+  isActive        Boolean          @default(true)
+  isFeatured      Boolean          @default(false)
+  sortOrder       Int              @default(0)
+  metaTitleVi     String?
+  metaTitleEn     String?
+  metaDescVi      String?
+  metaDescEn      String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@map("projects")
+}
+
+// ============================================================
+// PARTNERS & CERTIFICATES
+// ============================================================
+
+model Partner {
+  id        String   @id @default(cuid())
+  nameVi    String
+  nameEn    String
+  logoUrl   String?
+  website   String?
+  isActive  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("partners")
+}
+
+model Certificate {
+  id              String   @id @default(cuid())
+  nameVi          String
+  nameEn          String
+  descriptionVi   String?  @db.Text
+  descriptionEn   String?  @db.Text
+  imageUrl        String?
+  fileUrl         String?
+  issuedBy        String?
+  issuedAt        DateTime?
+  expiresAt       DateTime?
+  isActive        Boolean  @default(true)
+  sortOrder       Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("certificates")
+}
+
+// ============================================================
+// CAPABILITY PROFILE
+// ============================================================
+
+model CapabilityProfile {
+  id          String   @id @default(cuid())
+  titleVi     String
+  titleEn     String
+  contentVi   String   @db.Text
+  contentEn   String   @db.Text
+  fileUrl     String?
+  version     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("capability_profiles")
+}
+
+// ============================================================
+// NEWS
+// ============================================================
+
+model NewsCategory {
+  id        String     @id @default(cuid())
+  nameVi    String
+  nameEn    String
+  slug      String     @unique
+  posts     NewsPost[]
+  sortOrder Int        @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("news_categories")
+}
+
+model NewsPost {
+  id              String       @id @default(cuid())
+  slug            String       @unique
+  titleVi         String
+  titleEn         String
+  descriptionVi   String       @db.Text
+  descriptionEn   String       @db.Text
+  contentVi       String       @db.Text
+  contentEn       String       @db.Text
+  imageUrl        String?
+  categoryId      String?
+  category        NewsCategory? @relation(fields: [categoryId], references: [id])
+  status          PostStatus   @default(DRAFT)
+  publishedAt     DateTime?
+  metaTitleVi     String?
+  metaTitleEn     String?
+  metaDescVi      String?
+  metaDescEn      String?
+  viewCount       Int          @default(0)
+  authorId        String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@map("news_posts")
+}
+
+// ============================================================
+// RECRUITMENT
+// ============================================================
+
+model Recruitment {
+  id              String      @id @default(cuid())
+  slug            String      @unique
+  titleVi         String
+  titleEn         String
+  descriptionVi   String      @db.Text
+  descriptionEn   String      @db.Text
+  contentVi       String      @db.Text
+  contentEn       String      @db.Text
+  location        String?
+  salary          String?
+  experience      String?
+  deadline        DateTime?
+  isActive        Boolean     @default(true)
+  applicants      Applicant[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@map("recruitments")
+}
+
+model Applicant {
+  id           String          @id @default(cuid())
+  jobId        String
+  job          Recruitment     @relation(fields: [jobId], references: [id])
+  name         String
+  phone        String
+  email        String
+  cvUrl        String?
+  coverLetter  String?         @db.Text
+  status       ApplicantStatus @default(NEW)
+  note         String?         @db.Text
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@map("applicants")
+}
+
+// ============================================================
+// CONTACT & QUOTE REQUESTS
+// ============================================================
+
+model ContactRequest {
+  id          String   @id @default(cuid())
+  name        String
+  phone       String
+  email       String?
+  company     String?
+  message     String   @db.Text
+  isRead      Boolean  @default(false)
+  note        String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("contact_requests")
+}
+
+model QuoteRequest {
+  id            String      @id @default(cuid())
+  name          String
+  phone         String
+  email         String?
+  company       String?
+  service       String?
+  message       String      @db.Text
+  attachmentUrl String?
+  status        QuoteStatus @default(NEW)
+  note          String?     @db.Text
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@map("quote_requests")
+}
+
+// ============================================================
+// PAGE CONTENT & HERO BANNERS
+// ============================================================
+
+model PageContent {
+  id          String   @id @default(cuid())
+  pageKey     String   @unique
+  titleVi     String?
+  titleEn     String?
+  contentVi   String?  @db.Text
+  contentEn   String?  @db.Text
+  metaData    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("page_contents")
+}
+
+model HeroBanner {
+  id          String   @id @default(cuid())
+  titleVi     String
+  titleEn     String
+  subtitleVi  String?
+  subtitleEn  String?
+  imageUrl    String
+  ctaLabelVi  String?
+  ctaLabelEn  String?
+  ctaUrl      String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("hero_banners")
+}
+
+model TeamMember {
+  id          String   @id @default(cuid())
+  nameVi      String
+  nameEn      String
+  positionVi  String
+  positionEn  String
+  bioVi       String?  @db.Text
+  bioEn       String?  @db.Text
+  imageUrl    String?
+  email       String?
+  linkedin    String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("team_members")
+}

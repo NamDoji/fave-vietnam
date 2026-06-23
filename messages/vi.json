@@ -1,0 +1,243 @@
+{
+  "metadata": {
+    "siteName": "FAVE Việt Nam",
+    "siteDescription": "Đơn vị cung cấp giải pháp HVAC chuyên nghiệp - Điều hòa không khí, thông gió, hệ thống lạnh công nghiệp tại Việt Nam",
+    "keywords": "HVAC, điều hòa không khí, thông gió, hệ thống lạnh, FAVE, Việt Nam"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "services": "Dịch vụ",
+    "products": "Sản phẩm",
+    "projects": "Dự án",
+    "capability": "Năng lực",
+    "news": "Tin tức",
+    "contact": "Liên hệ",
+    "recruitment": "Tuyển dụng",
+    "getQuote": "Liên hệ báo giá",
+    "language": "Ngôn ngữ"
+  },
+  "hero": {
+    "badge": "Đơn vị HVAC Chuyên Nghiệp",
+    "title": "FAVE Việt Nam",
+    "subtitle": "Giải Pháp HVAC Toàn Diện",
+    "description": "Chuyên cung cấp, lắp đặt và bảo trì hệ thống điều hòa không khí, thông gió, làm lạnh công nghiệp cho các dự án dân dụng và công nghiệp trên toàn quốc.",
+    "cta1": "Yêu cầu báo giá",
+    "cta2": "Xem dự án tiêu biểu",
+    "scrollDown": "Khám phá thêm"
+  },
+  "about": {
+    "badge": "Về chúng tôi",
+    "title": "15 Năm Kinh Nghiệm Trong Ngành HVAC",
+    "description": "FAVE Việt Nam là đơn vị hàng đầu cung cấp giải pháp HVAC chuyên nghiệp. Với đội ngũ kỹ sư giàu kinh nghiệm và công nghệ tiên tiến, chúng tôi cam kết mang đến môi trường không khí tốt nhất cho khách hàng.",
+    "stats": {
+      "years": "Năm kinh nghiệm",
+      "projects": "Dự án hoàn thành",
+      "clients": "Khách hàng tin tưởng",
+      "engineers": "Kỹ sư chuyên nghiệp"
+    },
+    "learnMore": "Tìm hiểu thêm",
+    "whyUs": "Tại sao chọn FAVE?"
+  },
+  "services": {
+    "badge": "Dịch vụ",
+    "title": "Giải Pháp HVAC Toàn Diện",
+    "description": "Từ thiết kế, cung cấp thiết bị đến lắp đặt và bảo trì - chúng tôi là đối tác tin cậy cho mọi nhu cầu HVAC của bạn.",
+    "viewAll": "Xem tất cả dịch vụ",
+    "viewDetail": "Xem chi tiết",
+    "contactUs": "Liên hệ tư vấn"
+  },
+  "products": {
+    "badge": "Sản phẩm",
+    "title": "Thiết Bị HVAC Chất Lượng Cao",
+    "description": "Phân phối thiết bị HVAC chính hãng từ các thương hiệu hàng đầu thế giới.",
+    "viewAll": "Xem tất cả sản phẩm",
+    "viewDetail": "Xem chi tiết",
+    "featured": "Nổi bật",
+    "specs": "Thông số kỹ thuật",
+    "applications": "Ứng dụng",
+    "filterAll": "Tất cả"
+  },
+  "projects": {
+    "badge": "Dự án",
+    "title": "Dự Án Tiêu Biểu",
+    "description": "Hơn 500 dự án hoàn thành, từ nhà máy công nghiệp đến tòa nhà thương mại trên toàn quốc.",
+    "viewAll": "Xem tất cả dự án",
+    "viewDetail": "Xem chi tiết",
+    "filterAll": "Tất cả",
+    "client": "Khách hàng",
+    "location": "Địa điểm",
+    "scale": "Quy mô",
+    "completed": "Hoàn thành",
+    "sector": "Lĩnh vực"
+  },
+  "capability": {
+    "badge": "Năng lực",
+    "title": "Năng Lực Của Chúng Tôi",
+    "description": "Với đội ngũ chuyên gia và trang thiết bị hiện đại, FAVE sẵn sàng đáp ứng mọi yêu cầu kỹ thuật phức tạp nhất.",
+    "download": "Tải hồ sơ năng lực",
+    "certificates": "Chứng chỉ & Giấy phép",
+    "team": "Đội ngũ kỹ thuật",
+    "equipment": "Thiết bị thi công"
+  },
+  "partners": {
+    "badge": "Đối tác",
+    "title": "Đối Tác Tin Cậy",
+    "description": "Hợp tác với các thương hiệu và tập đoàn hàng đầu thế giới"
+  },
+  "news": {
+    "badge": "Tin tức",
+    "title": "Tin Tức & Kỹ Thuật",
+    "description": "Cập nhật kiến thức và xu hướng mới nhất trong ngành HVAC",
+    "viewAll": "Xem tất cả tin tức",
+    "readMore": "Đọc tiếp",
+    "filterAll": "Tất cả",
+    "publishedAt": "Đăng ngày",
+    "relatedNews": "Bài viết liên quan"
+  },
+  "quote": {
+    "badge": "Báo giá",
+    "title": "Yêu Cầu Báo Giá",
+    "description": "Điền thông tin để nhận tư vấn và báo giá miễn phí trong vòng 24 giờ làm việc.",
+    "name": "Họ và tên *",
+    "phone": "Số điện thoại *",
+    "email": "Email",
+    "company": "Công ty / Đơn vị",
+    "service": "Dịch vụ quan tâm",
+    "message": "Mô tả nhu cầu *",
+    "attachment": "Đính kèm file (bản vẽ, tài liệu...)",
+    "submit": "Gửi yêu cầu báo giá",
+    "submitting": "Đang gửi...",
+    "success": "Yêu cầu của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ trong 24h.",
+    "error": "Có lỗi xảy ra. Vui lòng thử lại hoặc gọi hotline.",
+    "selectService": "-- Chọn dịch vụ --"
+  },
+  "contact": {
+    "title": "Liên Hệ Với Chúng Tôi",
+    "description": "Chúng tôi sẵn sàng hỗ trợ và tư vấn cho bạn",
+    "address": "Địa chỉ",
+    "addressValue": "348 Đường Bưởi, Nghĩa Đô, Ba Đình, Hà Nội",
+    "phone": "Hotline",
+    "phoneValue": "0981 907 109",
+    "email": "Email",
+    "emailValue": "Favevietnam@gmail.com",
+    "workingHours": "Giờ làm việc",
+    "workingHoursValue": "Thứ 2 - Thứ 7: 7:30 - 17:30",
+    "form": {
+      "title": "Gửi tin nhắn",
+      "name": "Họ và tên *",
+      "phone": "Số điện thoại *",
+      "email": "Email",
+      "company": "Công ty",
+      "message": "Nội dung *",
+      "submit": "Gửi tin nhắn",
+      "submitting": "Đang gửi...",
+      "success": "Tin nhắn đã được gửi thành công!",
+      "error": "Có lỗi xảy ra. Vui lòng thử lại."
+    }
+  },
+  "recruitment": {
+    "title": "Tuyển Dụng",
+    "description": "Gia nhập đội ngũ FAVE - Nơi tài năng được phát triển",
+    "noJobs": "Hiện chưa có vị trí tuyển dụng",
+    "viewDetail": "Xem chi tiết",
+    "apply": "Ứng tuyển ngay",
+    "location": "Địa điểm làm việc",
+    "salary": "Mức lương",
+    "experience": "Kinh nghiệm",
+    "deadline": "Hạn nộp hồ sơ",
+    "form": {
+      "title": "Form ứng tuyển",
+      "name": "Họ và tên *",
+      "phone": "Số điện thoại *",
+      "email": "Email *",
+      "cv": "Upload CV (PDF, DOC) *",
+      "coverLetter": "Thư xin việc",
+      "submit": "Nộp hồ sơ",
+      "submitting": "Đang gửi...",
+      "success": "Hồ sơ đã được gửi thành công!",
+      "error": "Có lỗi xảy ra. Vui lòng thử lại."
+    }
+  },
+  "aboutPage": {
+    "hero": {
+      "title": "Về Chúng Tôi",
+      "subtitle": "15 năm đồng hành cùng sự phát triển bền vững"
+    },
+    "history": {
+      "title": "Lịch Sử Hình Thành & Phát Triển",
+      "timeline": [
+        { "year": "2009", "content": "Thành lập công ty FAVE Việt Nam tại Hà Nội, khởi đầu với lĩnh vực bảo trì và sửa chữa hệ thống điều hòa không khí." },
+        { "year": "2012", "content": "Mở rộng sang lĩnh vực lắp đặt hệ thống HVAC cho các tòa nhà văn phòng và chung cư cao tầng." },
+        { "year": "2015", "content": "Ký kết hợp tác với các nhà sản xuất thiết bị HVAC hàng đầu thế giới, nâng cao chất lượng sản phẩm và dịch vụ." },
+        { "year": "2018", "content": "Thực hiện thành công dự án HVAC quy mô lớn cho các khu công nghiệp tại Bắc Ninh, Hưng Yên, Hải Phòng." },
+        { "year": "2021", "content": "Đạt chứng chỉ ISO 9001:2015 về hệ thống quản lý chất lượng. Đội ngũ vượt mốc 100 kỹ sư và kỹ thuật viên." },
+        { "year": "2024", "content": "Hoàn thành hơn 500 dự án, khẳng định vị thế là một trong những đơn vị HVAC uy tín hàng đầu miền Bắc." }
+      ]
+    },
+    "vision": {
+      "title": "Tầm Nhìn & Sứ Mệnh",
+      "vision": "Trở thành đơn vị cung cấp giải pháp HVAC hàng đầu Đông Nam Á, mang đến môi trường sống và làm việc tốt nhất cho con người.",
+      "mission": "Cung cấp các giải pháp HVAC toàn diện, chất lượng cao với chi phí tối ưu, đóng góp vào sự phát triển bền vững của nền kinh tế Việt Nam.",
+      "values": {
+        "title": "Giá Trị Cốt Lõi",
+        "integrity": "Chính Trực - Cam kết thực hiện đúng những gì đã hứa",
+        "quality": "Chất Lượng - Không thỏa hiệp với tiêu chuẩn kỹ thuật",
+        "innovation": "Đổi Mới - Liên tục cập nhật công nghệ tiên tiến",
+        "partnership": "Hợp Tác - Xây dựng quan hệ đối tác bền vững"
+      }
+    },
+    "whyUs": {
+      "title": "Tại Sao Chọn FAVE?",
+      "reasons": [
+        { "title": "Kinh nghiệm dày dặn", "desc": "15 năm hoạt động với hơn 500 dự án thành công trong các lĩnh vực công nghiệp và dân dụng" },
+        { "title": "Đội ngũ chuyên nghiệp", "desc": "Hơn 100 kỹ sư, kỹ thuật viên được đào tạo bài bản và có chứng chỉ chuyên môn quốc tế" },
+        { "title": "Công nghệ hiện đại", "desc": "Sử dụng phần mềm thiết kế tiên tiến và thiết bị thi công hiện đại nhất" },
+        { "title": "Tư vấn tận tâm", "desc": "Đội ngũ tư vấn chuyên nghiệp, hỗ trợ 24/7, luôn sẵn sàng giải đáp mọi thắc mắc" },
+        { "title": "Giải pháp tiết kiệm năng lượng", "desc": "Thiết kế hệ thống tối ưu hóa hiệu suất năng lượng, giảm chi phí vận hành" },
+        { "title": "Bảo hành & bảo trì", "desc": "Chính sách bảo hành rõ ràng và dịch vụ bảo trì định kỳ chuyên nghiệp" }
+      ]
+    }
+  },
+  "footer": {
+    "description": "Đơn vị hàng đầu cung cấp giải pháp HVAC chuyên nghiệp tại Việt Nam với hơn 15 năm kinh nghiệm.",
+    "quickLinks": "Liên kết nhanh",
+    "services": "Dịch vụ",
+    "contact": "Liên hệ",
+    "address": "348 Đường Bưởi, Nghĩa Đô, Ba Đình, Hà Nội",
+    "phone": "0981 907 109",
+    "email": "Favevietnam@gmail.com",
+    "copyright": "© 2024 FAVE Việt Nam. Tất cả quyền được bảo lưu.",
+    "privacyPolicy": "Chính sách bảo mật",
+    "terms": "Điều khoản sử dụng"
+  },
+  "floating": {
+    "hotline": "Hotline",
+    "zalo": "Zalo",
+    "messenger": "Messenger",
+    "scrollTop": "Lên đầu trang"
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Có lỗi xảy ra",
+    "retry": "Thử lại",
+    "back": "Quay lại",
+    "seeAll": "Xem tất cả",
+    "readMore": "Đọc thêm",
+    "close": "Đóng",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "sort": "Sắp xếp",
+    "featured": "Nổi bật",
+    "new": "Mới",
+    "all": "Tất cả",
+    "required": "Trường bắt buộc",
+    "invalidEmail": "Email không hợp lệ",
+    "invalidPhone": "Số điện thoại không hợp lệ"
+  },
+  "notFound": {
+    "title": "Trang không tồn tại",
+    "description": "Trang bạn tìm kiếm không tồn tại hoặc đã bị xóa.",
+    "backHome": "Về trang chủ"
+  }
+}

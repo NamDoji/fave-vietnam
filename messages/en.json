@@ -1,0 +1,243 @@
+{
+  "metadata": {
+    "siteName": "FAVE Vietnam",
+    "siteDescription": "Professional HVAC solutions provider - Air conditioning, ventilation, industrial refrigeration systems in Vietnam",
+    "keywords": "HVAC, air conditioning, ventilation, refrigeration, FAVE, Vietnam"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "products": "Products",
+    "projects": "Projects",
+    "capability": "Capability",
+    "news": "News",
+    "contact": "Contact",
+    "recruitment": "Careers",
+    "getQuote": "Get a Quote",
+    "language": "Language"
+  },
+  "hero": {
+    "badge": "Professional HVAC Company",
+    "title": "FAVE Vietnam",
+    "subtitle": "Comprehensive HVAC Solutions",
+    "description": "Specializing in supply, installation, and maintenance of air conditioning, ventilation, and industrial refrigeration systems for civil and industrial projects nationwide.",
+    "cta1": "Request a Quote",
+    "cta2": "View Featured Projects",
+    "scrollDown": "Explore More"
+  },
+  "about": {
+    "badge": "About Us",
+    "title": "15 Years of HVAC Excellence",
+    "description": "FAVE Vietnam is a leading provider of professional HVAC solutions. With experienced engineers and advanced technology, we are committed to delivering the best air environment for our clients.",
+    "stats": {
+      "years": "Years of Experience",
+      "projects": "Completed Projects",
+      "clients": "Trusted Clients",
+      "engineers": "Professional Engineers"
+    },
+    "learnMore": "Learn More",
+    "whyUs": "Why Choose FAVE?"
+  },
+  "services": {
+    "badge": "Services",
+    "title": "Comprehensive HVAC Solutions",
+    "description": "From design, equipment supply to installation and maintenance - we are your reliable partner for all HVAC needs.",
+    "viewAll": "View All Services",
+    "viewDetail": "View Details",
+    "contactUs": "Contact for Consultation"
+  },
+  "products": {
+    "badge": "Products",
+    "title": "High-Quality HVAC Equipment",
+    "description": "Distributing genuine HVAC equipment from world-leading brands.",
+    "viewAll": "View All Products",
+    "viewDetail": "View Details",
+    "featured": "Featured",
+    "specs": "Technical Specifications",
+    "applications": "Applications",
+    "filterAll": "All"
+  },
+  "projects": {
+    "badge": "Projects",
+    "title": "Featured Projects",
+    "description": "Over 500 completed projects, from industrial plants to commercial buildings nationwide.",
+    "viewAll": "View All Projects",
+    "viewDetail": "View Details",
+    "filterAll": "All",
+    "client": "Client",
+    "location": "Location",
+    "scale": "Scale",
+    "completed": "Completed",
+    "sector": "Sector"
+  },
+  "capability": {
+    "badge": "Capability",
+    "title": "Our Capabilities",
+    "description": "With a team of experts and modern equipment, FAVE is ready to meet even the most complex technical requirements.",
+    "download": "Download Company Profile",
+    "certificates": "Certificates & Licenses",
+    "team": "Technical Team",
+    "equipment": "Construction Equipment"
+  },
+  "partners": {
+    "badge": "Partners",
+    "title": "Trusted Partners",
+    "description": "Collaborating with world-leading brands and corporations"
+  },
+  "news": {
+    "badge": "News",
+    "title": "News & Technical Articles",
+    "description": "Stay updated with the latest knowledge and trends in the HVAC industry",
+    "viewAll": "View All News",
+    "readMore": "Read More",
+    "filterAll": "All",
+    "publishedAt": "Published on",
+    "relatedNews": "Related Articles"
+  },
+  "quote": {
+    "badge": "Quote",
+    "title": "Request a Quote",
+    "description": "Fill in your information to receive free consultation and quotation within 24 working hours.",
+    "name": "Full Name *",
+    "phone": "Phone Number *",
+    "email": "Email",
+    "company": "Company / Organization",
+    "service": "Service of Interest",
+    "message": "Describe Your Needs *",
+    "attachment": "Attach File (drawings, documents...)",
+    "submit": "Send Quote Request",
+    "submitting": "Sending...",
+    "success": "Your request has been sent successfully! We will contact you within 24 hours.",
+    "error": "An error occurred. Please try again or call our hotline.",
+    "selectService": "-- Select Service --"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "We are ready to support and advise you",
+    "address": "Address",
+    "addressValue": "348 Buoi Street, Nghia Do, Ba Dinh, Hanoi",
+    "phone": "Hotline",
+    "phoneValue": "0981 907 109",
+    "email": "Email",
+    "emailValue": "Favevietnam@gmail.com",
+    "workingHours": "Working Hours",
+    "workingHoursValue": "Monday - Saturday: 7:30 - 17:30",
+    "form": {
+      "title": "Send a Message",
+      "name": "Full Name *",
+      "phone": "Phone Number *",
+      "email": "Email",
+      "company": "Company",
+      "message": "Message *",
+      "submit": "Send Message",
+      "submitting": "Sending...",
+      "success": "Message sent successfully!",
+      "error": "An error occurred. Please try again."
+    }
+  },
+  "recruitment": {
+    "title": "Careers",
+    "description": "Join the FAVE team - Where talent grows",
+    "noJobs": "No open positions at this time",
+    "viewDetail": "View Details",
+    "apply": "Apply Now",
+    "location": "Work Location",
+    "salary": "Salary",
+    "experience": "Experience",
+    "deadline": "Application Deadline",
+    "form": {
+      "title": "Application Form",
+      "name": "Full Name *",
+      "phone": "Phone Number *",
+      "email": "Email *",
+      "cv": "Upload CV (PDF, DOC) *",
+      "coverLetter": "Cover Letter",
+      "submit": "Submit Application",
+      "submitting": "Sending...",
+      "success": "Application submitted successfully!",
+      "error": "An error occurred. Please try again."
+    }
+  },
+  "aboutPage": {
+    "hero": {
+      "title": "About Us",
+      "subtitle": "15 years of sustainable development partnership"
+    },
+    "history": {
+      "title": "History & Development",
+      "timeline": [
+        { "year": "2009", "content": "Founded FAVE Vietnam in Hanoi, starting with HVAC system maintenance and repair." },
+        { "year": "2012", "content": "Expanded into HVAC installation for high-rise office buildings and apartments." },
+        { "year": "2015", "content": "Signed partnerships with world-leading HVAC manufacturers, enhancing product and service quality." },
+        { "year": "2018", "content": "Successfully completed large-scale HVAC projects for industrial zones in Bac Ninh, Hung Yen, and Hai Phong." },
+        { "year": "2021", "content": "Achieved ISO 9001:2015 certification for quality management systems. Team surpassed 100 engineers and technicians." },
+        { "year": "2024", "content": "Completed over 500 projects, establishing position as one of the top HVAC companies in Northern Vietnam." }
+      ]
+    },
+    "vision": {
+      "title": "Vision & Mission",
+      "vision": "To become the leading HVAC solutions provider in Southeast Asia, delivering the best living and working environment for people.",
+      "mission": "Providing comprehensive, high-quality HVAC solutions at optimal cost, contributing to Vietnam's sustainable economic development.",
+      "values": {
+        "title": "Core Values",
+        "integrity": "Integrity - Committed to delivering what we promise",
+        "quality": "Quality - No compromise on technical standards",
+        "innovation": "Innovation - Continuously updating advanced technology",
+        "partnership": "Partnership - Building lasting partner relationships"
+      }
+    },
+    "whyUs": {
+      "title": "Why Choose FAVE?",
+      "reasons": [
+        { "title": "Extensive Experience", "desc": "15 years in operation with over 500 successful projects in industrial and civil sectors" },
+        { "title": "Professional Team", "desc": "Over 100 engineers and technicians trained with international professional certifications" },
+        { "title": "Modern Technology", "desc": "Using advanced design software and state-of-the-art construction equipment" },
+        { "title": "Dedicated Consulting", "desc": "Professional consulting team, 24/7 support, always ready to answer any questions" },
+        { "title": "Energy-Saving Solutions", "desc": "Designing systems to optimize energy efficiency, reducing operating costs" },
+        { "title": "Warranty & Maintenance", "desc": "Clear warranty policies and professional periodic maintenance services" }
+      ]
+    }
+  },
+  "footer": {
+    "description": "Leading provider of professional HVAC solutions in Vietnam with over 15 years of experience.",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "contact": "Contact",
+    "address": "348 Buoi Street, Nghia Do, Ba Dinh, Hanoi",
+    "phone": "0981 907 109",
+    "email": "Favevietnam@gmail.com",
+    "copyright": "© 2024 FAVE Vietnam. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms of Use"
+  },
+  "floating": {
+    "hotline": "Hotline",
+    "zalo": "Zalo",
+    "messenger": "Messenger",
+    "scrollTop": "Back to top"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Try Again",
+    "back": "Go Back",
+    "seeAll": "See All",
+    "readMore": "Read More",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "featured": "Featured",
+    "new": "New",
+    "all": "All",
+    "required": "Required field",
+    "invalidEmail": "Invalid email address",
+    "invalidPhone": "Invalid phone number"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or has been removed.",
+    "backHome": "Back to Home"
+  }
+}
