@@ -257,38 +257,25 @@ export default function Navbar() {
       {/* Mobile full-screen menu */}
       <div
         className={cn(
-          'fixed inset-0 z-40 lg:hidden flex flex-col transition-all duration-400',
-          isMobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+          'fixed left-0 right-0 bottom-0 z-40 lg:hidden flex flex-col transition-all duration-400',
+          isMobileOpen ? 'opacity-100 visible top-16' : 'opacity-0 invisible top-16 pointer-events-none'
         )}
-        style={{ background: 'rgba(13,13,13,0.98)', backdropFilter: 'blur(24px)' }}
+        style={{ background: 'rgba(10,10,20,0.97)', backdropFilter: 'blur(24px)' }}
       >
-        {/* Mobile header bar */}
-        <div className="flex items-center justify-between px-6 h-16" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          {/* Logo */}
-          <Link href={getHref('/')} onClick={() => setIsMobileOpen(false)} className="flex items-center">
-            <img src="/logo-fave.jpg" alt="FAVE Việt Nam" className="h-9 w-auto object-contain filter brightness-0 invert" style={{ maxWidth: '120px' }} />
-          </Link>
-
-          {/* Right: VI/EN + Dark + Close */}
+        {/* No duplicate logo here — main navbar logo is visible above */}
+        {/* Top close bar */}
+        <div className="flex items-center justify-between px-5 py-3 border-b border-white/08">
+          <span className="text-white/50 text-xs uppercase tracking-widest">Menu</span>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => switchLocale(locale === 'vi' ? 'en' : 'vi')}
-              className="text-white/50 hover:text-white transition-all"
-              style={{ fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.12em' }}
-            >
+            <button onClick={() => switchLocale(locale === 'vi' ? 'en' : 'vi')}
+              className="text-xs font-bold px-2.5 py-1 rounded-lg bg-white/10 text-white/70 hover:text-white hover:bg-white/15 transition-all">
               {locale === 'vi' ? 'EN' : 'VI'}
             </button>
-            <button
-              onClick={toggleDarkMode}
-              className="text-white/50 hover:text-white flex items-center justify-center transition-all"
-            >
+            <button onClick={toggleDarkMode} className="p-1.5 rounded-lg bg-white/10 text-white/60 hover:text-white transition-all">
               {isDark ? <Sun size={14} /> : <Moon size={14} />}
             </button>
-            <button
-              onClick={() => setIsMobileOpen(false)}
-              className="text-white/60 hover:text-white flex items-center justify-center transition-all"
-            >
-              <X size={18} />
+            <button onClick={() => setIsMobileOpen(false)} className="p-1.5 rounded-lg bg-white/10 text-white/60 hover:text-white transition-all">
+              <X size={16} />
             </button>
           </div>
         </div>
