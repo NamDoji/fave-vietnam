@@ -5,12 +5,13 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Settings, Package, Building2, Newspaper,
-  Users, MessageSquare, FileText, Image, Award, Handshake, Briefcase, Zap, X, ChevronRight
+  Users, MessageSquare, FileText, Image, Award, Handshake, Briefcase, Zap, X, ChevronRight, Layers
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const NAV_ITEMS = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
+  { href: '/admin/banners', label: 'Banner tập chính', icon: Layers },
   { href: '/admin/services', label: 'Dịch vụ', icon: Settings },
   { href: '/admin/products', label: 'Sản phẩm', icon: Package },
   { href: '/admin/projects', label: 'Dự án', icon: Building2 },
