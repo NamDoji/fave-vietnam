@@ -1577,16 +1577,6 @@ function UniqueServiceSection({ slug, data }: { slug: string; data: ServiceData 
 function ServiceDetailContent({ data, slug }: { data: ServiceData; slug: string }) {
   return (
     <div style={{ paddingTop: '64px' }}>
-      {/* Breadcrumb */}
-      <div style={{ background: '#f8faff', borderBottom: '1px solid #e8f0ff' }}>
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-2 text-sm text-slate-500">
-          <Link href="/" className="hover:text-blue-600 transition-colors">Trang chủ</Link>
-          <ChevronRight size={14} className="opacity-40" />
-          <Link href="/dich-vu" className="hover:text-blue-600 transition-colors">Dịch vụ</Link>
-          <ChevronRight size={14} className="opacity-40" />
-          <span className="text-slate-900 font-medium">{data.titleVi}</span>
-        </div>
-      </div>
 
       {/* Hero */}
       <section

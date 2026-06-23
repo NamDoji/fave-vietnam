@@ -112,7 +112,7 @@ export default function Navbar() {
     <>
       <header className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-        isScrolled ? 'navbar-glass' : 'navbar-transparent'
+        isScrolled ? 'navbar-glass' : 'navbar-solid'
       )}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
@@ -163,15 +163,15 @@ export default function Navbar() {
                   {/* Desktop Dropdown */}
                   {item.children && openDropdown === item.key && (
                     <div
-                      className="absolute top-full left-0 mt-3 w-56 z-50 overflow-hidden"
-                      style={{ background: 'rgba(13,13,13,0.97)', backdropFilter: 'blur(20px)', border: '1px solid rgba(200,169,110,0.15)' }}
+                      className="absolute top-full left-0 mt-3 w-56 z-50 overflow-hidden rounded-lg"
+                      style={{ background: 'rgba(10, 22, 40, 0.98)', backdropFilter: 'blur(20px)', border: '1px solid rgba(0,102,255,0.2)' }}
                     >
-                      {/* Top gold line */}
-                      <div style={{ height: '1px', background: 'rgba(200,169,110,0.4)' }} />
+                      {/* Top blue line */}
+                      <div style={{ height: '2px', background: 'linear-gradient(90deg, #0066ff, #3385ff)' }} />
                       <Link
                         href={getHref(item.href)}
-                        className="flex items-center justify-between px-4 py-3 transition-colors"
-                        style={{ color: 'rgba(200,169,110,0.9)', fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                        className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-blue-500/10"
+                        style={{ color: '#60a5fa', fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
                         onClick={() => setOpenDropdown(null)}
                       >
                         Tất cả {t(item.key)} <ArrowRight size={11} />
@@ -180,13 +180,13 @@ export default function Navbar() {
                         <Link
                           key={child.href}
                           href={getHref(child.href)}
-                          className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-white/05"
+                          className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-blue-500/10"
                           style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.6)' }}
-                          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.9)' }}
+                          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.95)' }}
                           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.6)' }}
                           onClick={() => setOpenDropdown(null)}
                         >
-                          <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(200,169,110,0.5)', flexShrink: 0, display: 'inline-block' }} />
+                          <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(0,102,255,0.7)', flexShrink: 0, display: 'inline-block' }} />
                           {child.label}
                         </Link>
                       ))}
@@ -262,12 +262,10 @@ export default function Navbar() {
           'fixed left-0 right-0 bottom-0 z-40 lg:hidden flex flex-col transition-all duration-400',
           isMobileOpen ? 'opacity-100 visible top-16' : 'opacity-0 invisible top-16 pointer-events-none'
         )}
-        style={{ background: 'rgba(10,10,20,0.97)', backdropFilter: 'blur(24px)' }}
+        style={{ background: 'rgba(10, 22, 40, 0.98)', backdropFilter: 'blur(24px)' }}
       >
-
-
-        {/* Thin gold line under header */}
-        <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.4), transparent)' }} />
+        {/* Thin blue line under header */}
+        <div style={{ height: '2px', background: 'linear-gradient(90deg, transparent, rgba(0,102,255,0.5), transparent)' }} />
 
         {/* Nav items */}
         <nav className="flex-1 overflow-y-auto px-6 py-6 space-y-1">
@@ -293,7 +291,7 @@ export default function Navbar() {
                         href={getHref(item.href)}
                         onClick={() => setIsMobileOpen(false)}
                         className="flex items-center gap-2 py-2 px-2 transition-colors"
-                        style={{ color: 'rgba(200,169,110,0.8)', fontSize: '0.75rem', fontWeight: 500 }}
+                        style={{ color: '#60a5fa', fontSize: '0.75rem', fontWeight: 600 }}
                       >
                         <ArrowRight size={11} />
                         Xem tất cả {t(item.key)}
@@ -304,10 +302,10 @@ export default function Navbar() {
                           href={getHref(child.href)}
                           onClick={() => setIsMobileOpen(false)}
                           className="flex items-center gap-2 py-2 px-2 transition-colors"
-                          style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.45)' }}
-                          onTouchStart={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.85)' }}
+                          style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.55)' }}
+                          onTouchStart={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.95)' }}
                         >
-                          <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(200,169,110,0.5)', flexShrink: 0, display: 'inline-block' }} />
+                          <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(0,102,255,0.7)', flexShrink: 0, display: 'inline-block' }} />
                           {child.label}
                         </Link>
                       ))}

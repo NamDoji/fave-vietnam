@@ -436,6 +436,11 @@ p  { font-size: 1rem; line-height: 1.7; }
 }
 
 /* ===== NAVBAR STYLES ===== */
+.navbar-solid {
+  background: rgba(10, 22, 40, 1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .navbar-glass {
   background: rgba(10, 22, 40, 0.85);
   backdrop-filter: blur(20px);
@@ -446,6 +451,53 @@ p  { font-size: 1rem; line-height: 1.7; }
 .navbar-transparent {
   background: transparent;
   border-bottom: 1px solid transparent;
+}
+
+/* Ghost button (navbar desktop CTA) */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(0, 102, 255, 0.15);
+  color: #fff;
+  border: 1px solid rgba(0, 102, 255, 0.4);
+  border-radius: 6px;
+  font-family: var(--font-inter, Inter, sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-ghost:hover {
+  background: rgba(0, 102, 255, 0.28);
+  border-color: rgba(0, 102, 255, 0.7);
+}
+
+/* Luxury CTA button → navy blue (replaces Italian gold style) */
+.btn-luxury {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #0066ff, #3385ff);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-inter, Inter, sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+  box-shadow: 0 4px 20px rgba(0, 102, 255, 0.35);
+}
+.btn-luxury:hover {
+  background: linear-gradient(135deg, #0052cc, #0066ff);
+  box-shadow: 0 6px 28px rgba(0, 102, 255, 0.5);
+  transform: translateY(-1px);
 }
 
 .nav-link-underline {
