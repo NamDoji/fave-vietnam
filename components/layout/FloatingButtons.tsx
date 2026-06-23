@@ -18,21 +18,52 @@ export default function FloatingButtons() {
   }
 
   return (
-    <div className="fixed bottom-6 right-4 z-50 flex flex-col items-center gap-3">
+    <div className="fixed bottom-6 right-5 z-50 flex flex-col items-center gap-3">
+
       {/* Hotline - pulse button */}
       <a
         href="tel:0981907109"
-        className="group flex items-center gap-0 overflow-hidden rounded-full shadow-xl hover:shadow-blue-500/30 transition-all duration-300"
+        className="group flex items-center gap-0 overflow-hidden relative"
         aria-label="Gọi hotline"
-        style={{ boxShadow: '0 4px 20px rgba(0, 102, 255, 0.35)' }}
+        style={{
+          border: '1px solid rgba(200,169,110,0.4)',
+          borderRadius: '50%',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={e => {
+          const el = e.currentTarget as HTMLAnchorElement
+          el.style.borderRadius = '0'
+          el.style.borderColor = 'rgba(200,169,110,0.7)'
+        }}
+        onMouseLeave={e => {
+          const el = e.currentTarget as HTMLAnchorElement
+          el.style.borderRadius = '50%'
+          el.style.borderColor = 'rgba(200,169,110,0.4)'
+        }}
       >
-        <div className="w-13 h-13 flex items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-700 pulse-blue"
-          style={{ width: '52px', height: '52px' }}>
-          <Phone size={20} className="text-white" />
+        {/* Pulse ring */}
+        <span
+          className="animate-pulse-ring absolute inset-0 rounded-full pointer-events-none"
+          style={{ border: '1px solid rgba(200,169,110,0.3)' }}
+        />
+        <div
+          className="flex items-center justify-center"
+          style={{ width: '48px', height: '48px', background: '#0D0D0D' }}
+        >
+          <Phone size={17} style={{ color: 'rgba(200,169,110,0.85)' }} />
         </div>
-        <div className="max-w-0 group-hover:max-w-xs overflow-hidden transition-all duration-300 ease-in-out">
-          <span className="pr-4 pl-2 text-sm font-semibold whitespace-nowrap text-white bg-gradient-to-r from-blue-600 to-blue-700 h-full flex items-center"
-            style={{ height: '52px' }}>
+        <div
+          className="max-w-0 group-hover:max-w-xs overflow-hidden transition-all duration-300 ease-in-out"
+        >
+          <span
+            className="pr-4 pl-1 text-xs font-semibold whitespace-nowrap flex items-center"
+            style={{
+              height: '48px',
+              background: '#0D0D0D',
+              color: 'rgba(200,169,110,0.85)',
+              letterSpacing: '0.08em',
+            }}
+          >
             0981 907 109
           </span>
         </div>
@@ -43,11 +74,28 @@ export default function FloatingButtons() {
         href="https://zalo.me/0981907109"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center text-white rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 font-bold text-sm"
-        style={{ width: '48px', height: '48px', background: 'linear-gradient(135deg, #0068FF, #00AEEF)', boxShadow: '0 4px 16px rgba(0, 104, 255, 0.3)' }}
+        className="flex items-center justify-center font-bold transition-all hover:-translate-y-0.5"
+        style={{
+          width: '44px',
+          height: '44px',
+          background: '#0D0D0D',
+          border: '1px solid rgba(200,169,110,0.25)',
+          color: 'rgba(200,169,110,0.7)',
+          fontSize: '0.6875rem',
+          letterSpacing: '0.04em',
+          transition: 'all 0.25s ease',
+        }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(200,169,110,0.6)'
+          ;(e.currentTarget as HTMLAnchorElement).style.color = 'rgba(200,169,110,0.95)'
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(200,169,110,0.25)'
+          ;(e.currentTarget as HTMLAnchorElement).style.color = 'rgba(200,169,110,0.7)'
+        }}
         aria-label="Zalo"
       >
-        <span className="text-[13px]">Za</span>
+        Za
       </a>
 
       {/* Messenger */}
@@ -55,24 +103,46 @@ export default function FloatingButtons() {
         href="https://m.me/favevietnam"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center text-white rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
-        style={{ width: '48px', height: '48px', background: 'linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045)', boxShadow: '0 4px 16px rgba(131, 58, 180, 0.3)' }}
+        className="flex items-center justify-center transition-all hover:-translate-y-0.5"
+        style={{
+          width: '44px',
+          height: '44px',
+          background: '#0D0D0D',
+          border: '1px solid rgba(200,169,110,0.25)',
+          color: 'rgba(200,169,110,0.7)',
+          transition: 'all 0.25s ease',
+        }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(200,169,110,0.6)'
+          ;(e.currentTarget as HTMLAnchorElement).style.color = 'rgba(200,169,110,0.95)'
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(200,169,110,0.25)'
+          ;(e.currentTarget as HTMLAnchorElement).style.color = 'rgba(200,169,110,0.7)'
+        }}
         aria-label="Messenger"
       >
-        <MessageCircle size={20} />
+        <MessageCircle size={17} />
       </a>
 
       {/* Scroll to top */}
       <button
         onClick={scrollToTop}
         className={cn(
-          'flex items-center justify-center bg-white text-slate-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-1 hover:bg-blue-50',
-          showScrollTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-3 pointer-events-none'
+          'flex items-center justify-center transition-all hover:-translate-y-0.5',
+          showScrollTop ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-2 pointer-events-none'
         )}
-        style={{ width: '42px', height: '42px', transition: 'all 0.3s ease' }}
+        style={{
+          width: '40px',
+          height: '40px',
+          background: '#0D0D0D',
+          border: '1px solid rgba(200,169,110,0.2)',
+          color: 'rgba(200,169,110,0.6)',
+          transition: 'all 0.3s ease',
+        }}
         aria-label="Lên đầu trang"
       >
-        <ChevronUp size={18} className="text-blue-600" />
+        <ChevronUp size={15} />
       </button>
     </div>
   )
