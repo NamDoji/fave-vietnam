@@ -1,31 +1,10 @@
 import createMiddleware from 'next-intl/middleware'
 import { routing } from './i18n/routing'
-import { auth } from '@/lib/auth'
+import { getToken } from 'next-auth/jwt'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 const intlMiddleware = createMiddleware(routing)
-
-const publicPaths = [
-  '/',
-  '/vi',
-  '/en',
-  '/api/quote',
-  '/api/contact',
-  '/api/apply',
-  '/api/services',
-  '/api/products',
-  '/api/projects',
-  '/api/news',
-  '/api/site-settings',
-  '/admin/login',
-]
-
-function isPublicPath(pathname: string): boolean {
-  return publicPaths.some(
-    (p) => pathname === p || pathname.startsWith(p + '/')
-  )
-}
 
 function isAdminPath(pathname: string): boolean {
   return pathname.startsWith('/admin') && pathname !== '/admin/login'
@@ -38,10 +17,13 @@ function isApiAdminPath(pathname: string): boolean {
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
-  // Admin routes - check authentication
+  // Admin routes - check JWT token (Edge-compatible)
   if (isAdminPath(pathname) || isApiAdminPath(pathname)) {
-    const session = await auth()
-    if (!session) {
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET || 'fallback-secret',
+    })
+    if (!token) {
       if (isApiAdminPath(pathname)) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
       }
@@ -52,8 +34,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Skip intl for API routes
-  if (pathname.startsWith('/api/') || pathname.startsWith('/_next/') || pathname.includes('.')) {
+  // Skip intl for API routes and static files
+  if (
+    pathname.startsWith('/api/') ||
+    pathname.startsWith('/_next/') ||
+    pathname.includes('.')
+  ) {
     return NextResponse.next()
   }
 
