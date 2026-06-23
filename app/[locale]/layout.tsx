@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, Inter } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -9,19 +9,11 @@ import Footer from '@/components/layout/Footer'
 import FloatingButtons from '@/components/layout/FloatingButtons'
 import '../globals.css'
 
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-playfair',
-  weight: ['400', '600', '700', '900'],
-  style: ['normal', 'italic'],
-})
-
 const inter = Inter({
   subsets: ['latin', 'vietnamese'],
   display: 'swap',
   variable: '--font-inter',
-  weight: ['300', '400', '500', '600'],
+  weight: ['400', '500', '600', '700', '800', '900'],
 })
 
 type Props = {
@@ -70,7 +62,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages()
 
   return (
-    <html lang={locale} className={`${playfair.variable} ${inter.variable}`}>
+    <html lang={locale} className={inter.variable}>
       <body className={`${inter.className} antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <Navbar />

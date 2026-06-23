@@ -33,49 +33,18 @@ const CLIENTS = [
 function PartnerCard({ name, desc }: { name: string; desc: string }) {
   return (
     <div
-      className="flex-shrink-0 mx-3 flex flex-col items-center justify-center group cursor-default transition-all duration-300"
+      className="flex-shrink-0 mx-4 px-7 py-4 rounded-xl flex flex-col items-center justify-center group cursor-default hover:-translate-y-1 transition-all duration-300"
       style={{
+        background: 'white',
+        border: '1px solid rgba(0, 102, 255, 0.08)',
         minWidth: '140px',
-        height: '68px',
-        padding: '0 1.5rem',
-        border: '1px solid rgba(26,60,110,0.1)',
-        background: '#F5F3EF',
-        filter: 'grayscale(100%) opacity(0.55)',
-        transition: 'all 0.3s ease',
-      }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLDivElement).style.filter = 'grayscale(0%) opacity(1)'
-        ;(e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(200,169,110,0.4)'
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLDivElement).style.filter = 'grayscale(100%) opacity(0.55)'
-        ;(e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(26,60,110,0.1)'
+        height: '72px',
       }}
     >
-      <div
-        style={{
-          fontFamily: 'var(--font-inter, Inter, sans-serif)',
-          fontWeight: 700,
-          fontSize: '0.9375rem',
-          color: '#0D0D0D',
-          letterSpacing: '-0.01em',
-          whiteSpace: 'nowrap',
-        }}
-      >
+      <div className="font-black text-lg text-slate-800 group-hover:text-blue-600 transition-colors whitespace-nowrap">
         {name}
       </div>
-      <div
-        style={{
-          fontSize: '0.625rem',
-          fontWeight: 500,
-          color: '#8A8A8A',
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          marginTop: '0.2rem',
-        }}
-      >
-        {desc}
-      </div>
+      <div className="text-xs text-slate-400 mt-0.5 font-medium">{desc}</div>
     </div>
   )
 }
@@ -89,56 +58,40 @@ export default function PartnersSection() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.querySelectorAll('.fade-in').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 80)
+              setTimeout(() => el.classList.add('visible'), i * 100)
             })
           }
         })
       },
-      { threshold: 0.08 }
+      { threshold: 0.1 }
     )
     if (sectionRef.current) observer.observe(sectionRef.current)
     return () => observer.disconnect()
   }, [])
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-28 overflow-hidden" style={{ background: '#F5F3EF' }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section ref={sectionRef} className="py-20 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4">
 
         {/* Header */}
-        <div className="text-center mb-14 fade-in">
-          <div className="section-label mb-4" style={{ color: '#C8A96E' }}>
-            Đối Tác & Thương Hiệu
-          </div>
-          <div style={{ width: '40px', height: '1px', background: 'rgba(200,169,110,0.5)', margin: '0 auto 1.25rem' }} />
-          <h2
-            style={{
-              fontFamily: 'var(--font-playfair, "Playfair Display", Georgia, serif)',
-              fontWeight: 700,
-              fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
-              color: '#0D0D0D',
-              lineHeight: 1.1,
-              letterSpacing: '-0.01em',
-            }}
-          >
-            Phân phối & lắp đặt{' '}
-            <span style={{ fontStyle: 'italic', fontWeight: 400 }}>thiết bị chính hãng</span>
+        <div className="text-center mb-12 fade-in">
+          <span className="section-badge mb-4 inline-flex">🤝 Đối tác</span>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900">
+            Đối Tác & <span className="text-blue-600">Thương Hiệu</span>
           </h2>
-          <p style={{ color: '#6B6B6B', fontSize: '0.875rem', marginTop: '0.875rem', maxWidth: '420px', margin: '0.875rem auto 0' }}>
-            Thiết bị HVAC từ các thương hiệu hàng đầu thế giới — được phân phối và bảo hành chính thức
+          <div className="section-divider mx-auto mt-4" />
+          <p className="text-slate-500 text-sm mt-4 max-w-xl mx-auto">
+            Phân phối và lắp đặt thiết bị chính hãng từ các thương hiệu HVAC hàng đầu thế giới
           </p>
         </div>
 
-        {/* Marquee — Partners/Brands */}
-        <div className="relative mb-10 fade-in">
+        {/* Marquee - Partners/Brands */}
+        <div className="relative mb-6 fade-in">
           {/* Fade edges */}
-          <div
-            className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(to right, #F5F3EF, transparent)' }}
-          />
-          <div
-            className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(to left, #F5F3EF, transparent)' }}
-          />
+          <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+            style={{ background: 'linear-gradient(to right, white, transparent)' }} />
+          <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+            style={{ background: 'linear-gradient(to left, white, transparent)' }} />
 
           <div className="overflow-hidden">
             <div className="marquee-track">
@@ -149,47 +102,24 @@ export default function PartnersSection() {
           </div>
         </div>
 
-        {/* Thin divider */}
-        <div style={{ height: '1px', background: 'rgba(26,60,110,0.08)', margin: '2.5rem 0' }} />
+        {/* Divider */}
+        <div className="border-t border-slate-100 my-10 fade-in" />
 
         {/* Clients grid */}
         <div className="fade-in">
-          <div
-            className="text-center mb-6"
-            style={{
-              fontSize: '0.6875rem',
-              fontWeight: 600,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: '#8A8A8A',
-            }}
-          >
+          <p className="text-center text-xs text-slate-400 font-semibold uppercase tracking-widest mb-6">
             Khách hàng tiêu biểu
-          </div>
-          <div className="flex flex-wrap justify-center gap-2.5">
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
             {CLIENTS.map((client, i) => (
               <div
                 key={i}
-                className="flex items-center gap-2 cursor-default transition-all duration-200 hover:-translate-y-0.5"
-                style={{
-                  padding: '0.5rem 1rem',
-                  border: '1px solid rgba(26,60,110,0.1)',
-                  background: '#FFFFFF',
-                  color: '#4A4A4A',
-                  fontSize: '0.8125rem',
-                  fontWeight: 500,
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(200,169,110,0.4)'
-                  ;(e.currentTarget as HTMLDivElement).style.color = '#0D0D0D'
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(26,60,110,0.1)'
-                  ;(e.currentTarget as HTMLDivElement).style.color = '#4A4A4A'
-                }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors cursor-default hover:-translate-y-0.5 transition-all duration-200"
+                style={{ background: '#f8faff', border: '1px solid rgba(0, 102, 255, 0.08)' }}
               >
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
                 {client.name}
-                <span style={{ color: 'rgba(26,60,110,0.3)', fontSize: '0.6875rem', fontWeight: 400 }}>· {client.sector}</span>
+                <span className="text-xs text-slate-400 font-normal">· {client.sector}</span>
               </div>
             ))}
           </div>

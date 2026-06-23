@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Calendar, Tag } from 'lucide-react'
 
 interface NewsPost {
   id: string
@@ -53,13 +53,19 @@ const FALLBACK_NEWS = [
   },
 ]
 
+const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
+  'Công nghệ': { bg: 'rgba(0, 102, 255, 0.08)', text: '#0066ff' },
+  'Technology': { bg: 'rgba(0, 102, 255, 0.08)', text: '#0066ff' },
+  'Bảo trì': { bg: 'rgba(249, 115, 22, 0.08)', text: '#ea580c' },
+  'Maintenance': { bg: 'rgba(249, 115, 22, 0.08)', text: '#ea580c' },
+  'Tư vấn': { bg: 'rgba(139, 92, 246, 0.08)', text: '#7c3aed' },
+  'Consulting': { bg: 'rgba(139, 92, 246, 0.08)', text: '#7c3aed' },
+}
+
 function formatDate(date: Date | string | null | undefined): string {
   if (!date) return ''
   const d = typeof date === 'string' ? new Date(date) : date
-  const day = String(d.getDate()).padStart(2, '0')
-  const month = String(d.getMonth() + 1).padStart(2, '0')
-  const year = d.getFullYear()
-  return `${day} · ${month} · ${year}`
+  return d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })
 }
 
 export default function NewsSection() {
@@ -68,12 +74,13 @@ export default function NewsSection() {
   const [news, setNews] = useState<NewsPost[]>(FALLBACK_NEWS as NewsPost[])
 
   useEffect(() => {
+    // Try to fetch from API
     fetch('/api/news?limit=3&published=true')
       .then((r) => r.ok ? r.json() : null)
       .then((data) => {
         if (data?.items?.length > 0) setNews(data.items)
       })
-      .catch(() => {})
+      .catch(() => {}) // silently fall back
   }, [])
 
   useEffect(() => {
@@ -82,12 +89,12 @@ export default function NewsSection() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.querySelectorAll('.fade-in').forEach((el, i) => {
-              setTimeout(() => el.classList.add('visible'), i * 80)
+              setTimeout(() => el.classList.add('visible'), i * 100)
             })
           }
         })
       },
-      { threshold: 0.08 }
+      { threshold: 0.1 }
     )
     if (sectionRef.current) observer.observe(sectionRef.current)
     return () => observer.disconnect()
@@ -99,169 +106,98 @@ export default function NewsSection() {
   }
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32" style={{ background: '#0D0D0D' }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section ref={sectionRef} className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4">
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8 mb-14 fade-in">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 fade-in">
           <div>
-            <div className="section-label mb-4" style={{ color: '#C8A96E' }}>
-              Tin Tức
-            </div>
-            <div style={{ width: '40px', height: '1px', background: 'rgba(200,169,110,0.5)', marginBottom: '1.25rem' }} />
-            <h2
-              className="text-white"
-              style={{
-                fontFamily: 'var(--font-playfair, "Playfair Display", Georgia, serif)',
-                fontWeight: 700,
-                fontSize: 'clamp(2rem, 4vw, 2.75rem)',
-                lineHeight: 1.1,
-                letterSpacing: '-0.01em',
-              }}
-            >
-              Kiến Thức &{' '}
-              <span style={{ fontStyle: 'italic', fontWeight: 400 }}>Tin Tức</span>
+            <span className="section-badge mb-4 inline-flex">📰 Tin tức</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900">
+              Kiến Thức & <span className="text-blue-600">Tin Tức</span>
             </h2>
+            <div className="section-divider mt-4" />
           </div>
           <Link
             href={href('/tin-tuc')}
-            className="inline-flex items-center gap-2 group transition-all"
-            style={{ color: 'rgba(200,169,110,0.7)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(200,169,110,1)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(200,169,110,0.7)' }}
+            className="inline-flex items-center gap-1.5 text-blue-600 text-sm font-semibold hover:gap-3 transition-all"
           >
-            Xem tất cả bài viết
-            <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            Xem tất cả bài viết <ArrowRight size={14} />
           </Link>
         </div>
 
-        {/* Thin line separator */}
-        <div style={{ height: '1px', background: 'rgba(255,255,255,0.05)', marginBottom: '2.5rem' }} />
-
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ background: 'rgba(255,255,255,0.05)' }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {news.map((post, i) => {
             const title = locale === 'en' ? post.titleEn : post.titleVi
             const summary = locale === 'en' ? post.summaryEn : post.summaryVi
             const catName = locale === 'en' ? post.category?.nameEn : post.category?.nameVi
+            const catStyle = catName ? CATEGORY_COLORS[catName] : { bg: 'rgba(0,102,255,0.08)', text: '#0066ff' }
 
             return (
               <Link
                 key={post.id}
                 href={href(`/tin-tuc/${post.slug}`)}
-                className="group fade-in block"
-                style={{ transitionDelay: `${i * 80}ms`, background: '#0D0D0D' } as React.CSSProperties}
+                className="group rounded-2xl overflow-hidden border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all duration-300 hover:-translate-y-1 fade-in"
+                style={{ transitionDelay: `${i * 80}ms` } as React.CSSProperties}
               >
-                <article
-                  className="p-8 h-full transition-all duration-300"
-                  style={{ background: '#0D0D0D' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = '#141414' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = '#0D0D0D' }}
+                {/* Thumbnail */}
+                <div
+                  className="h-44 relative overflow-hidden"
+                  style={{ background: 'linear-gradient(135deg, #0d1f3c, #0a1628)' }}
                 >
-                  {/* Thumbnail */}
-                  <div
-                    className="mb-6 overflow-hidden"
-                    style={{
-                      height: '180px',
-                      background: '#1A1A1A',
-                      border: '1px solid rgba(255,255,255,0.05)',
-                    }}
-                  >
-                    {post.thumbnail ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={post.thumbnail}
-                        alt={title}
-                        className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-600"
-                        style={{ filter: 'grayscale(20%)' }}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div
-                          style={{
-                            fontFamily: 'var(--font-playfair, "Playfair Display", Georgia, serif)',
-                            fontWeight: 700,
-                            fontSize: '3rem',
-                            color: 'rgba(255,255,255,0.05)',
-                            letterSpacing: '-0.02em',
-                          }}
-                        >
-                          {title.slice(0, 2).toUpperCase()}
-                        </div>
+                  {post.thumbnail ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={post.thumbnail}
+                      alt={title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-5xl opacity-10 text-white font-black">
+                        {title.slice(0, 2).toUpperCase()}
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
-                  {/* Category + Date row */}
-                  <div className="flex items-center justify-between mb-3">
-                    {catName && (
-                      <span
-                        style={{
-                          fontSize: '0.6125rem',
-                          fontWeight: 600,
-                          letterSpacing: '0.16em',
-                          textTransform: 'uppercase',
-                          color: 'rgba(200,169,110,0.7)',
-                        }}
-                      >
-                        {catName}
-                      </span>
-                    )}
-                    <span
-                      style={{
-                        fontSize: '0.6125rem',
-                        color: 'rgba(255,255,255,0.2)',
-                        letterSpacing: '0.06em',
-                        fontWeight: 400,
-                        fontVariantNumeric: 'tabular-nums',
-                      }}
+                  {/* Category badge */}
+                  {catName && (
+                    <div
+                      className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+                      style={{ background: catStyle.bg, color: catStyle.text, backdropFilter: 'blur(8px)' }}
                     >
-                      {formatDate(post.publishedAt)}
-                    </span>
-                  </div>
+                      <Tag size={10} />
+                      {catName}
+                    </div>
+                  )}
+                </div>
 
-                  {/* Thin separator */}
-                  <div style={{ height: '1px', background: 'rgba(255,255,255,0.05)', marginBottom: '1rem' }} />
+                {/* Body */}
+                <div className="p-5">
+                  {/* Date */}
+                  <div className="flex items-center gap-1.5 text-slate-400 text-xs mb-3">
+                    <Calendar size={12} />
+                    {formatDate(post.publishedAt)}
+                  </div>
 
                   {/* Title */}
-                  <h3
-                    className="mb-3 line-clamp-2 transition-colors duration-200"
-                    style={{
-                      fontFamily: 'var(--font-playfair, "Playfair Display", Georgia, serif)',
-                      fontWeight: 600,
-                      fontSize: '1.0625rem',
-                      color: 'rgba(255,255,255,0.85)',
-                      lineHeight: 1.4,
-                      letterSpacing: '-0.005em',
-                    }}
-                  >
+                  <h3 className="font-bold text-slate-900 text-base leading-snug mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
                     {title}
                   </h3>
 
                   {/* Summary */}
                   {summary && (
-                    <p
-                      className="line-clamp-2 mb-5"
-                      style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.8125rem', lineHeight: 1.75 }}
-                    >
+                    <p className="text-slate-500 text-sm leading-relaxed line-clamp-2 mb-4">
                       {summary}
                     </p>
                   )}
 
                   {/* Read more */}
-                  <span
-                    className="inline-flex items-center gap-2 group-hover:gap-3 transition-all"
-                    style={{
-                      color: 'rgba(200,169,110,0.6)',
-                      fontSize: '0.6875rem',
-                      fontWeight: 600,
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    Đọc tiếp <ArrowRight size={11} />
+                  <span className="inline-flex items-center gap-1.5 text-blue-600 text-sm font-semibold group-hover:gap-2.5 transition-all">
+                    Đọc tiếp <ArrowRight size={13} />
                   </span>
-                </article>
+                </div>
               </Link>
             )
           })}
