@@ -11,8 +11,10 @@ export async function GET() {
     
     if (!user) return NextResponse.json({ error: 'User not found' })
     
-    const testHash = await bcrypt.hash('***', 12)
-    const isValid = await bcrypt.compare('***', user.password)
+    // Test with actual admin password
+    const testPass = 'Admin@123456'
+    const testHash = await bcrypt.hash(testPass, 12)
+    const isValid = await bcrypt.compare(testPass, user.password)
     
     return NextResponse.json({
       found: true,
