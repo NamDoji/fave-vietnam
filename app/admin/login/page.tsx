@@ -46,14 +46,17 @@ export default function AdminLoginPage() {
         redirect: 'manual',  // Don't follow redirects
       })
 
-      // If session cookie was set (302 redirect = success)
-      if (res.status === 302 || res.status === 200) {
+      // With redirect:'manual', browser returns opaqueredirect (type='opaqueredirect', status=0)
+      // OR status 302 in some environments. Both mean success.
+      const isRedirect = res.type === 'opaqueredirect' || res.status === 302 || res.status === 200
+      if (isRedirect) {
+        // Try to detect error in location header if available
         const location = res.headers.get('location') || ''
         if (location.includes('error=')) {
           setError('Email hoặc mật khẩu không đúng')
         } else {
-          // Force navigate to admin (bypass localhost redirect)
-          window.location.href = '/admin'
+          // Cookie was set — navigate to admin
+          window.location.replace('/admin')
         }
       } else {
         setError('Email hoặc mật khẩu không đúng')

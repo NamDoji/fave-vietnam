@@ -1,15 +1,22 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import AdminSidebar from './AdminSidebar'
 import AdminHeader from './AdminHeader'
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  // Login page — no shell, just render content
+  if (pathname === '/admin/login') {
+    return <>{children}</>
+  }
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
-      {/* Sidebar — desktop pinned + mobile drawer (single instance) */}
+      {/* Sidebar — single instance manages both desktop + mobile */}
       <AdminSidebar mobileOpen={mobileOpen} onMobileClose={() => setMobileOpen(false)} />
 
       {/* Main content */}

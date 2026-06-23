@@ -1,29 +1,35 @@
 import createMiddleware from 'next-intl/middleware'
 import { routing } from './i18n/routing'
-import { getToken } from 'next-auth/jwt'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 const intlMiddleware = createMiddleware(routing)
 
 function isAdminPath(pathname: string): boolean {
-  return pathname.startsWith('/admin') && pathname !== '/admin/login'
+  return pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')
 }
 
 function isApiAdminPath(pathname: string): boolean {
   return pathname.startsWith('/api/admin')
 }
 
+function hasSession(request: NextRequest): boolean {
+  // NextAuth v5 cookie names (check both secure and non-secure variants)
+  const cookies = request.cookies
+  return !!(
+    cookies.get('__Secure-authjs.session-token') ||
+    cookies.get('authjs.session-token') ||
+    cookies.get('next-auth.session-token') ||
+    cookies.get('__Secure-next-auth.session-token')
+  )
+}
+
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
-  // Admin routes - check JWT token (Edge-compatible)
+  // Admin routes - check session cookie (Edge-compatible, no JWT decode needed)
   if (isAdminPath(pathname) || isApiAdminPath(pathname)) {
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET || 'fallback-secret',
-    })
-    if (!token) {
+    if (!hasSession(request)) {
       if (isApiAdminPath(pathname)) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
       }
