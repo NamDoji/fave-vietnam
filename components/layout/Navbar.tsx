@@ -184,13 +184,9 @@ export default function Navbar() {
                 className="px-2.5 py-1 rounded-md text-xs font-bold text-white/70 hover:text-white bg-white/06 hover:bg-white/12 transition-all border border-white/10">
                 {locale === 'vi' ? 'EN' : 'VI'}
               </button>
-              <a href="tel:0981907109" className="flex items-center gap-1.5 text-xs font-medium text-white/60 hover:text-blue-300 transition-colors">
-                <Phone size={13} className="text-blue-400" />
-                0981 907 109
-              </a>
               <Link href={getHref('/lien-he')}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5">
-                Báo giá ngay <ArrowRight size={14} />
+                className="inline-flex items-center gap-1.5 px-4 py-2 border border-white/20 text-white/80 text-sm font-medium rounded-lg hover:bg-white/10 hover:text-white transition-all">
+                Liên hệ
               </Link>
             </div>
 
@@ -307,20 +303,10 @@ export default function Navbar() {
         </nav>
 
         {/* Bottom CTA */}
-        <div className="px-4 pb-8 pt-4 border-t border-white/08 space-y-3">
-          <a href="tel:0981907109"
-            className="flex items-center gap-3 px-4 py-3.5 bg-white/06 rounded-xl text-white/80 hover:text-white transition-colors border border-white/08">
-            <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Phone size={16} className="text-white" />
-            </div>
-            <div>
-              <div className="text-xs text-white/45 font-medium">Hotline 24/7</div>
-              <div className="font-bold text-white">0981 907 109</div>
-            </div>
-          </a>
+        <div className="px-4 pb-8 pt-4 border-t border-white/08">
           <Link href={getHref('/lien-he')} onClick={() => setIsMobileOpen(false)}
             className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold rounded-xl text-base hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg shadow-blue-500/30">
-            Yêu cầu báo giá ngay <ArrowRight size={16} />
+            Liên hệ &amp; Báo giá <ArrowRight size={16} />
           </Link>
         </div>
       </div>
