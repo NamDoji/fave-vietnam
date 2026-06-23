@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { Menu, X, ChevronDown, Phone, Globe, Zap } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -72,11 +73,10 @@ export default function Navbar() {
   }
 
   function switchLocale(newLocale: string) {
-    const strippedPath = pathname
-      .replace(/^\/vi/, '')
-      .replace(/^\/en/, '') || '/'
-    const newPath = newLocale === 'vi' ? strippedPath : `/${newLocale}${strippedPath}`
-    router.push(newPath)
+    const strippedPath = (pathname
+      .replace(/^\/vi(\/|$)/, '/')
+      .replace(/^\/en(\/|$)/, '/') || '/')
+    router.replace(strippedPath as any, { locale: newLocale as 'vi' | 'en' })
   }
 
   function isActive(href: string) {

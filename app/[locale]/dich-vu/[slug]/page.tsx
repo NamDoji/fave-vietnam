@@ -71,8 +71,10 @@ const SERVICE_CONTENT: Record<string, {
   },
 }
 
+export const dynamic = 'force-dynamic'
+
 export async function generateStaticParams() {
-  return Object.keys(SERVICE_CONTENT).map((slug) => ({ slug }))
+  return []
 }
 
 export default async function ServiceDetailPage({ params }: Props) {
