@@ -1,14 +1,18 @@
 import { PrismaClient } from '@/app/generated/prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
+import { Pool } from 'pg'
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient }
 
 function createPrismaClient() {
-  const connectionString = (process.env.DATABASE_URL || '')
-    // Use libpq compatible SSL mode to avoid self-signed cert issues with Supabase pooler
-    .replace('sslmode=require', 'sslmode=require&uselibpqcompat=true')
-
-  const adapter = new PrismaPg({ connectionString })
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.DATABASE_URL?.includes('localhost')
+      ? false
+      : { rejectUnauthorized: false },
+    max: 10,
+  })
+  const adapter = new PrismaPg(pool)
   return new PrismaClient({ adapter } as Parameters<typeof PrismaClient>[0])
 }
 
