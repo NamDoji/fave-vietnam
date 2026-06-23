@@ -30,34 +30,18 @@ export default function AdminLoginPage() {
     setLoading(true)
     setError('')
     try {
-      // Use direct fetch to bypass NextAuth redirect URL issue
-      const csrfRes = await fetch('/api/auth/csrf')
-      const { csrfToken } = await csrfRes.json()
-
-      const res = await fetch('/api/auth/callback/credentials', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          email: data.email,
-          password: data.password,
-          csrfToken,
-          callbackUrl: '/admin',
-        }),
-        redirect: 'manual',  // Don't follow redirects
+      // Use signIn from next-auth/react with redirect:false
+      // AUTH_URL is correctly set in production so callbacks point to the right domain
+      const result = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+        callbackUrl: '/admin',
       })
 
-      // With redirect:'manual', browser returns opaqueredirect (type='opaqueredirect', status=0)
-      // OR status 302 in some environments. Both mean success.
-      const isRedirect = res.type === 'opaqueredirect' || res.status === 302 || res.status === 200
-      if (isRedirect) {
-        // Try to detect error in location header if available
-        const location = res.headers.get('location') || ''
-        if (location.includes('error=')) {
-          setError('Email hoặc mật khẩu không đúng')
-        } else {
-          // Cookie was set — navigate to admin
-          window.location.replace('/admin')
-        }
+      if (result?.ok && !result?.error) {
+        // Login success — navigate to admin
+        window.location.replace(result.url || '/admin')
       } else {
         setError('Email hoặc mật khẩu không đúng')
       }
