@@ -1,8 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { loginAction } from './actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -17,7 +16,6 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export default function AdminLoginPage() {
-  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -30,22 +28,21 @@ export default function AdminLoginPage() {
     setLoading(true)
     setError('')
     try {
-      // Use signIn from next-auth/react with redirect:false
-      // AUTH_URL is correctly set in production so callbacks point to the right domain
-      const result = await signIn('credentials', {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-        callbackUrl: '/admin',
-      })
-
-      if (result?.ok && !result?.error) {
-        // Login success — navigate to admin
-        window.location.replace(result.url || '/admin')
-      } else {
-        setError('Email hoặc mật khẩu không đúng')
+      // Server Action: avoids CSRF issues of client-side signIn on Vercel
+      const result = await loginAction(data.email, data.password)
+      if (result?.error) {
+        setError(result.error)
       }
-    } catch {
+      // On success loginAction throws NEXT_REDIRECT — page navigates automatically
+    } catch (err: unknown) {
+      // Check if it's a Next.js redirect (success case)
+      if (
+        err instanceof Error &&
+        (err.message.includes('NEXT_REDIRECT') || (err as { digest?: string }).digest?.includes('NEXT_REDIRECT'))
+      ) {
+        // Success — redirect handled by Next.js
+        return
+      }
       setError('Có lỗi xảy ra. Vui lòng thử lại.')
     } finally {
       setLoading(false)

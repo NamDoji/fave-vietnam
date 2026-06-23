@@ -80,9 +80,9 @@ const SERVICE_CONTENT: Record<string, {
       { q: 'Có hỗ trợ bảo trì sau lắp đặt không?', a: 'Có dịch vụ bảo trì định kỳ và khẩn cấp 24/7 toàn quốc.' },
     ],
     relatedServices: [
-      { slug: 'bao-tri-bao-duong', label: 'Bảo trì bảo dưỡng', emoji: '🔧' },
-      { slug: 'tu-van-thiet-ke', label: 'Tư vấn thiết kế', emoji: '📐' },
-      { slug: 'he-thong-bms', label: 'Hệ thống BMS', emoji: '🖥️' },
+      { slug: 'thiet-ke-hvac', label: 'Thiết kế HVAC', emoji: '🔧' },
+      { slug: 'lap-dat-hvac', label: 'Lắp đặt HVAC', emoji: '📐' },
+      { slug: 'cung-cap-thiet-bi', label: 'Cung cấp thiết bị', emoji: '🖥️' },
     ],
   },
   'thong-gio-cong-nghiep': {
@@ -122,8 +122,8 @@ const SERVICE_CONTENT: Record<string, {
       { q: 'Thời gian thi công hệ thống thông gió nhà máy?', a: 'Từ 4-8 tuần tùy quy mô nhà máy.' },
     ],
     relatedServices: [
-      { slug: 'xu-ly-khong-khi-sach', label: 'Xử lý không khí sạch', emoji: '🧪' },
-      { slug: 'bao-tri-bao-duong', label: 'Bảo trì bảo dưỡng', emoji: '🔧' },
+      { slug: 've-sinh-cong-nghiep', label: 'Vệ sinh công nghiệp', emoji: '🧪' },
+      { slug: 'thiet-ke-hvac', label: 'Thiết kế HVAC', emoji: '🔧' },
     ],
   },
 
@@ -530,9 +530,9 @@ const DEFAULT_CONTENT = {
   benefits: [] as string[],
   faqs: [] as { q: string; a: string }[],
   relatedServices: [
-    { slug: 'bao-tri-bao-duong', label: 'Bảo trì bảo dưỡng', emoji: '🔧' },
-    { slug: 'tu-van-thiet-ke', label: 'Tư vấn thiết kế', emoji: '📐' },
-    { slug: 'he-thong-bms', label: 'Hệ thống BMS', emoji: '🖥️' },
+    { slug: 'thiet-ke-hvac', label: 'Thiết kế HVAC', emoji: '🔧' },
+    { slug: 'lap-dat-hvac', label: 'Lắp đặt HVAC', emoji: '📐' },
+    { slug: 'cung-cap-thiet-bi', label: 'Cung cấp thiết bị', emoji: '🖥️' },
   ],
 }
 

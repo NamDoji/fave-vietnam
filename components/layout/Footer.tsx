@@ -12,12 +12,12 @@ export default function Footer() {
   }
 
   const serviceLinks = [
-    { label: 'Điều hòa trung tâm', href: '/dich-vu/dieu-hoa-trung-tam' },
-    { label: 'Thông gió công nghiệp', href: '/dich-vu/thong-gio-cong-nghiep' },
-    { label: 'Hệ thống lạnh', href: '/dich-vu/he-thong-lanh' },
-    { label: 'VRV/VRF', href: '/dich-vu/vrv-vrf' },
-    { label: 'Xử lý không khí sạch', href: '/dich-vu/xu-ly-khong-khi-sach' },
-    { label: 'Bảo trì bảo dưỡng', href: '/dich-vu/bao-tri-bao-duong' },
+    { label: 'Bảo trì điều hòa', href: '/dich-vu/bao-tri-dieu-hoa' },
+    { label: 'Bảo dưỡng Chiller', href: '/dich-vu/bao-duong-chiller' },
+    { label: 'Sửa chữa HVAC', href: '/dich-vu/sua-chua-hvac' },
+    { label: 'Cải tạo, nâng cấp', href: '/dich-vu/cai-tao-nang-cap' },
+    { label: 'Vệ sinh công nghiệp', href: '/dich-vu/ve-sinh-cong-nghiep' },
+    { label: 'Thiết kế HVAC', href: '/dich-vu/thiet-ke-hvac' },
   ]
 
   const quickLinks = [

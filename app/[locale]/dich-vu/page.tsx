@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const SERVICES = [
   {
     emoji: '❄️',
-    slug: 'dieu-hoa-trung-tam',
+    slug: 'bao-tri-dieu-hoa',
     titleVi: 'Điều Hòa Trung Tâm',
     tag: 'Chiller · AHU · FCU',
     descVi:
@@ -28,7 +28,7 @@ const SERVICES = [
   },
   {
     emoji: '🌀',
-    slug: 'thong-gio-cong-nghiep',
+    slug: 'bao-duong-chiller',
     titleVi: 'Thông Gió Công Nghiệp',
     tag: 'Nhà máy · Xưởng',
     descVi:
@@ -38,7 +38,7 @@ const SERVICES = [
   },
   {
     emoji: '🏭',
-    slug: 'he-thong-lanh',
+    slug: 'sua-chua-hvac',
     titleVi: 'Hệ Thống Lạnh CN',
     tag: 'Kho lạnh · Đông lạnh',
     descVi:
@@ -48,7 +48,7 @@ const SERVICES = [
   },
   {
     emoji: '⚡',
-    slug: 'vrv-vrf',
+    slug: 'cai-tao-nang-cap',
     titleVi: 'Hệ Thống VRV/VRF',
     tag: 'Tiết kiệm · Thông minh',
     descVi:
@@ -58,7 +58,7 @@ const SERVICES = [
   },
   {
     emoji: '🧪',
-    slug: 'xu-ly-khong-khi-sach',
+    slug: 've-sinh-cong-nghiep',
     titleVi: 'Xử Lý Không Khí Sạch',
     tag: 'GMP · ISO · Phòng sạch',
     descVi:
@@ -68,7 +68,7 @@ const SERVICES = [
   },
   {
     emoji: '🔧',
-    slug: 'bao-tri-bao-duong',
+    slug: 'thiet-ke-hvac',
     titleVi: 'Bảo Trì Bảo Dưỡng',
     tag: '24/7 · Nhanh 2-4h',
     descVi:
@@ -78,7 +78,7 @@ const SERVICES = [
   },
   {
     emoji: '📐',
-    slug: 'tu-van-thiet-ke',
+    slug: 'lap-dat-hvac',
     titleVi: 'Tư Vấn & Thiết Kế',
     tag: 'HAP · AutoCAD MEP',
     descVi:
@@ -88,7 +88,7 @@ const SERVICES = [
   },
   {
     emoji: '💧',
-    slug: 'xu-ly-nuoc-lam-mat',
+    slug: 'cung-cap-thiet-bi',
     titleVi: 'Xử Lý Nước Làm Mát',
     tag: 'Tháp giải nhiệt',
     descVi:
@@ -98,7 +98,7 @@ const SERVICES = [
   },
   {
     emoji: '🖥️',
-    slug: 'he-thong-bms',
+    slug: 'dich-vu-ky-thuat-khac',
     titleVi: 'Hệ Thống BMS/IBMS',
     tag: 'BACnet · Modbus · IoT',
     descVi:
