@@ -260,6 +260,23 @@ model Partner {
   @@map("fave_partners")
 }
 
+// Khách hàng tiêu biểu (khác với đối tác cung cấp thiết bị)
+model FeaturedClient {
+  id          String   @id @default(cuid())
+  nameVi      String
+  nameEn      String
+  logoUrl     String?
+  industry    String?  // Lĩnh vực: TTTM, Tòa nhà, Nhà máy...
+  projectDesc String?  @db.Text  // Mô tả ngắn hợp tác
+  website     String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("fave_featured_clients")
+}
+
 model Certificate {
   id              String   @id @default(cuid())
   nameVi          String
