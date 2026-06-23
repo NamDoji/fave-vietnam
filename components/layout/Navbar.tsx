@@ -264,23 +264,7 @@ export default function Navbar() {
         )}
         style={{ background: 'rgba(10,10,20,0.97)', backdropFilter: 'blur(24px)' }}
       >
-        {/* No duplicate logo here — main navbar logo is visible above */}
-        {/* Top close bar */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-white/08">
-          <span className="text-white/50 text-xs uppercase tracking-widest">Menu</span>
-          <div className="flex items-center gap-3">
-            <button onClick={() => switchLocale(locale === 'vi' ? 'en' : 'vi')}
-              className="text-xs font-bold px-2.5 py-1 rounded-lg bg-white/10 text-white/70 hover:text-white hover:bg-white/15 transition-all">
-              {locale === 'vi' ? 'EN' : 'VI'}
-            </button>
-            <button onClick={toggleDarkMode} className="p-1.5 rounded-lg bg-white/10 text-white/60 hover:text-white transition-all">
-              {isDark ? <Sun size={14} /> : <Moon size={14} />}
-            </button>
-            <button onClick={() => setIsMobileOpen(false)} className="p-1.5 rounded-lg bg-white/10 text-white/60 hover:text-white transition-all">
-              <X size={16} />
-            </button>
-          </div>
-        </div>
+
 
         {/* Thin gold line under header */}
         <div style={{ height: '1px', background: 'linear-gradient(90deg, transparent, rgba(200,169,110,0.4), transparent)' }} />

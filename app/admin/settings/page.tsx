@@ -39,6 +39,18 @@ export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [seeding, setSeeding] = useState(false)
+  const [seedResult, setSeedResult] = useState<string[]>([])
+
+  async function handleSeed() {
+    if (!confirm('Seed dữ liệu mẫu vào database? Sẽ tạo thêm nếu chưa có.')) return
+    setSeeding(true)
+    try {
+      const res = await fetch('/api/admin/seed', { method: 'POST' })
+      const d = await res.json()
+      setSeedResult(d.results || [d.error || 'Done'])
+    } finally { setSeeding(false) }
+  }
 
   useEffect(() => { fetchSettings() }, [])
 
@@ -71,6 +83,17 @@ export default function AdminSettingsPage() {
           {saving ? <RefreshCw size={14} className="animate-spin" /> : <Save size={14} />}
           {saved ? 'Đã lưu!' : saving ? 'Đang lưu...' : 'Lưu cài đặt'}
         </button>
+      </div>
+
+      {/* Seed Data */}
+      <div className="bg-white rounded-xl shadow-sm border overflow-hidden mb-6">
+        <div className="px-6 py-4 border-b bg-gray-50 flex items-center justify-between">
+          <div><h2 className="font-semibold text-gray-800">Dữ liệu mẫu</h2><p className="text-xs text-gray-500 mt-0.5">Tạo sử data ban đầu nếu DB chưa có nội dung</p></div>
+          <button onClick={handleSeed} disabled={seeding} className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors">
+            {seeding ? 'Đang seed...' : '🌱 Seed dữ liệu'}
+          </button>
+        </div>
+        {seedResult.length > 0 && <div className="p-4 space-y-1">{seedResult.map((r, i) => <div key={i} className="text-sm text-gray-700">{r}</div>)}</div>}
       </div>
 
       <div className="space-y-6">
