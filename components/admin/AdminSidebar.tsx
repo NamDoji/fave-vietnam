@@ -95,8 +95,8 @@ export default function AdminSidebar({ mobileOpen, onMobileClose }: AdminSidebar
 
   return (
     <>
-      {/* Desktop sidebar */}
-      <aside className="hidden md:flex w-56 bg-[#0a1628] text-white flex-col shrink-0 h-screen sticky top-0">
+      {/* Desktop sidebar — only shown on md+ */}
+      <aside className="hidden md:flex w-56 bg-[#0a1628] text-white flex-col shrink-0 h-screen sticky top-0 overflow-y-auto">
         <SidebarContent />
       </aside>
 

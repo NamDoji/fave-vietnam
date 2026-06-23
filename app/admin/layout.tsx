@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import { Inter } from 'next/font/google'
-import AdminSidebar from '@/components/admin/AdminSidebar'
-import AdminHeader from '@/components/admin/AdminHeader'
+import AdminShell from '@/components/admin/AdminShell'
 import '@/app/globals.css'
 
 const inter = Inter({ subsets: ['latin', 'vietnamese'], display: 'swap' })
@@ -17,17 +16,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <html lang="vi">
       <body className={inter.className}>
         <SessionProvider>
-          <div className="flex h-screen bg-gray-50 overflow-hidden">
-            {/* Desktop sidebar */}
-            <AdminSidebar />
-            {/* Main content */}
-            <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-              <AdminHeader />
-              <main className="flex-1 overflow-y-auto p-4 md:p-6">
-                {children}
-              </main>
-            </div>
-          </div>
+          <AdminShell>{children}</AdminShell>
         </SessionProvider>
       </body>
     </html>

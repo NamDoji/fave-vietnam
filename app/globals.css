@@ -27,6 +27,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Prevent iOS tap highlight flash */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Links and buttons never flash white on tap */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
 body {
   color: var(--text-primary);
   background: var(--white);
@@ -420,7 +431,7 @@ body {
 }
 
 .navbar-transparent {
-  background: transparent;
+  background: linear-gradient(to bottom, rgba(10,22,40,0.7) 0%, rgba(10,22,40,0) 100%);
   border-bottom: 1px solid transparent;
 }
 
