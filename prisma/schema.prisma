@@ -53,7 +53,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("users")
+  @@map("fave_users")
 }
 
 model Media {
@@ -66,7 +66,7 @@ model Media {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("media")
+  @@map("fave_media")
 }
 
 // ============================================================
@@ -80,7 +80,7 @@ model SiteSetting {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("site_settings")
+  @@map("fave_site_settings")
 }
 
 // ============================================================
@@ -100,7 +100,7 @@ model Menu {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  @@map("menus")
+  @@map("fave_menus")
 }
 
 // ============================================================
@@ -117,7 +117,7 @@ model ServiceCategory {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  @@map("service_categories")
+  @@map("fave_service_categories")
 }
 
 model Service {
@@ -143,7 +143,7 @@ model Service {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
-  @@map("services")
+  @@map("fave_services")
 }
 
 // ============================================================
@@ -161,7 +161,7 @@ model ProductCategory {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  @@map("product_categories")
+  @@map("fave_product_categories")
 }
 
 model Product {
@@ -188,7 +188,7 @@ model Product {
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
-  @@map("products")
+  @@map("fave_products")
 }
 
 // ============================================================
@@ -205,7 +205,7 @@ model ProjectCategory {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  @@map("project_categories")
+  @@map("fave_project_categories")
 }
 
 model Project {
@@ -239,7 +239,7 @@ model Project {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
-  @@map("projects")
+  @@map("fave_projects")
 }
 
 // ============================================================
@@ -257,7 +257,7 @@ model Partner {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("partners")
+  @@map("fave_partners")
 }
 
 model Certificate {
@@ -276,7 +276,7 @@ model Certificate {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  @@map("certificates")
+  @@map("fave_certificates")
 }
 
 // ============================================================
@@ -295,7 +295,7 @@ model CapabilityProfile {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@map("capability_profiles")
+  @@map("fave_capability_profiles")
 }
 
 // ============================================================
@@ -312,7 +312,7 @@ model NewsCategory {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
-  @@map("news_categories")
+  @@map("fave_news_categories")
 }
 
 model NewsPost {
@@ -338,7 +338,7 @@ model NewsPost {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
-  @@map("news_posts")
+  @@map("fave_news_posts")
 }
 
 // ============================================================
@@ -363,7 +363,7 @@ model Recruitment {
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 
-  @@map("recruitments")
+  @@map("fave_recruitments")
 }
 
 model Applicant {
@@ -380,7 +380,7 @@ model Applicant {
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
 
-  @@map("applicants")
+  @@map("fave_applicants")
 }
 
 // ============================================================
@@ -399,7 +399,7 @@ model ContactRequest {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@map("contact_requests")
+  @@map("fave_contact_requests")
 }
 
 model QuoteRequest {
@@ -416,7 +416,7 @@ model QuoteRequest {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
-  @@map("quote_requests")
+  @@map("fave_quote_requests")
 }
 
 // ============================================================
@@ -434,7 +434,7 @@ model PageContent {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@map("page_contents")
+  @@map("fave_page_contents")
 }
 
 model HeroBanner {
@@ -452,7 +452,7 @@ model HeroBanner {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@map("hero_banners")
+  @@map("fave_hero_banners")
 }
 
 model TeamMember {
@@ -471,5 +471,5 @@ model TeamMember {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@map("team_members")
+  @@map("fave_team_members")
 }

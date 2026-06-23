@@ -1,7 +1,12 @@
-import { PrismaClient } from '../app/generated/prisma'
+import { PrismaClient } from '../app/generated/prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 import bcrypt from 'bcryptjs'
+import dotenv from 'dotenv'
+dotenv.config({ path: '.env' })
 
-const prisma = new PrismaClient()
+const connStr = (process.env.DIRECT_URL || process.env.DATABASE_URL || '').replace('?sslmode=require', '?sslmode=require&uselibpqcompat=true')
+const adapter = new PrismaPg({ connectionString: connStr })
+const prisma = new PrismaClient({ adapter } as any)
 
 async function main() {
   console.log('🌱 Seeding FAVE Vietnam database...')
@@ -205,10 +210,11 @@ async function main() {
       update: {},
       create: {
         slug: p.slug, titleVi: p.titleVi, titleEn: p.titleEn,
+        descriptionVi: p.titleVi, descriptionEn: p.titleVi,
         contentVi: p.contentVi, contentEn: p.contentVi,
         status: 'PUBLISHED', publishedAt: new Date(),
         categoryId: newsCatMap[p.catSlug],
-        metaTitle: p.titleVi, metaDescription: p.titleVi,
+        metaTitleVi: p.titleVi, metaDescVi: p.titleVi,
         viewCount: Math.floor(Math.random() * 500) + 100,
       },
     })
@@ -217,16 +223,12 @@ async function main() {
 
   // Recruitment
   const jobs = [
-    { slug: 'ky-su-hvac', titleVi: 'Kỹ sư HVAC', titleEn: 'HVAC Engineer', department: 'Kỹ thuật', location: 'Hà Nội', descriptionVi: 'Thiết kế, thi công và giám sát các dự án HVAC cho tòa nhà thương mại và công nghiệp.', requirementsVi: '- Tốt nghiệp Đại học chuyên ngành Điện lạnh, Kỹ thuật nhiệt hoặc tương đương\n- Kinh nghiệm 2+ năm trong lĩnh vực HVAC\n- Biết đọc và vẽ bản vẽ kỹ thuật AutoCAD', benefitsVi: '- Lương 15-25 triệu/tháng + thưởng dự án\n- Đào tạo nâng cao kỹ năng\n- BHXH đầy đủ theo quy định', isActive: true },
-    { slug: 'ky-thuat-vien-bao-tri', titleVi: 'Kỹ thuật viên Bảo trì điện lạnh', titleEn: 'Refrigeration Maintenance Technician', department: 'Kỹ thuật', location: 'Hà Nội / TP.HCM', descriptionVi: 'Thực hiện bảo trì, bảo dưỡng định kỳ và sửa chữa hệ thống HVAC tại các công trình của khách hàng.', requirementsVi: '- Tốt nghiệp TC/CĐ chuyên ngành Kỹ thuật lạnh\n- Có chứng chỉ nghề điện lạnh\n- Sẵn sàng làm việc ngoài giờ và trực sự cố', benefitsVi: '- Lương 8-15 triệu/tháng + phụ cấp công trình\n- Trang bị đầy đủ BHLĐ\n- Cơ hội thăng tiến lên Kỹ sư', isActive: true },
-    { slug: 'nhan-vien-kinh-doanh', titleVi: 'Nhân viên Kinh doanh Kỹ thuật', titleEn: 'Technical Sales Executive', department: 'Kinh doanh', location: 'Hà Nội', descriptionVi: 'Tìm kiếm và phát triển khách hàng doanh nghiệp cho dịch vụ HVAC và linh kiện thiết bị.', requirementsVi: '- Tốt nghiệp ĐH/CĐ, ưu tiên chuyên ngành kỹ thuật hoặc kinh tế\n- Có kinh nghiệm bán hàng kỹ thuật B2B là lợi thế\n- Kỹ năng giao tiếp và thương lượng tốt', benefitsVi: '- Lương cơ bản + hoa hồng hấp dẫn\n- Xe máy/phí đi lại\n- Đào tạo sản phẩm bài bản', isActive: true },
+    { slug: 'ky-su-hvac', titleVi: 'Kỹ sư HVAC', titleEn: 'HVAC Engineer', location: 'Hà Nội', salary: '15-25 triệu/tháng', descriptionVi: 'Thiết kế, thi công và giám sát các dự án HVAC cho tòa nhà thương mại và công nghiệp.', descriptionEn: 'Design, construct and supervise HVAC projects for commercial and industrial buildings.', contentVi: '- Tốt nghiệp ĐH chuyên ngành Điện lạnh\n- Kinh nghiệm 2+ năm\n- BHXH đầy đủ, thưởng dự án', contentEn: 'Requirements: Degree in HVAC, 2+ years experience.', isActive: true },
+    { slug: 'ky-thuat-vien-bao-tri', titleVi: 'Kỹ thuật viên Bảo trì', titleEn: 'Maintenance Technician', location: 'Hà Nội', salary: '8-15 triệu/tháng', descriptionVi: 'Bảo trì, bảo dưỡng và sửa chữa hệ thống HVAC tại công trình khách hàng.', descriptionEn: 'Maintain and repair HVAC systems at customer sites.', contentVi: '- TC/CĐ Kỹ thuật lạnh\n- Chứng chỉ nghề điện lạnh\n- Lương 8-15tr + phụ cấp công trình', contentEn: 'Requirements: HVAC technical degree, work permit.', isActive: true },
+    { slug: 'nhan-vien-kinh-doanh', titleVi: 'Nhân viên Kinh doanh Kỹ thuật', titleEn: 'Technical Sales Executive', location: 'Hà Nội', salary: 'Thỏa thuận', descriptionVi: 'Tìm kiếm và phát triển khách hàng B2B cho dịch vụ HVAC và thiết bị.', descriptionEn: 'Find and develop B2B customers for HVAC services and equipment.', contentVi: '- ĐH/CĐ kinh tế/kỹ thuật\n- Lương cơ bản + hoa hồng\n- Xe máy/phí đi lại', contentEn: 'Requirements: Business/technical degree, B2B sales experience preferred.', isActive: true },
   ]
   for (const j of jobs) {
-    await prisma.recruitment.upsert({
-      where: { slug: j.slug },
-      update: {},
-      create: { ...j, titleEn: j.titleEn, descriptionEn: j.descriptionVi, requirementsEn: j.requirementsVi, benefitsEn: j.benefitsVi },
-    })
+    await prisma.recruitment.upsert({ where: { slug: j.slug }, update: {}, create: j })
   }
   console.log('✅ Jobs seeded:', jobs.length)
 
