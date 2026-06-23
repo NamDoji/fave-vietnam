@@ -5,10 +5,10 @@ import AdminSidebar from '@/components/admin/AdminSidebar'
 import AdminHeader from '@/components/admin/AdminHeader'
 import '@/app/globals.css'
 
-const inter = Inter({ subsets: ['latin'], display: 'swap' })
+const inter = Inter({ subsets: ['latin', 'vietnamese'], display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'Admin - FAVE Việt Nam',
+  title: 'Admin — FAVE Việt Nam',
   robots: 'noindex, nofollow',
 }
 
@@ -17,11 +17,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <html lang="vi">
       <body className={inter.className}>
         <SessionProvider>
-          <div className="flex h-screen bg-gray-50">
+          <div className="flex h-screen bg-gray-50 overflow-hidden">
+            {/* Desktop sidebar */}
             <AdminSidebar />
-            <div className="flex-1 flex flex-col overflow-hidden">
+            {/* Main content */}
+            <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
               <AdminHeader />
-              <main className="flex-1 overflow-y-auto p-6">
+              <main className="flex-1 overflow-y-auto p-4 md:p-6">
                 {children}
               </main>
             </div>

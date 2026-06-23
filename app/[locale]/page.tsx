@@ -17,6 +17,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${t('siteName')} - Giải Pháp HVAC Toàn Diện`,
     description: t('siteDescription'),
+    keywords: [
+      'HVAC Vietnam', 'điều hòa trung tâm', 'Chiller', 'VRV VRF',
+      'thông gió công nghiệp', 'bảo trì HVAC', 'FAVE Vietnam',
+    ],
+    openGraph: {
+      title: `${t('siteName')} - Giải Pháp HVAC Toàn Diện`,
+      description: t('siteDescription'),
+      type: 'website',
+    },
   }
 }
 
@@ -24,10 +33,10 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
-      <AboutSection />
       <ServicesSection />
-      <ProductsSection />
+      <AboutSection />
       <ProjectsSection />
+      <ProductsSection />
       <PartnersSection />
       <NewsSection />
       <QuoteFormSection />

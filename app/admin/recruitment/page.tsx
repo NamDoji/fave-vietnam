@@ -91,8 +91,8 @@ export default function AdminRecruitmentPage() {
 
       {tab === 'jobs' ? (
         loading ? <div className="text-center py-12 text-gray-500">Đang tải...</div> : (
-          <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="bg-white rounded-xl shadow-sm border">
+            <div className="admin-table-wrapper"><table className="w-full text-sm">
               <thead className="bg-gray-50 border-b"><tr>
                 <th className="text-left px-4 py-3 font-medium text-gray-600">Vị trí</th>
                 <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Phòng ban</th>
@@ -114,13 +114,13 @@ export default function AdminRecruitmentPage() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
             {items.length === 0 && <div className="text-center py-12 text-gray-400">Chưa có vị trí nào</div>}
           </div>
         )
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="bg-white rounded-xl shadow-sm border">
+          <div className="admin-table-wrapper"><table className="w-full text-sm">
             <thead className="bg-gray-50 border-b"><tr>
               <th className="text-left px-4 py-3 font-medium text-gray-600">Ứng viên</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Vị trí</th>
@@ -137,7 +137,7 @@ export default function AdminRecruitmentPage() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
           {applicants.length === 0 && <div className="text-center py-12 text-gray-400">Chưa có hồ sơ nào</div>}
         </div>
       )}

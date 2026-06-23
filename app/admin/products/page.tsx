@@ -84,8 +84,8 @@ export default function AdminProductsPage() {
       {loading ? (
         <div className="text-center py-12 text-gray-500">Đang tải...</div>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="bg-white rounded-xl shadow-sm border">
+          <div className="admin-table-wrapper"><table className="w-full text-sm">
             <thead className="bg-gray-50 border-b"><tr>
               <th className="text-left px-4 py-3 font-medium text-gray-600 w-12">Ảnh</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600">Tên sản phẩm</th>
@@ -109,7 +109,7 @@ export default function AdminProductsPage() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
           {items.length === 0 && <div className="text-center py-12 text-gray-400">Chưa có sản phẩm nào</div>}
         </div>
       )}

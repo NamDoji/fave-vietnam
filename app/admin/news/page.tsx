@@ -51,8 +51,8 @@ export default function AdminNewsPage() {
       </div>
 
       {loading ? <div className="text-center py-12 text-gray-500">Đang tải...</div> : (
-        <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="bg-white rounded-xl shadow-sm border">
+          <div className="admin-table-wrapper"><table className="w-full text-sm">
             <thead className="bg-gray-50 border-b"><tr>
               <th className="text-left px-4 py-3 font-medium text-gray-600">Tiêu đề</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Slug</th>
@@ -75,7 +75,7 @@ export default function AdminNewsPage() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table></div>
           {items.length === 0 && <div className="text-center py-12 text-gray-400"><FileText size={32} className="mx-auto mb-2 opacity-30" /><p>Chưa có bài viết nào</p></div>}
         </div>
       )}

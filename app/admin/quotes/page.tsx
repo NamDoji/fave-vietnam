@@ -111,7 +111,7 @@ export default function AdminQuotesPage() {
           <div className="text-center py-12 text-gray-400">Đang tải...</div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <div className="admin-table-wrapper"><table className="w-full text-sm">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
                   {['Tên / Điện thoại', 'Dịch vụ', 'Nội dung', 'Trạng thái', 'Ngày tạo', 'Thao tác'].map((h) => (
@@ -163,7 +163,7 @@ export default function AdminQuotesPage() {
                   <tr><td colSpan={6} className="text-center py-8 text-gray-400">Không có báo giá nào</td></tr>
                 )}
               </tbody>
-            </table>
+            </table></div>
           </div>
         )}
       </div>

@@ -13,6 +13,7 @@ const inter = Inter({
   subsets: ['latin', 'vietnamese'],
   display: 'swap',
   variable: '--font-inter',
+  weight: ['400', '500', '600', '700', '800', '900'],
 })
 
 type Props = {
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: {
-      default: t('siteName') + ' - ' + t('siteDescription').slice(0, 60),
+      default: `${t('siteName')} - Giải Pháp HVAC Toàn Diện`,
       template: `%s | ${t('siteName')}`,
     },
     description: t('siteDescription'),
