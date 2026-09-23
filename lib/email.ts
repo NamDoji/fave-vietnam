@@ -1,5 +1,7 @@
 import nodemailer from 'nodemailer'
 
+const SMTP_ENABLED = !!(process.env.SMTP_USER && process.env.SMTP_PASS)
+
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp.gmail.com',
   port: parseInt(process.env.SMTP_PORT || '587'),
@@ -40,6 +42,7 @@ interface ApplyEmailData {
 }
 
 export async function sendQuoteEmail(data: QuoteEmailData): Promise<void> {
+  if (!SMTP_ENABLED) { console.warn('[email] SMTP not configured — skipping sendQuoteEmail'); return }
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #1a3a5c; border-bottom: 2px solid #00a0e9; padding-bottom: 10px;">
@@ -106,6 +109,7 @@ export async function sendQuoteEmail(data: QuoteEmailData): Promise<void> {
 }
 
 export async function sendContactEmail(data: ContactEmailData): Promise<void> {
+  if (!SMTP_ENABLED) { console.warn('[email] SMTP not configured — skipping sendContactEmail'); return }
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #1a3a5c; border-bottom: 2px solid #00a0e9; padding-bottom: 10px;">
@@ -145,6 +149,7 @@ export async function sendContactEmail(data: ContactEmailData): Promise<void> {
 }
 
 export async function sendApplyEmail(data: ApplyEmailData): Promise<void> {
+  if (!SMTP_ENABLED) { console.warn('[email] SMTP not configured — skipping sendApplyEmail'); return }
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #1a3a5c; border-bottom: 2px solid #00a0e9; padding-bottom: 10px;">
