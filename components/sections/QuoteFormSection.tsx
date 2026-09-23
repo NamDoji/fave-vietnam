@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Phone, Mail, Building2, MessageSquare, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react'
 
 interface FormData {
@@ -12,7 +12,7 @@ interface FormData {
   message: string
 }
 
-const SERVICES_OPTIONS = [
+const FALLBACK_SERVICES_OPTIONS = [
   'Điều hòa trung tâm (Chiller)',
   'Thông gió công nghiệp',
   'Hệ thống lạnh công nghiệp',
@@ -25,6 +25,19 @@ const SERVICES_OPTIONS = [
 ]
 
 export default function QuoteFormSection() {
+  const [serviceOptions, setServiceOptions] = useState<string[]>(FALLBACK_SERVICES_OPTIONS)
+
+  useEffect(() => {
+    fetch('/api/services?take=20')
+      .then(r => r.json())
+      .then(d => {
+        if (d.services && d.services.length > 0) {
+          const names = d.services.map((s: { titleVi: string }) => s.titleVi)
+          setServiceOptions([...names, 'Khác'])
+        }
+      })
+      .catch(() => {})
+  }, [])
   const [formData, setFormData] = useState<FormData>({
     name: '',
     phone: '',
@@ -214,7 +227,7 @@ export default function QuoteFormSection() {
                     required
                   >
                     <option value="">-- Chọn dịch vụ --</option>
-                    {SERVICES_OPTIONS.map((s) => (
+                    {serviceOptions.map((s) => (
                       <option key={s} value={s}>{s}</option>
                     ))}
                   </select>
