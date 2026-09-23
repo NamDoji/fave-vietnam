@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Settings, Package, Building2, Newspaper,
   MessageSquare, FileText, Image, Award, Handshake, Briefcase,
-  Zap, X, ChevronRight, Layers, Star, Users
+  Zap, X, ChevronRight, Layers, Star, Users, UserCog
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -22,7 +22,9 @@ const NAV_ITEMS = [
   { href: '/admin/clients', label: 'Khách hàng', icon: Star },
   { href: '/admin/partners', label: 'Đối tác', icon: Handshake },
   { href: '/admin/certificates', label: 'Chứng chỉ', icon: Award },
+  { href: '/admin/team', label: 'Đội ngũ', icon: Users },
   { href: '/admin/media', label: 'Media', icon: Image },
+  { href: '/admin/users', label: 'Tài khoản', icon: UserCog },
   { href: '/admin/settings', label: 'Cài đặt', icon: Settings },
 ]
 
