@@ -5,24 +5,36 @@ import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard, Settings, Package, Building2, Newspaper,
   MessageSquare, FileText, Image, Award, Handshake, Briefcase,
-  Zap, X, ChevronRight, Layers, Star, Users, UserCog
+  Zap, X, ChevronRight, Layers, Star, Users, UserCog,
+  Tag, FolderOpen, LayoutTemplate, Navigation, BookOpen
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const NAV_ITEMS = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/banners', label: 'Banner', icon: Layers },
+  // Nội dung
   { href: '/admin/services', label: 'Dịch vụ', icon: Settings },
+  { href: '/admin/service-categories', label: '↳ Danh mục DV', icon: Tag },
   { href: '/admin/products', label: 'Sản phẩm', icon: Package },
+  { href: '/admin/product-categories', label: '↳ Danh mục SP', icon: Tag },
   { href: '/admin/projects', label: 'Dự án', icon: Building2 },
+  { href: '/admin/project-categories', label: '↳ Danh mục DA', icon: FolderOpen },
   { href: '/admin/news', label: 'Tin tức', icon: Newspaper },
+  { href: '/admin/news-categories', label: '↳ Danh mục TT', icon: Tag },
+  // Tuyển dụng & liên hệ
   { href: '/admin/recruitment', label: 'Tuyển dụng', icon: Briefcase },
   { href: '/admin/quotes', label: 'Báo giá', icon: FileText },
   { href: '/admin/contacts', label: 'Liên hệ', icon: MessageSquare },
+  // Hình ảnh & thương hiệu
   { href: '/admin/clients', label: 'Khách hàng', icon: Star },
   { href: '/admin/partners', label: 'Đối tác', icon: Handshake },
   { href: '/admin/certificates', label: 'Chứng chỉ', icon: Award },
+  { href: '/admin/capabilities', label: 'Năng lực', icon: BookOpen },
   { href: '/admin/team', label: 'Đội ngũ', icon: Users },
+  // Hệ thống
+  { href: '/admin/menus', label: 'Menu', icon: Navigation },
+  { href: '/admin/page-content', label: 'Nội dung trang', icon: LayoutTemplate },
   { href: '/admin/media', label: 'Media', icon: Image },
   { href: '/admin/users', label: 'Tài khoản', icon: UserCog },
   { href: '/admin/settings', label: 'Cài đặt', icon: Settings },
