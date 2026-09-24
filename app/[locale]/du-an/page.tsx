@@ -68,7 +68,7 @@ export default function ProjectsPage() {
               { num: '500+', label: 'Dự án' },
               { num: '25+', label: 'Tỉnh thành' },
               { num: '2000TR', label: 'Dự án lớn nhất' },
-              { num: '15+', label: 'Năm kinh nghiệm' },
+              { num: '10+', label: 'Năm kinh nghiệm' },
             ].map((s, i) => (
               <div
                 key={i}

@@ -1709,7 +1709,7 @@ function ServiceDetailContent({ data, slug }: { data: ServiceData; slug: string 
             <div className="rounded-2xl p-5" style={{ border: '1px solid rgba(0,102,255,0.1)', background: 'rgba(0,102,255,0.02)' }}>
               <h3 className="font-bold text-slate-900 mb-3 text-sm">Tại sao chọn FAVE?</h3>
               {[
-                '✅ 15+ năm kinh nghiệm HVAC',
+                '✅ 10+ năm kinh nghiệm HVAC',
                 '✅ ISO 9001:2015',
                 '✅ Đại lý Daikin & Carrier',
                 '✅ Đội ngũ 100+ kỹ sư',

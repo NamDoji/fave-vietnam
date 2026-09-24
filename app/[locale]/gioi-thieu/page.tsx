@@ -9,21 +9,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: 'metadata' })
   return {
     title: `Giới Thiệu | ${t('siteName')}`,
-    description: 'FAVE Việt Nam - 15 năm kinh nghiệm trong ngành HVAC. Đơn vị cung cấp giải pháp điều hòa không khí, thông gió và làm lạnh công nghiệp chuyên nghiệp.',
+    description: 'FAVE Việt Nam - 10 năm kinh nghiệm trong ngành HVAC. Đơn vị cung cấp giải pháp điều hòa không khí, thông gió và làm lạnh công nghiệp chuyên nghiệp.',
   }
 }
 
 const TIMELINE = [
-  { year: '2009', content: 'Thành lập công ty FAVE Việt Nam tại Hà Nội, khởi đầu với lĩnh vực bảo trì và sửa chữa hệ thống điều hòa không khí.' },
-  { year: '2012', content: 'Mở rộng sang lĩnh vực lắp đặt hệ thống HVAC cho các tòa nhà văn phòng và chung cư cao tầng.' },
-  { year: '2015', content: 'Ký kết hợp tác với các nhà sản xuất thiết bị HVAC hàng đầu thế giới như Carrier, Daikin, Trane.' },
-  { year: '2018', content: 'Thực hiện thành công các dự án HVAC quy mô lớn cho khu công nghiệp tại Bắc Ninh, Hưng Yên, Hải Phòng.' },
-  { year: '2021', content: 'Đạt chứng chỉ ISO 9001:2015. Đội ngũ vượt mốc 100 kỹ sư và kỹ thuật viên.' },
-  { year: '2024', content: 'Hoàn thành hơn 500 dự án, khẳng định vị thế là một trong những đơn vị HVAC uy tín hàng đầu miền Bắc.' },
+  { year: '2016', content: 'Thành lập công ty FAVE Việt Nam tại Hà Nội, khởi đầu với đội ngũ kỹ sư chuyên bảo trì và sửa chữa hệ thống điều hòa không khí công nghiệp.' },
+  { year: '2017', content: 'Hoàn thành các dự án bảo dưỡng Chiller đầu tiên cho khách hàng doanh nghiệp, mở rộng sang lắp đặt hệ thống VRV/VRF.' },
+  { year: '2018', content: 'Ký kết hợp tác đại lý ủy quyền với Carrier và Daikin Vietnam, mở rộng sang lĩnh vực thiết kế & thi công HVAC tổng thầu.' },
+  { year: '2020', content: 'Đạt chứng chỉ ISO 9001:2015. Thực hiện thành công các dự án HVAC quy mô lớn tại Bắc Ninh, Hải Phòng, Quảng Ninh.' },
+  { year: '2022', content: 'Đội ngũ vượt mốc 100 kỹ sư và kỹ thuật viên. Hoàn thành dự án tiêu biểu: Nhà máy Nhiệt Điện Hải Phòng.' },
+  { year: '2026', content: 'Vượt mốc 500 dự án hoàn thành, khẳng định vị thế là một trong những đơn vị HVAC uy tín hàng đầu miền Bắc Việt Nam.' },
 ]
 
 const WHY_US = [
-  { icon: Award, title: 'Kinh nghiệm dày dặn', desc: '15 năm hoạt động với hơn 500 dự án thành công trong các lĩnh vực công nghiệp và dân dụng' },
+  { icon: Award, title: 'Kinh nghiệm dày dặn', desc: '10 năm hoạt động với hơn 500 dự án thành công trong các lĩnh vực công nghiệp và dân dụng' },
   { icon: Users, title: 'Đội ngũ chuyên nghiệp', desc: 'Hơn 100 kỹ sư, kỹ thuật viên được đào tạo bài bản và có chứng chỉ chuyên môn quốc tế' },
   { icon: Building2, title: 'Công nghệ hiện đại', desc: 'Sử dụng phần mềm thiết kế tiên tiến và thiết bị thi công hiện đại nhất' },
   { icon: Target, title: 'Tư vấn tận tâm', desc: 'Đội ngũ tư vấn chuyên nghiệp, hỗ trợ 24/7, luôn sẵn sàng giải đáp mọi thắc mắc' },
@@ -42,7 +42,7 @@ export default async function AboutPage() {
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">Giới Thiệu FAVE Việt Nam</h1>
           <p className="text-gray-300 max-w-2xl mx-auto text-lg">
-            15 năm đồng hành cùng sự phát triển bền vững của các doanh nghiệp Việt Nam
+            10 năm đồng hành cùng sự phát triển bền vững của các doanh nghiệp Việt Nam
           </p>
         </div>
       </section>
@@ -56,17 +56,17 @@ export default async function AboutPage() {
                 Đơn Vị HVAC Hàng Đầu Miền Bắc
               </h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                FAVE Việt Nam (Công ty TNHH FAVE) được thành lập năm 2009 tại Hà Nội, chuyên cung cấp giải pháp toàn diện về hệ thống điều hòa không khí, thông gió và làm lạnh (HVAC) cho các công trình dân dụng và công nghiệp.
+                FAVE Việt Nam (Công ty TNHH FAVE) được thành lập năm 2016 tại Hà Nội, chuyên cung cấp giải pháp toàn diện về hệ thống điều hòa không khí, thông gió và làm lạnh (HVAC) cho các công trình dân dụng và công nghiệp.
               </p>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Với hơn 15 năm kinh nghiệm, chúng tôi đã hoàn thành hơn 500 dự án lớn nhỏ trên toàn quốc, từ các nhà máy sản xuất quy mô lớn, bệnh viện, khách sạn cao cấp đến các tòa nhà văn phòng và trung tâm thương mại.
+                Với hơn 10 năm kinh nghiệm, chúng tôi đã hoàn thành hơn 500 dự án lớn nhỏ trên toàn quốc, từ các nhà máy sản xuất quy mô lớn, bệnh viện, khách sạn cao cấp đến các tòa nhà văn phòng và trung tâm thương mại.
               </p>
               <p className="text-gray-600 leading-relaxed mb-6">
                 Đội ngũ hơn 100 kỹ sư và kỹ thuật viên được đào tạo chuyên sâu, trang bị thiết bị hiện đại là nền tảng để FAVE cam kết mang đến những giải pháp HVAC tốt nhất, tiết kiệm năng lượng và thân thiện môi trường.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {[
-                  { value: '15+', label: 'Năm kinh nghiệm' },
+                  { value: '10+', label: 'Năm kinh nghiệm' },
                   { value: '500+', label: 'Dự án' },
                   { value: '50+', label: 'Khách hàng' },
                   { value: '100+', label: 'Kỹ sư' },

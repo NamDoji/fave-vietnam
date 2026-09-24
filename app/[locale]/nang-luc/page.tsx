@@ -11,17 +11,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `Năng Lực Công Ty | ${t('siteName')}`,
     description:
-      'Hồ sơ năng lực FAVE Vietnam: ISO 9001:2015, 100+ kỹ sư HVAC, đại lý Daikin & Carrier, 500+ dự án hoàn thành, 15 năm kinh nghiệm.',
+      'Hồ sơ năng lực FAVE Vietnam: ISO 9001:2015, 100+ kỹ sư HVAC, đại lý Daikin & Carrier, 500+ dự án hoàn thành, 10 năm kinh nghiệm.',
   }
 }
 
 const TIMELINE = [
-  { year: '2009', event: 'Thành lập Công ty FAVE Vietnam, khởi đầu với đội ngũ 10 kỹ sư' },
-  { year: '2012', event: 'Hoàn thành 50 dự án đầu tiên, mở rộng sang lĩnh vực công nghiệp' },
-  { year: '2015', event: 'Đạt chứng chỉ ISO 9001:2015, trở thành đại lý ủy quyền Carrier' },
-  { year: '2018', event: 'Ký kết hợp tác phân phối Daikin Vietnam, đội ngũ lên 50+ kỹ sư' },
-  { year: '2020', event: 'Hoàn thành dự án nghìn TR đầu tiên: Nhiệt điện Mông Dương' },
-  { year: '2023', event: 'Vượt mốc 500 dự án, 100+ kỹ sư và kỹ thuật viên chuyên nghiệp' },
+  { year: '2016', event: 'Thành lập Công ty FAVE Vietnam, chuyên bảo trì & sửa chữa hệ thống điều hòa công nghiệp' },
+  { year: '2017', event: 'Hoàn thành 50 dự án đầu tiên, mở rộng sang lĩnh vực VRV/VRF và Chiller' },
+  { year: '2018', event: 'Ký kết hợp tác đại lý ủy quyền Carrier & Daikin Vietnam' },
+  { year: '2020', event: 'Đạt chứng chỉ ISO 9001:2015, đội ngũ lên 50+ kỹ sư chuyên nghiệp' },
+  { year: '2022', event: 'Hoàn thành dự án nghìn TR: Nhà Máy Nhiệt Điện Hải Phòng; đội ngũ vượt 100 kỹ sư' },
+  { year: '2026', event: 'Vượt mốc 500 dự án, khẳng định vị thế đơn vị HVAC uy tín hàng đầu miền Bắc' },
 ]
 
 const CERTIFICATES = [
@@ -54,7 +54,7 @@ const EQUIPMENT = [
 ]
 
 const BIG_STATS = [
-  { value: '15+', label: 'Năm kinh nghiệm', color: '#0066ff' },
+  { value: '10+', label: 'Năm kinh nghiệm', color: '#0066ff' },
   { value: '500+', label: 'Dự án hoàn thành', color: '#3385ff' },
   { value: '100+', label: 'Kỹ sư & KTV', color: '#60a5fa' },
   { value: '6', label: 'Chứng chỉ & giấy phép', color: '#93c5fd' },

@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils'
 
 const STATS = [
   { value: '500+', label: 'Dự án', sub: 'Hoàn thành' },
-  { value: '15+', label: 'Năm', sub: 'Kinh nghiệm' },
+  { value: '10+', label: 'Năm', sub: 'Kinh nghiệm' },
   { value: '50+', label: 'Khách hàng', sub: 'Tin tưởng' },
   { value: '100+', label: 'Kỹ sư', sub: 'Chuyên nghiệp' },
 ]
@@ -114,7 +114,7 @@ export default function HeroSection() {
                 ))}
               </div>
               <p className="mt-4 text-white/55 text-base leading-relaxed max-w-xl">
-                Đội ngũ 100+ kỹ sư chuyên nghiệp, 15 năm kinh nghiệm thi công và bảo trì
+                Đội ngũ 100+ kỹ sư chuyên nghiệp, 10 năm kinh nghiệm thi công và bảo trì
                 hệ thống HVAC cho các dự án công nghiệp, thương mại và y tế trên toàn quốc.
               </p>
             </div>

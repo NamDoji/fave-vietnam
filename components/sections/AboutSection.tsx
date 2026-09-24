@@ -6,7 +6,7 @@ import { useLocale } from 'next-intl'
 import { Download, CheckCircle2, ArrowRight } from 'lucide-react'
 
 const DEFAULT_STATS = [
-  { value: '15+', label: 'Năm\nkinh nghiệm', desc: 'Hoạt động từ 2009', key: 'stat_years' },
+  { value: '10+', label: 'Năm\nkinh nghiệm', desc: 'Thành lập từ 2016', key: 'stat_years' },
   { value: '500+', label: 'Dự án\nhoàn thành', desc: 'Trên toàn quốc', key: 'stat_projects' },
   { value: '100+', label: 'Kỹ sư &\nkỹ thuật viên', desc: 'Được đào tạo chuyên sâu', key: 'stat_engineers' },
   { value: '50+', label: 'Khách hàng\ntrung thành', desc: 'Doanh nghiệp lớn', key: 'stat_clients' },
@@ -92,7 +92,7 @@ export default function AboutSection() {
             <div className="w-16 h-1 rounded-full mb-6" style={{ background: 'linear-gradient(90deg, #0066ff, #60a5fa)' }} />
 
             <p className="text-white/55 leading-relaxed mb-8">
-              Với {stats.find(s => s.key === 'stat_years')?.value || '15+'} kinh nghiệm trong lĩnh vực HVAC, FAVE Vietnam đã trở thành đối tác
+              Với {stats.find(s => s.key === 'stat_years')?.value || '10+'} kinh nghiệm trong lĩnh vực HVAC, FAVE Vietnam đã trở thành đối tác
               tin cậy của hàng trăm doanh nghiệp, bệnh viện và nhà máy hàng đầu Việt Nam.
             </p>
 

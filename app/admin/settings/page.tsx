@@ -33,13 +33,13 @@ const SETTING_GROUPS: SettingGroup[] = [
     { key: 'og_image_url', label: 'OG Image URL (Social Share)', type: 'url' },
   ]},
   { key: 'stats', label: 'Số liệu thống kê (hiển thị trên website)', fields: [
-    { key: 'stat_years', label: 'Số năm kinh nghiệm', type: 'text', placeholder: '15+' },
+    { key: 'stat_years', label: 'Số năm kinh nghiệm', type: 'text', placeholder: '10+' },
     { key: 'stat_projects', label: 'Số dự án hoàn thành', type: 'text', placeholder: '500+' },
     { key: 'stat_engineers', label: 'Số kỹ sư / kỹ thuật viên', type: 'text', placeholder: '100+' },
     { key: 'stat_clients', label: 'Số khách hàng trung thành', type: 'text', placeholder: '50+' },
   ]},
   { key: 'about', label: 'Trang Giới thiệu', fields: [
-    { key: 'about_intro_vi', label: 'Đoạn giới thiệu (VI)', type: 'textarea', placeholder: 'Với 15 năm kinh nghiệm...' },
+    { key: 'about_intro_vi', label: 'Đoạn giới thiệu (VI)', type: 'textarea', placeholder: 'Với hơn 10 năm kinh nghiệm (từ 2016)...' },
     { key: 'about_strengths', label: 'Điểm mạnh (mỗi dòng một điểm)', type: 'textarea', placeholder: 'Đại lý ủy quyền chính thức Daikin & Carrier\nChứng chỉ ISO 9001:2015...' },
   ]},
 ]
