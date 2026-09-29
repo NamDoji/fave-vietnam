@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Wrench } from 'lucide-react'
 
 const ACCENT_COLORS = [
   '#0066ff', '#0099cc', '#3366cc', '#6633cc',
@@ -66,7 +66,7 @@ export default function ServicesSection() {
           }
         })
       },
-      { threshold: 0.05 }
+      { threshold: 0.05 },
     )
     if (sectionRef.current) observer.observe(sectionRef.current)
     return () => observer.disconnect()
@@ -83,63 +83,98 @@ export default function ServicesSection() {
 
   return (
     <section ref={sectionRef} className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+
+        {/* Section header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 fade-in">
           <div>
-            <span className="section-badge mb-4 inline-flex">⚙️ Dịch vụ</span>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
-              Giải Pháp HVAC<br /><span className="text-blue-600">Toàn Diện</span>
+            <span className="section-badge mb-4 inline-flex">
+              <Wrench size={13} />
+              Dịch vụ
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black leading-tight" style={{ color: '#0a1628' }}>
+              Giải Pháp HVAC<br />
+              <span className="text-blue-600">Toàn Diện</span>
             </h2>
             <div className="section-divider mt-4" />
           </div>
-          <div className="max-w-xs">
+          <div className="max-w-sm">
             <p className="text-slate-500 text-sm leading-relaxed">
-              Từ thiết kế đến lắp đặt và bảo trì — đối tác kỹ thuật tin cậy cho mọi nhu cầu HVAC.
+              Từ thiết kế đến lắp đặt và bảo trì — đối tác kỹ thuật tin cậy cho mọi nhu cầu HVAC của doanh nghiệp.
             </p>
-            <Link href={href('/dich-vu')} className="inline-flex items-center gap-1.5 text-blue-600 text-sm font-semibold mt-3 hover:gap-3 transition-all">
+            <Link
+              href={href('/dich-vu')}
+              className="inline-flex items-center gap-1.5 text-blue-600 text-sm font-semibold mt-3 hover:gap-3 transition-all duration-200"
+            >
               Xem tất cả dịch vụ <ArrowRight size={14} />
             </Link>
           </div>
         </div>
 
+        {/* Services grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {displayServices.map((service, i) => (
             <Link
               key={service.slug}
               href={href(`/dich-vu/${service.slug}`)}
-              className="service-card group fade-in"
-              style={{ transitionDelay: `${i * 40}ms` } as React.CSSProperties}
+              className="service-card group fade-in block"
+              style={{ transitionDelay: `${i * 50}ms` } as React.CSSProperties}
             >
               <div className="flex items-start justify-between mb-4">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300"
-                  style={{ background: `${service.color}15` }}>
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-sm"
+                  style={{ background: `${service.color}15` }}
+                >
                   {service.icon}
                 </div>
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-1 group-hover:translate-x-0"
-                  style={{ background: `${service.color}15`, color: service.color }}>
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0"
+                  style={{ background: `${service.color}15`, color: service.color }}
+                >
                   <ArrowUpRight size={15} />
                 </div>
               </div>
+
               {service.tag && (
-                <div className="inline-flex text-xs font-semibold px-2 py-0.5 rounded mb-3"
-                  style={{ color: service.color, background: `${service.color}10` }}>
+                <div
+                  className="inline-flex text-xs font-semibold px-2.5 py-0.5 rounded-md mb-3"
+                  style={{ color: service.color, background: `${service.color}10` }}
+                >
                   {service.tag}
                 </div>
               )}
-              <h3 className="font-bold text-slate-900 mb-2 text-base leading-tight group-hover:text-blue-600 transition-colors duration-200">
+
+              <h3 className="font-bold mb-2 text-base leading-tight group-hover:text-blue-600 transition-colors duration-200"
+                style={{ color: '#0a1628' }}>
                 {service.titleVi}
               </h3>
               <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">{service.descVi}</p>
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ background: `linear-gradient(90deg, ${service.color}, transparent)` }} />
+
+              {/* Bottom hover accent */}
+              <div
+                className="absolute bottom-0 left-0 right-0 h-0.5 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: `linear-gradient(90deg, ${service.color}, ${service.color}00)` }}
+              />
             </Link>
           ))}
         </div>
 
-        <div className="mt-12 text-center fade-in">
-          <Link href={href('/lien-he')}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white font-semibold rounded-xl hover:bg-blue-600 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 text-sm">
+        {/* Bottom CTA */}
+        <div className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4 fade-in">
+          <Link
+            href={href('/lien-he')}
+            className="inline-flex items-center gap-2 px-8 py-4 font-semibold rounded-xl transition-all duration-300 hover:-translate-y-0.5 text-sm text-white"
+            style={{ background: '#0a1628', boxShadow: '0 4px 20px rgba(10,22,40,0.2)' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0066ff'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 8px 28px rgba(0,102,255,0.3)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0a1628'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 4px 20px rgba(10,22,40,0.2)' }}
+          >
             Yêu cầu tư vấn miễn phí <ArrowRight size={15} />
+          </Link>
+          <Link
+            href={href('/nang-luc')}
+            className="inline-flex items-center gap-2 px-6 py-4 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors"
+          >
+            Xem năng lực & chứng chỉ <ArrowRight size={14} />
           </Link>
         </div>
       </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Phone, Mail, Building2, MessageSquare, CheckCircle2, AlertCircle, ArrowRight } from 'lucide-react'
+import { Phone, Mail, Building2, MessageSquare, CheckCircle2, AlertCircle, ArrowRight, Shield, Clock, Users } from 'lucide-react'
 
 interface FormData {
   name: string
@@ -24,6 +24,12 @@ const FALLBACK_SERVICES_OPTIONS = [
   'Khác',
 ]
 
+const GUARANTEES = [
+  { icon: Clock, text: 'Báo giá trong 24h làm việc', color: '#0066ff' },
+  { icon: Users, text: 'Tư vấn kỹ thuật miễn phí', color: '#0099cc' },
+  { icon: Shield, text: 'Bảo mật thông tin tuyệt đối', color: '#009966' },
+]
+
 export default function QuoteFormSection() {
   const [serviceOptions, setServiceOptions] = useState<string[]>(FALLBACK_SERVICES_OPTIONS)
 
@@ -38,6 +44,7 @@ export default function QuoteFormSection() {
       })
       .catch(() => {})
   }, [])
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     phone: '',
@@ -74,203 +81,274 @@ export default function QuoteFormSection() {
   }
 
   return (
-    <section className="py-24" style={{ background: 'linear-gradient(135deg, #f8faff 0%, #eef4ff 100%)' }}>
-      <div className="max-w-6xl mx-auto px-4">
+    <section
+      className="py-24 relative overflow-hidden"
+      style={{ background: 'linear-gradient(160deg, #050d1a 0%, #0a1628 60%, #0c1d38 100%)' }}
+    >
+      {/* Background accents */}
+      <div className="absolute inset-0 tech-grid" style={{ opacity: 0.2 }} />
+      <div className="absolute top-0 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(0,102,255,0.1) 0%, transparent 65%)', filter: 'blur(80px)' }} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 rounded-2xl overflow-hidden shadow-2xl shadow-blue-500/10">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
 
-          {/* Left panel - dark */}
-          <div
-            className="lg:col-span-2 p-8 lg:p-10 flex flex-col justify-between"
-            style={{ background: 'linear-gradient(160deg, #0a1628, #0d2040)' }}
-          >
-            <div>
-              <span className="section-badge-dark mb-5 inline-flex">💬 Liên hệ</span>
-              <h2 className="text-2xl sm:text-3xl font-black text-white mb-3 leading-tight">
-                Yêu Cầu
-                <br />
-                <span className="gradient-text">Báo Giá Ngay</span>
-              </h2>
-              <p className="text-white/50 text-sm leading-relaxed mb-8">
-                Điền form để nhận báo giá chi tiết trong vòng <strong className="text-white/80">24 giờ làm việc</strong>.
-                Tư vấn kỹ thuật hoàn toàn miễn phí.
-              </p>
+        {/* Section heading */}
+        <div className="text-center mb-12">
+          <span className="section-badge-dark mb-4 inline-flex">💬 Liên hệ</span>
+          <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight">
+            Yêu Cầu Báo Giá
+            <span className="gradient-text"> Miễn Phí</span>
+          </h2>
+          <p className="text-white/40 text-sm mt-3 max-w-md mx-auto">
+            Điền form bên dưới để nhận tư vấn kỹ thuật và báo giá chi tiết trong 24 giờ làm việc
+          </p>
+        </div>
 
-              {/* Contact info */}
-              <div className="space-y-4">
-                <a
-                  href="tel:0981907109"
-                  className="flex items-center gap-3 group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-blue-600/20 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors">
-                    <Phone size={16} className="text-blue-400 group-hover:text-white transition-colors" />
-                  </div>
-                  <div>
-                    <div className="text-white/40 text-xs font-medium uppercase tracking-wide">Hotline 24/7</div>
-                    <div className="text-white font-semibold">0981 907 109</div>
-                  </div>
-                </a>
+        {/* Main card */}
+        <div className="rounded-2xl overflow-hidden shadow-2xl shadow-black/40" style={{ border: '1px solid rgba(255,255,255,0.07)' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-5">
 
-                <a
-                  href="mailto:Favevietnam@gmail.com"
-                  className="flex items-center gap-3 group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-blue-600/20 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors">
-                    <Mail size={16} className="text-blue-400 group-hover:text-white transition-colors" />
-                  </div>
-                  <div>
-                    <div className="text-white/40 text-xs font-medium uppercase tracking-wide">Email</div>
-                    <div className="text-white font-semibold text-sm">Favevietnam@gmail.com</div>
-                  </div>
-                </a>
-
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-blue-600/20 flex items-center justify-center flex-shrink-0">
-                    <Building2 size={16} className="text-blue-400" />
-                  </div>
-                  <div>
-                    <div className="text-white/40 text-xs font-medium uppercase tracking-wide">Địa chỉ</div>
-                    <div className="text-white text-sm">348 Đường Bưởi, Nghĩa Đô,<br />Ba Đình, Hà Nội</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Guarantee badges */}
-            <div className="mt-8 space-y-2">
-              {[
-                '✅ Báo giá trong 24h làm việc',
-                '✅ Tư vấn kỹ thuật miễn phí',
-                '✅ Bảo mật thông tin tuyệt đối',
-              ].map((item, i) => (
-                <div key={i} className="text-sm text-white/50">{item}</div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right panel - form */}
-          <div className="lg:col-span-3 bg-white p-8 lg:p-10">
-            {status === 'success' ? (
-              <div className="h-full flex flex-col items-center justify-center text-center py-10">
-                <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mb-4">
-                  <CheckCircle2 size={32} className="text-green-500" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Đã nhận yêu cầu!</h3>
-                <p className="text-slate-500 max-w-xs">
-                  Chúng tôi sẽ liên hệ lại trong vòng 24 giờ làm việc. Cảm ơn bạn đã tin tưởng FAVE!
+            {/* Left panel */}
+            <div
+              className="lg:col-span-2 p-8 lg:p-10 flex flex-col justify-between"
+              style={{ background: 'linear-gradient(160deg, #0d2040, #0a1628)' }}
+            >
+              <div>
+                <h3 className="text-xl font-black text-white mb-2 leading-tight">
+                  Liên hệ trực tiếp
+                </h3>
+                <p className="text-white/45 text-sm leading-relaxed mb-8">
+                  Đội ngũ kỹ sư FAVE sẵn sàng tư vấn kỹ thuật chuyên sâu, không tính phí.
                 </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <h3 className="text-xl font-black text-slate-900 mb-1">Thông tin liên hệ</h3>
-                <p className="text-slate-400 text-sm mb-6">Vui lòng điền đầy đủ để chúng tôi có thể tư vấn chính xác nhất</p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="form-label">Họ và tên *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="form-input"
-                      placeholder="Nguyễn Văn A"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="form-label">Số điện thoại *</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="form-input"
-                      placeholder="0981 907 xxx"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="form-label">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="form-input"
-                      placeholder="email@company.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="form-label">Tên công ty</label>
-                    <input
-                      type="text"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="form-input"
-                      placeholder="Tên doanh nghiệp"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="form-label">Dịch vụ quan tâm *</label>
-                  <select
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    className="form-input"
-                    required
+                {/* Contact info */}
+                <div className="space-y-4 mb-8">
+                  <a
+                    href="tel:0981907109"
+                    className="flex items-center gap-3 group"
                   >
-                    <option value="">-- Chọn dịch vụ --</option>
-                    {serviceOptions.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
-                </div>
+                    <div
+                      className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 group-hover:scale-110"
+                      style={{ background: 'rgba(0,102,255,0.2)', border: '1px solid rgba(0,102,255,0.3)' }}
+                    >
+                      <Phone size={17} className="text-blue-400" />
+                    </div>
+                    <div>
+                      <div className="text-white/35 text-xs font-medium uppercase tracking-wide">Hotline 24/7</div>
+                      <div className="text-white font-bold text-lg tracking-wide">0981 907 109</div>
+                    </div>
+                  </a>
 
-                <div>
-                  <label className="form-label">
-                    <MessageSquare size={13} className="inline mr-1" />
-                    Mô tả yêu cầu
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="form-input resize-none"
-                    placeholder="Mô tả sơ bộ công trình, quy mô, yêu cầu đặc biệt..."
-                    rows={3}
-                  />
-                </div>
+                  <a
+                    href="mailto:Favevietnam@gmail.com"
+                    className="flex items-center gap-3 group"
+                  >
+                    <div
+                      className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 group-hover:scale-110"
+                      style={{ background: 'rgba(0,102,255,0.2)', border: '1px solid rgba(0,102,255,0.3)' }}
+                    >
+                      <Mail size={17} className="text-blue-400" />
+                    </div>
+                    <div>
+                      <div className="text-white/35 text-xs font-medium uppercase tracking-wide">Email</div>
+                      <div className="text-white/80 font-medium text-sm">Favevietnam@gmail.com</div>
+                    </div>
+                  </a>
 
-                {status === 'error' && (
-                  <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 px-3 py-2 rounded-lg">
-                    <AlertCircle size={15} />
-                    Gửi thất bại. Vui lòng thử lại hoặc gọi hotline.
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'rgba(0,102,255,0.2)', border: '1px solid rgba(0,102,255,0.3)' }}
+                    >
+                      <Building2 size={17} className="text-blue-400" />
+                    </div>
+                    <div>
+                      <div className="text-white/35 text-xs font-medium uppercase tracking-wide">Địa chỉ</div>
+                      <div className="text-white/65 text-sm">348 Đường Bưởi, Nghĩa Đô<br />Ba Đình, Hà Nội</div>
+                    </div>
                   </div>
-                )}
+                </div>
 
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="w-full flex items-center justify-center gap-2 py-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-500 transition-all disabled:opacity-60 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5"
-                >
-                  {status === 'loading' ? (
-                    <span className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white" />
-                  ) : (
-                    <>
-                      Gửi yêu cầu báo giá
-                      <ArrowRight size={16} />
-                    </>
+                {/* Divider */}
+                <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} className="mb-6" />
+
+                {/* Guarantees */}
+                <div className="space-y-3">
+                  {GUARANTEES.map((item, i) => {
+                    const Icon = item.icon
+                    return (
+                      <div key={i} className="flex items-center gap-3">
+                        <div
+                          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                          style={{ background: `${item.color}20` }}
+                        >
+                          <Icon size={13} style={{ color: item.color }} />
+                        </div>
+                        <span className="text-white/55 text-sm">{item.text}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Live status */}
+              <div
+                className="mt-8 p-4 rounded-xl flex items-center gap-3"
+                style={{ background: 'rgba(0,153,0,0.08)', border: '1px solid rgba(0,153,0,0.2)' }}
+              >
+                <div className="relative flex-shrink-0">
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-400 block" />
+                  <span className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-green-400 animate-ping opacity-60" />
+                </div>
+                <div>
+                  <div className="text-green-400 text-xs font-semibold">Đang nhận báo giá</div>
+                  <div className="text-white/30 text-xs">Phản hồi trong vòng 24h làm việc</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right panel: Form */}
+            <div className="lg:col-span-3 bg-white p-8 lg:p-10">
+              {status === 'success' ? (
+                <div className="h-full flex flex-col items-center justify-center text-center py-10">
+                  <div
+                    className="w-20 h-20 rounded-full flex items-center justify-center mb-5"
+                    style={{ background: 'rgba(0,153,0,0.08)' }}
+                  >
+                    <CheckCircle2 size={40} className="text-green-500" />
+                  </div>
+                  <h3 className="text-2xl font-black mb-2" style={{ color: '#0a1628' }}>Đã nhận yêu cầu!</h3>
+                  <p className="text-slate-500 max-w-xs leading-relaxed">
+                    Đội ngũ FAVE sẽ liên hệ lại trong vòng 24 giờ làm việc. Cảm ơn bạn đã tin tưởng!
+                  </p>
+                  <button
+                    onClick={() => setStatus('idle')}
+                    className="mt-6 text-sm text-blue-600 font-semibold hover:text-blue-500 transition-colors"
+                  >
+                    Gửi yêu cầu khác →
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="mb-6">
+                    <h3 className="text-xl font-black mb-1" style={{ color: '#0a1628' }}>Thông tin liên hệ</h3>
+                    <p className="text-slate-400 text-sm">Vui lòng điền đầy đủ để chúng tôi tư vấn chính xác nhất</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="form-label">Họ và tên *</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="form-input"
+                        placeholder="Nguyễn Văn A"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="form-label">Số điện thoại *</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="form-input"
+                        placeholder="0981 907 xxx"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="form-label">Email</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="form-input"
+                        placeholder="email@company.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="form-label">Tên công ty</label>
+                      <input
+                        type="text"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        className="form-input"
+                        placeholder="Tên doanh nghiệp"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="form-label">Dịch vụ quan tâm *</label>
+                    <select
+                      name="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      className="form-input"
+                      required
+                    >
+                      <option value="">-- Chọn dịch vụ --</option>
+                      {serviceOptions.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="form-label">
+                      <MessageSquare size={13} className="inline mr-1" />
+                      Mô tả yêu cầu
+                    </label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="form-input resize-none"
+                      placeholder="Mô tả sơ bộ công trình, quy mô, diện tích, yêu cầu đặc biệt..."
+                      rows={3}
+                    />
+                  </div>
+
+                  {status === 'error' && (
+                    <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 px-4 py-3 rounded-xl">
+                      <AlertCircle size={15} className="flex-shrink-0" />
+                      Gửi thất bại. Vui lòng thử lại hoặc gọi hotline 0981 907 109.
+                    </div>
                   )}
-                </button>
-              </form>
-            )}
+
+                  <button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="w-full flex items-center justify-center gap-2 py-4 font-semibold rounded-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed hover:-translate-y-0.5 text-white"
+                    style={{ background: 'linear-gradient(135deg, #0066ff, #3385ff)', boxShadow: '0 4px 20px rgba(0,102,255,0.3)' }}
+                    onMouseEnter={e => { if (status !== 'loading') (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 8px 28px rgba(0,102,255,0.45)' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 20px rgba(0,102,255,0.3)' }}
+                  >
+                    {status === 'loading' ? (
+                      <span className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white" />
+                    ) : (
+                      <>
+                        Gửi yêu cầu báo giá
+                        <ArrowRight size={16} />
+                      </>
+                    )}
+                  </button>
+
+                  <p className="text-center text-xs text-slate-400 mt-2">
+                    Bằng cách gửi, bạn đồng ý để FAVE Vietnam liên hệ tư vấn.
+                  </p>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </div>
