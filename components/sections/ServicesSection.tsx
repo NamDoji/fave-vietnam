@@ -7,16 +7,52 @@ import { ArrowRight, ArrowUpRight, Wrench } from 'lucide-react'
 
 const ACCENT_COLORS = [
   '#0066ff', '#0099cc', '#3366cc', '#6633cc',
-  '#009966', '#cc6600', '#cc9900', '#009999', '#336699',
+  '#009966', '#cc6600',
 ]
 
 const FALLBACK_SERVICES = [
-  { slug: 'bao-tri-dieu-hoa', titleVi: 'Bảo Trì Điều Hòa', tag: 'Chiller · AHU · FCU', descVi: 'Thiết kế, cung cấp và lắp đặt hệ thống Chiller water-cooled/air-cooled cho tòa nhà văn phòng, TTTM, khách sạn.', icon: '❄️' },
-  { slug: 'bao-duong-chiller', titleVi: 'Bảo Dưỡng Chiller', tag: 'Nhà máy · Xưởng', descVi: 'Hệ thống thông gió và xử lý không khí cho nhà máy sản xuất, xưởng cơ khí, hóa chất.', icon: '🌀' },
-  { slug: 'sua-chua-hvac', titleVi: 'Sửa Chữa HVAC', tag: 'Kho lạnh · Đông lạnh', descVi: 'Kho lạnh, buồng đông lạnh, hệ thống làm lạnh nhanh cho ngành thực phẩm, dược phẩm.', icon: '🏭' },
-  { slug: 'cai-tao-nang-cap', titleVi: 'Cải Tạo Nâng Cấp', tag: 'Tiết kiệm · Thông minh', descVi: 'Giải pháp VRV/VRF tiết kiệm năng lượng vượt trội, kiểm soát nhiệt độ chính xác từng khu vực.', icon: '⚡' },
-  { slug: 've-sinh-cong-nghiep', titleVi: 'Vệ Sinh Công Nghiệp', tag: 'GMP · ISO · Phòng sạch', descVi: 'Phòng sạch cấp ISO, phòng phẫu thuật, nhà máy dược phẩm theo tiêu chuẩn GMP-WHO.', icon: '🧪' },
-  { slug: 'thiet-ke-hvac', titleVi: 'Thiết Kế HVAC', tag: 'HAP · AutoCAD MEP', descVi: 'Tư vấn kỹ thuật và thiết kế HVAC tối ưu bằng phần mềm HAP, Trace 700, AutoCAD MEP.', icon: '📐' },
+  {
+    slug: 'bao-tri-hvac-dinh-ky',
+    titleVi: 'Bảo Trì HVAC Định Kỳ',
+    tag: 'Chiller · AHU · FCU',
+    descVi: 'Ngăn ngừa sự cố, tối ưu vận hành 24/7. Kế hoạch bảo trì định kỳ giúp kéo dài tuổi thọ thiết bị và tiết kiệm chi phí vận hành.',
+    icon: '🔧',
+  },
+  {
+    slug: 'sua-chua-khan-cap',
+    titleVi: 'Sửa Chữa Khẩn Cấp',
+    tag: 'Phản hồi 2h · Toàn quốc',
+    descVi: 'Đội kỹ thuật phản hồi trong 2 giờ. Hotline 24/7, sẵn sàng xử lý sự cố HVAC cho tòa nhà và nhà máy trên toàn quốc.',
+    icon: '⚡',
+  },
+  {
+    slug: 'lap-dat-moi-hvac',
+    titleVi: 'Lắp Đặt Mới',
+    tag: 'Turnkey · Thiết kế – Thi công',
+    descVi: 'Tư vấn, thiết kế, thi công turnkey. Từ khảo sát tải nhiệt đến bàn giao vận hành — một đối tác cho toàn bộ dự án.',
+    icon: '🏗️',
+  },
+  {
+    slug: 'bao-duong-chiller',
+    titleVi: 'Bảo Dưỡng Chiller',
+    tag: 'Water-cooled · Air-cooled · Mini',
+    descVi: 'Chuyên sâu Chiller trung tâm và mini. Đội kỹ sư được đào tạo bởi nhà sản xuất, đảm bảo hiệu suất tối ưu quanh năm.',
+    icon: '❄️',
+  },
+  {
+    slug: 'he-thong-vrv-vrf',
+    titleVi: 'Hệ Thống VRV/VRF',
+    tag: 'Daikin · Carrier · Panasonic',
+    descVi: 'Đại lý ủy quyền Daikin, Carrier, Panasonic. Lắp đặt và bảo trì VRV/VRF tiết kiệm năng lượng, kiểm soát nhiệt độ chính xác từng khu vực.',
+    icon: '🌀',
+  },
+  {
+    slug: 'thong-gio-phong-sach',
+    titleVi: 'Thông Gió & Phòng Sạch',
+    tag: 'ISO 14644 · GMP · Dược phẩm',
+    descVi: 'Thiết kế theo tiêu chuẩn ISO 14644. Phòng sạch cấp ISO, phòng phẫu thuật, nhà máy dược phẩm theo tiêu chuẩn GMP-WHO.',
+    icon: '🧪',
+  },
 ]
 
 interface ServiceItem {
@@ -93,14 +129,14 @@ export default function ServicesSection() {
               Dịch vụ
             </span>
             <h2 className="text-3xl sm:text-4xl font-black leading-tight" style={{ color: '#0a1628' }}>
-              Giải Pháp HVAC<br />
+              Dịch Vụ HVAC<br />
               <span className="text-blue-600">Toàn Diện</span>
             </h2>
             <div className="section-divider mt-4" />
           </div>
           <div className="max-w-sm">
             <p className="text-slate-500 text-sm leading-relaxed">
-              Từ thiết kế đến lắp đặt và bảo trì — đối tác kỹ thuật tin cậy cho mọi nhu cầu HVAC của doanh nghiệp.
+              Kỹ sư có chứng chỉ quốc tế, đại lý ủy quyền Daikin &amp; Carrier — bao phủ toàn bộ vòng đời hệ thống HVAC.
             </p>
             <Link
               href={href('/dich-vu')}
@@ -120,10 +156,14 @@ export default function ServicesSection() {
               className="service-card group fade-in block"
               style={{ transitionDelay: `${i * 50}ms` } as React.CSSProperties}
             >
+              {/* Icon area with gradient bg */}
               <div className="flex items-start justify-between mb-4">
                 <div
                   className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300 shadow-sm"
-                  style={{ background: `${service.color}15` }}
+                  style={{
+                    background: `linear-gradient(135deg, ${service.color}20, ${service.color}08)`,
+                    border: `1px solid ${service.color}20`,
+                  }}
                 >
                   {service.icon}
                 </div>
@@ -150,6 +190,11 @@ export default function ServicesSection() {
               </h3>
               <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">{service.descVi}</p>
 
+              <div className="mt-4 flex items-center gap-1 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-all duration-200"
+                style={{ color: service.color }}>
+                Tìm hiểu thêm <ArrowRight size={12} />
+              </div>
+
               {/* Bottom hover accent */}
               <div
                 className="absolute bottom-0 left-0 right-0 h-0.5 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -159,23 +204,31 @@ export default function ServicesSection() {
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-14 flex flex-col sm:flex-row items-center justify-center gap-4 fade-in">
-          <Link
-            href={href('/lien-he')}
-            className="inline-flex items-center gap-2 px-8 py-4 font-semibold rounded-xl transition-all duration-300 hover:-translate-y-0.5 text-sm text-white"
-            style={{ background: '#0a1628', boxShadow: '0 4px 20px rgba(10,22,40,0.2)' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0066ff'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 8px 28px rgba(0,102,255,0.3)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0a1628'; (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 4px 20px rgba(10,22,40,0.2)' }}
-          >
-            Yêu cầu tư vấn miễn phí <ArrowRight size={15} />
-          </Link>
-          <Link
-            href={href('/nang-luc')}
-            className="inline-flex items-center gap-2 px-6 py-4 text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors"
-          >
-            Xem năng lực & chứng chỉ <ArrowRight size={14} />
-          </Link>
+        {/* Bottom CTA banner */}
+        <div
+          className="mt-14 rounded-2xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 fade-in"
+          style={{ background: '#0a1628' }}
+        >
+          <div>
+            <p className="text-white font-bold text-lg mb-1">Cần tư vấn chuyên sâu?</p>
+            <p className="text-white/50 text-sm">Kỹ sư FAVE sẵn sàng phân tích nhu cầu và đề xuất giải pháp tối ưu cho dự án của bạn.</p>
+          </div>
+          <div className="flex gap-3 flex-shrink-0">
+            <Link
+              href={href('/lien-he')}
+              className="inline-flex items-center gap-2 px-6 py-3.5 font-semibold rounded-xl text-sm text-white transition-all hover:-translate-y-0.5"
+              style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', boxShadow: '0 4px 20px rgba(249,115,22,0.35)' }}
+            >
+              Liên hệ ngay <ArrowRight size={15} />
+            </Link>
+            <Link
+              href={href('/nang-luc')}
+              className="inline-flex items-center gap-2 px-5 py-3.5 text-sm font-semibold text-white/60 hover:text-white transition-colors"
+              style={{ border: '1px solid rgba(255,255,255,0.12)', borderRadius: '12px' }}
+            >
+              Xem năng lực
+            </Link>
+          </div>
         </div>
       </div>
     </section>

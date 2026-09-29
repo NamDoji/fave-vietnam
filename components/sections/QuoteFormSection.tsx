@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Phone, Mail, Building2, MessageSquare, CheckCircle2, AlertCircle, ArrowRight, Shield, Clock, Users } from 'lucide-react'
+import { Phone, Mail, Building2, MessageSquare, CheckCircle2, AlertCircle, ArrowRight, Shield, Clock, Star } from 'lucide-react'
 
 interface FormData {
   name: string
@@ -13,21 +13,21 @@ interface FormData {
 }
 
 const FALLBACK_SERVICES_OPTIONS = [
-  'Điều hòa trung tâm (Chiller)',
-  'Thông gió công nghiệp',
-  'Hệ thống lạnh công nghiệp',
-  'VRV/VRF',
-  'Xử lý không khí sạch',
-  'Bảo trì bảo dưỡng',
-  'Tư vấn thiết kế',
+  'Bảo trì HVAC định kỳ',
+  'Sửa chữa khẩn cấp',
+  'Lắp đặt hệ thống mới',
+  'Bảo dưỡng Chiller',
+  'Hệ thống VRV/VRF',
+  'Thông gió & phòng sạch',
+  'Tư vấn thiết kế HVAC',
   'Hệ thống BMS/IBMS',
   'Khác',
 ]
 
 const GUARANTEES = [
-  { icon: Clock, text: 'Báo giá trong 24h làm việc', color: '#0066ff' },
-  { icon: Users, text: 'Tư vấn kỹ thuật miễn phí', color: '#0099cc' },
-  { icon: Shield, text: 'Bảo mật thông tin tuyệt đối', color: '#009966' },
+  { icon: Clock, text: 'Phản hồi trong 2 giờ', color: '#f97316' },
+  { icon: Star, text: 'Tư vấn hoàn toàn miễn phí', color: '#0066ff' },
+  { icon: Shield, text: 'Báo giá chi tiết, minh bạch', color: '#009966' },
 ]
 
 export default function QuoteFormSection() {
@@ -88,19 +88,21 @@ export default function QuoteFormSection() {
       {/* Background accents */}
       <div className="absolute inset-0 tech-grid" style={{ opacity: 0.2 }} />
       <div className="absolute top-0 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(0,102,255,0.1) 0%, transparent 65%)', filter: 'blur(80px)' }} />
+        style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 65%)', filter: 'blur(80px)' }} />
+      <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(0,102,255,0.1) 0%, transparent 65%)', filter: 'blur(60px)' }} />
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
 
         {/* Section heading */}
         <div className="text-center mb-12">
-          <span className="section-badge-dark mb-4 inline-flex">💬 Liên hệ</span>
+          <span className="section-badge-dark mb-4 inline-flex">Liên hệ báo giá</span>
           <h2 className="text-3xl sm:text-4xl font-black text-white leading-tight">
-            Yêu Cầu Báo Giá
+            Nhận Báo Giá
             <span className="gradient-text"> Miễn Phí</span>
           </h2>
           <p className="text-white/40 text-sm mt-3 max-w-md mx-auto">
-            Điền form bên dưới để nhận tư vấn kỹ thuật và báo giá chi tiết trong 24 giờ làm việc
+            Điền thông tin, kỹ sư của chúng tôi sẽ liên hệ trong vòng 2 giờ làm việc
           </p>
         </div>
 
@@ -108,7 +110,7 @@ export default function QuoteFormSection() {
         <div className="rounded-2xl overflow-hidden shadow-2xl shadow-black/40" style={{ border: '1px solid rgba(255,255,255,0.07)' }}>
           <div className="grid grid-cols-1 lg:grid-cols-5">
 
-            {/* Left panel */}
+            {/* Left panel: info + guarantees */}
             <div
               className="lg:col-span-2 p-8 lg:p-10 flex flex-col justify-between"
               style={{ background: 'linear-gradient(160deg, #0d2040, #0a1628)' }}
@@ -123,15 +125,12 @@ export default function QuoteFormSection() {
 
                 {/* Contact info */}
                 <div className="space-y-4 mb-8">
-                  <a
-                    href="tel:0981907109"
-                    className="flex items-center gap-3 group"
-                  >
+                  <a href="tel:0981907109" className="flex items-center gap-3 group">
                     <div
                       className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 group-hover:scale-110"
-                      style={{ background: 'rgba(0,102,255,0.2)', border: '1px solid rgba(0,102,255,0.3)' }}
+                      style={{ background: 'rgba(249,115,22,0.2)', border: '1px solid rgba(249,115,22,0.3)' }}
                     >
-                      <Phone size={17} className="text-blue-400" />
+                      <Phone size={17} className="text-orange-400" />
                     </div>
                     <div>
                       <div className="text-white/35 text-xs font-medium uppercase tracking-wide">Hotline 24/7</div>
@@ -139,10 +138,7 @@ export default function QuoteFormSection() {
                     </div>
                   </a>
 
-                  <a
-                    href="mailto:Favevietnam@gmail.com"
-                    className="flex items-center gap-3 group"
-                  >
+                  <a href="mailto:Favevietnam@gmail.com" className="flex items-center gap-3 group">
                     <div
                       className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 group-hover:scale-110"
                       style={{ background: 'rgba(0,102,255,0.2)', border: '1px solid rgba(0,102,255,0.3)' }}
@@ -169,7 +165,6 @@ export default function QuoteFormSection() {
                   </div>
                 </div>
 
-                {/* Divider */}
                 <div style={{ height: '1px', background: 'rgba(255,255,255,0.06)' }} className="mb-6" />
 
                 {/* Guarantees */}
@@ -179,12 +174,12 @@ export default function QuoteFormSection() {
                     return (
                       <div key={i} className="flex items-center gap-3">
                         <div
-                          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-                          style={{ background: `${item.color}20` }}
+                          className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                          style={{ background: `${item.color}18` }}
                         >
-                          <Icon size={13} style={{ color: item.color }} />
+                          <Icon size={14} style={{ color: item.color }} />
                         </div>
-                        <span className="text-white/55 text-sm">{item.text}</span>
+                        <span className="text-white/65 text-sm font-medium">{item.text}</span>
                       </div>
                     )
                   })}
@@ -202,7 +197,7 @@ export default function QuoteFormSection() {
                 </div>
                 <div>
                   <div className="text-green-400 text-xs font-semibold">Đang nhận báo giá</div>
-                  <div className="text-white/30 text-xs">Phản hồi trong vòng 24h làm việc</div>
+                  <div className="text-white/30 text-xs">Phản hồi trong vòng 2 giờ làm việc</div>
                 </div>
               </div>
             </div>
@@ -219,13 +214,13 @@ export default function QuoteFormSection() {
                   </div>
                   <h3 className="text-2xl font-black mb-2" style={{ color: '#0a1628' }}>Đã nhận yêu cầu!</h3>
                   <p className="text-slate-500 max-w-xs leading-relaxed">
-                    Đội ngũ FAVE sẽ liên hệ lại trong vòng 24 giờ làm việc. Cảm ơn bạn đã tin tưởng!
+                    Cảm ơn! Kỹ sư sẽ liên hệ bạn trong 2 giờ làm việc.
                   </p>
                   <button
                     onClick={() => setStatus('idle')}
-                    className="mt-6 text-sm text-blue-600 font-semibold hover:text-blue-500 transition-colors"
+                    className="mt-6 inline-flex items-center gap-1 text-sm text-blue-600 font-semibold hover:text-blue-500 transition-colors"
                   >
-                    Gửi yêu cầu khác →
+                    Gửi yêu cầu khác <ArrowRight size={14} />
                   </button>
                 </div>
               ) : (
@@ -329,15 +324,13 @@ export default function QuoteFormSection() {
                     type="submit"
                     disabled={status === 'loading'}
                     className="w-full flex items-center justify-center gap-2 py-4 font-semibold rounded-xl transition-all disabled:opacity-60 disabled:cursor-not-allowed hover:-translate-y-0.5 text-white"
-                    style={{ background: 'linear-gradient(135deg, #0066ff, #3385ff)', boxShadow: '0 4px 20px rgba(0,102,255,0.3)' }}
-                    onMouseEnter={e => { if (status !== 'loading') (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 8px 28px rgba(0,102,255,0.45)' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 20px rgba(0,102,255,0.3)' }}
+                    style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', boxShadow: '0 4px 20px rgba(249,115,22,0.35)' }}
                   >
                     {status === 'loading' ? (
                       <span className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white" />
                     ) : (
                       <>
-                        Gửi yêu cầu báo giá
+                        Gửi Yêu Cầu Ngay
                         <ArrowRight size={16} />
                       </>
                     )}

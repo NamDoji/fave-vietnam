@@ -1,35 +1,35 @@
 {
   "metadata": {
     "siteName": "FAVE Vietnam",
-    "siteDescription": "Professional HVAC solutions provider - Air conditioning, ventilation, industrial refrigeration systems in Vietnam",
-    "keywords": "HVAC, air conditioning, ventilation, refrigeration, FAVE, Vietnam"
+    "siteDescription": "End-to-end HVAC solutions — maintenance, repair, installation of air conditioning, ventilation, and clean room systems for businesses and factories in Vietnam",
+    "keywords": "HVAC, air conditioning maintenance, VRV VRF, Chiller, ventilation, clean room, FAVE, Vietnam, Daikin, Carrier"
   },
   "nav": {
     "home": "Home",
-    "about": "About Us",
+    "about": "About",
     "services": "Services",
     "products": "Products",
     "projects": "Projects",
-    "capability": "Capability",
+    "capability": "Capabilities",
     "news": "News",
     "contact": "Contact",
     "recruitment": "Careers",
-    "getQuote": "Get a Quote",
+    "getQuote": "Get a Free Quote",
     "language": "Language"
   },
   "hero": {
-    "badge": "Professional HVAC Company",
-    "title": "FAVE Vietnam",
-    "subtitle": "Comprehensive HVAC Solutions",
-    "description": "Specializing in supply, installation, and maintenance of air conditioning, ventilation, and industrial refrigeration systems for civil and industrial projects nationwide.",
-    "cta1": "Request a Quote",
-    "cta2": "View Featured Projects",
+    "badge": "Trusted HVAC Partner for Businesses",
+    "title": "End-to-End HVAC Solutions",
+    "subtitle": "On Time, On Quality",
+    "description": "10+ years of experience, 500+ completed projects nationwide. A team of 100+ certified engineers, 2-hour response time — the reliable HVAC partner for buildings, factories, and hospitals.",
+    "cta1": "Get a Free Quote",
+    "cta2": "View Capabilities",
     "scrollDown": "Explore More"
   },
   "about": {
     "badge": "About Us",
-    "title": "15 Years of HVAC Excellence",
-    "description": "FAVE Vietnam is a leading provider of professional HVAC solutions. With experienced engineers and advanced technology, we are committed to delivering the best air environment for our clients.",
+    "title": "10+ Years Serving Vietnam's Businesses",
+    "description": "FAVE Vietnam is the trusted HVAC partner of 500+ enterprises, hospitals, and factories across the country, with a team of 100+ deeply trained and internationally certified engineers. We commit to 2-hour response, free technical consultation, and 12-month project warranty.",
     "stats": {
       "years": "Years of Experience",
       "projects": "Completed Projects",
@@ -41,8 +41,8 @@
   },
   "services": {
     "badge": "Services",
-    "title": "Comprehensive HVAC Solutions",
-    "description": "From design, equipment supply to installation and maintenance - we are your reliable partner for all HVAC needs.",
+    "title": "Comprehensive HVAC Services",
+    "description": "Certified engineers and authorized dealers of Daikin & Carrier — covering the full HVAC lifecycle from design consultation to operational maintenance.",
     "viewAll": "View All Services",
     "viewDetail": "View Details",
     "contactUs": "Contact for Consultation"
@@ -61,7 +61,7 @@
   "projects": {
     "badge": "Projects",
     "title": "Featured Projects",
-    "description": "Over 500 completed projects, from industrial plants to commercial buildings nationwide.",
+    "description": "500+ completed projects across diverse sectors — hotels, hospitals, manufacturing plants, shopping malls, and office buildings — nationwide.",
     "viewAll": "View All Projects",
     "viewDetail": "View Details",
     "filterAll": "All",
@@ -82,13 +82,13 @@
   },
   "partners": {
     "badge": "Partners",
-    "title": "Trusted Partners",
-    "description": "Collaborating with world-leading brands and corporations"
+    "title": "Partners & Brands",
+    "description": "Authorized dealer and strategic partner of the world's leading HVAC brands"
   },
   "news": {
     "badge": "News",
-    "title": "News & Technical Articles",
-    "description": "Stay updated with the latest knowledge and trends in the HVAC industry",
+    "title": "News & Technical Insights",
+    "description": "Stay updated on HVAC trends, energy-saving tips, and practical insights from our engineering team",
     "viewAll": "View All News",
     "readMore": "Read More",
     "filterAll": "All",
@@ -97,8 +97,8 @@
   },
   "quote": {
     "badge": "Quote",
-    "title": "Request a Quote",
-    "description": "Fill in your information to receive free consultation and quotation within 24 working hours.",
+    "title": "Get Your Free Quote",
+    "description": "Fill in your details and our engineers will get back to you within 2 business hours.",
     "name": "Full Name *",
     "phone": "Phone Number *",
     "email": "Email",
@@ -106,9 +106,9 @@
     "service": "Service of Interest",
     "message": "Describe Your Needs *",
     "attachment": "Attach File (drawings, documents...)",
-    "submit": "Send Quote Request",
+    "submit": "Send Request Now",
     "submitting": "Sending...",
-    "success": "Your request has been sent successfully! We will contact you within 24 hours.",
+    "success": "Thank you! Our engineer will contact you within 2 business hours.",
     "error": "An error occurred. Please try again or call our hotline.",
     "selectService": "-- Select Service --"
   },
@@ -162,7 +162,7 @@
   "aboutPage": {
     "hero": {
       "title": "About Us",
-      "subtitle": "15 years of sustainable development partnership"
+      "subtitle": "10+ years of partnership with Vietnam's businesses"
     },
     "history": {
       "title": "History & Development",
@@ -190,7 +190,7 @@
     "whyUs": {
       "title": "Why Choose FAVE?",
       "reasons": [
-        { "title": "Extensive Experience", "desc": "15 years in operation with over 500 successful projects in industrial and civil sectors" },
+        { "title": "Extensive Experience", "desc": "10+ years in operation with over 500 successful projects in industrial and civil sectors" },
         { "title": "Professional Team", "desc": "Over 100 engineers and technicians trained with international professional certifications" },
         { "title": "Modern Technology", "desc": "Using advanced design software and state-of-the-art construction equipment" },
         { "title": "Dedicated Consulting", "desc": "Professional consulting team, 24/7 support, always ready to answer any questions" },
@@ -200,7 +200,7 @@
     }
   },
   "footer": {
-    "description": "Leading provider of professional HVAC solutions in Vietnam with over 15 years of experience.",
+    "description": "Comprehensive HVAC Solutions — Reliable, Professional, On-Time.",
     "quickLinks": "Quick Links",
     "services": "Services",
     "contact": "Contact",

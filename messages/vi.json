@@ -1,8 +1,8 @@
 {
   "metadata": {
     "siteName": "FAVE Việt Nam",
-    "siteDescription": "Đơn vị cung cấp giải pháp HVAC chuyên nghiệp - Điều hòa không khí, thông gió, hệ thống lạnh công nghiệp tại Việt Nam",
-    "keywords": "HVAC, điều hòa không khí, thông gió, hệ thống lạnh, FAVE, Việt Nam"
+    "siteDescription": "Giải pháp HVAC toàn diện — bảo trì, sửa chữa, lắp đặt hệ thống điều hòa không khí, thông gió, phòng sạch cho doanh nghiệp và nhà máy tại Việt Nam",
+    "keywords": "HVAC, bảo trì điều hòa, VRV VRF, Chiller, thông gió, phòng sạch, FAVE, Việt Nam, Daikin, Carrier"
   },
   "nav": {
     "home": "Trang chủ",
@@ -14,22 +14,22 @@
     "news": "Tin tức",
     "contact": "Liên hệ",
     "recruitment": "Tuyển dụng",
-    "getQuote": "Liên hệ báo giá",
+    "getQuote": "Nhận Báo Giá Miễn Phí",
     "language": "Ngôn ngữ"
   },
   "hero": {
-    "badge": "Đơn vị HVAC Chuyên Nghiệp",
-    "title": "FAVE Việt Nam",
-    "subtitle": "Giải Pháp HVAC Toàn Diện",
-    "description": "Chuyên cung cấp, lắp đặt và bảo trì hệ thống điều hòa không khí, thông gió, làm lạnh công nghiệp cho các dự án dân dụng và công nghiệp trên toàn quốc.",
-    "cta1": "Yêu cầu báo giá",
-    "cta2": "Xem dự án tiêu biểu",
+    "badge": "Đối tác HVAC tin cậy cho doanh nghiệp",
+    "title": "Giải Pháp HVAC Toàn Diện",
+    "subtitle": "Đúng Hẹn, Đúng Chất Lượng",
+    "description": "Hơn 10 năm kinh nghiệm, 500+ dự án hoàn thành trên toàn quốc. Đội ngũ 100+ kỹ sư chuyên nghiệp, phản hồi trong 2 giờ — đối tác HVAC tin cậy cho tòa nhà, nhà máy và bệnh viện.",
+    "cta1": "Nhận Báo Giá Miễn Phí",
+    "cta2": "Xem Năng Lực",
     "scrollDown": "Khám phá thêm"
   },
   "about": {
-    "badge": "Về chúng tôi",
-    "title": "15 Năm Kinh Nghiệm Trong Ngành HVAC",
-    "description": "FAVE Việt Nam là đơn vị hàng đầu cung cấp giải pháp HVAC chuyên nghiệp. Với đội ngũ kỹ sư giàu kinh nghiệm và công nghệ tiên tiến, chúng tôi cam kết mang đến môi trường không khí tốt nhất cho khách hàng.",
+    "badge": "Về Chúng Tôi",
+    "title": "Hơn 10 Năm Đồng Hành Cùng Doanh Nghiệp Việt",
+    "description": "FAVE Vietnam là đối tác HVAC tin cậy của 500+ doanh nghiệp, bệnh viện và nhà máy trên toàn quốc, với đội ngũ 100+ kỹ sư được đào tạo chuyên sâu và chứng nhận quốc tế. Chúng tôi cam kết phản hồi trong 2 giờ, tư vấn kỹ thuật miễn phí và bảo hành công trình 12 tháng sau bàn giao.",
     "stats": {
       "years": "Năm kinh nghiệm",
       "projects": "Dự án hoàn thành",
@@ -41,8 +41,8 @@
   },
   "services": {
     "badge": "Dịch vụ",
-    "title": "Giải Pháp HVAC Toàn Diện",
-    "description": "Từ thiết kế, cung cấp thiết bị đến lắp đặt và bảo trì - chúng tôi là đối tác tin cậy cho mọi nhu cầu HVAC của bạn.",
+    "title": "Dịch Vụ HVAC Toàn Diện",
+    "description": "Đội ngũ kỹ sư có chứng chỉ quốc tế, đại lý ủy quyền Daikin & Carrier — bao phủ toàn bộ vòng đời hệ thống HVAC từ tư vấn thiết kế đến bảo trì vận hành.",
     "viewAll": "Xem tất cả dịch vụ",
     "viewDetail": "Xem chi tiết",
     "contactUs": "Liên hệ tư vấn"
@@ -61,7 +61,7 @@
   "projects": {
     "badge": "Dự án",
     "title": "Dự Án Tiêu Biểu",
-    "description": "Hơn 500 dự án hoàn thành, từ nhà máy công nghiệp đến tòa nhà thương mại trên toàn quốc.",
+    "description": "500+ dự án hoàn thành trên đa dạng lĩnh vực — khách sạn, bệnh viện, nhà máy sản xuất, trung tâm thương mại và tòa nhà văn phòng — trên toàn quốc.",
     "viewAll": "Xem tất cả dự án",
     "viewDetail": "Xem chi tiết",
     "filterAll": "Tất cả",
@@ -82,13 +82,13 @@
   },
   "partners": {
     "badge": "Đối tác",
-    "title": "Đối Tác Tin Cậy",
-    "description": "Hợp tác với các thương hiệu và tập đoàn hàng đầu thế giới"
+    "title": "Đối Tác & Thương Hiệu",
+    "description": "Đại lý ủy quyền và đối tác chiến lược của các thương hiệu HVAC hàng đầu thế giới"
   },
   "news": {
     "badge": "Tin tức",
-    "title": "Tin Tức & Kỹ Thuật",
-    "description": "Cập nhật kiến thức và xu hướng mới nhất trong ngành HVAC",
+    "title": "Tin Tức & Chia Sẻ Kỹ Thuật",
+    "description": "Cập nhật xu hướng HVAC, tips tiết kiệm năng lượng, và kinh nghiệm thực tiễn từ đội ngũ kỹ sư FAVE",
     "viewAll": "Xem tất cả tin tức",
     "readMore": "Đọc tiếp",
     "filterAll": "Tất cả",
@@ -97,8 +97,8 @@
   },
   "quote": {
     "badge": "Báo giá",
-    "title": "Yêu Cầu Báo Giá",
-    "description": "Điền thông tin để nhận tư vấn và báo giá miễn phí trong vòng 24 giờ làm việc.",
+    "title": "Nhận Báo Giá Miễn Phí",
+    "description": "Điền thông tin, kỹ sư của chúng tôi sẽ liên hệ trong vòng 2 giờ làm việc.",
     "name": "Họ và tên *",
     "phone": "Số điện thoại *",
     "email": "Email",
@@ -106,9 +106,9 @@
     "service": "Dịch vụ quan tâm",
     "message": "Mô tả nhu cầu *",
     "attachment": "Đính kèm file (bản vẽ, tài liệu...)",
-    "submit": "Gửi yêu cầu báo giá",
+    "submit": "Gửi Yêu Cầu Ngay",
     "submitting": "Đang gửi...",
-    "success": "Yêu cầu của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ trong 24h.",
+    "success": "Cảm ơn! Kỹ sư sẽ liên hệ bạn trong 2 giờ làm việc.",
     "error": "Có lỗi xảy ra. Vui lòng thử lại hoặc gọi hotline.",
     "selectService": "-- Chọn dịch vụ --"
   },
@@ -162,7 +162,7 @@
   "aboutPage": {
     "hero": {
       "title": "Về Chúng Tôi",
-      "subtitle": "15 năm đồng hành cùng sự phát triển bền vững"
+      "subtitle": "Hơn 10 năm đồng hành cùng doanh nghiệp Việt"
     },
     "history": {
       "title": "Lịch Sử Hình Thành & Phát Triển",
@@ -190,7 +190,7 @@
     "whyUs": {
       "title": "Tại Sao Chọn FAVE?",
       "reasons": [
-        { "title": "Kinh nghiệm dày dặn", "desc": "15 năm hoạt động với hơn 500 dự án thành công trong các lĩnh vực công nghiệp và dân dụng" },
+        { "title": "Kinh nghiệm dày dặn", "desc": "10+ năm hoạt động với hơn 500 dự án thành công trong các lĩnh vực công nghiệp và dân dụng" },
         { "title": "Đội ngũ chuyên nghiệp", "desc": "Hơn 100 kỹ sư, kỹ thuật viên được đào tạo bài bản và có chứng chỉ chuyên môn quốc tế" },
         { "title": "Công nghệ hiện đại", "desc": "Sử dụng phần mềm thiết kế tiên tiến và thiết bị thi công hiện đại nhất" },
         { "title": "Tư vấn tận tâm", "desc": "Đội ngũ tư vấn chuyên nghiệp, hỗ trợ 24/7, luôn sẵn sàng giải đáp mọi thắc mắc" },
@@ -200,7 +200,7 @@
     }
   },
   "footer": {
-    "description": "Đơn vị hàng đầu cung cấp giải pháp HVAC chuyên nghiệp tại Việt Nam với hơn 15 năm kinh nghiệm.",
+    "description": "Giải pháp HVAC toàn diện — Đúng hẹn, đúng chất lượng.",
     "quickLinks": "Liên kết nhanh",
     "services": "Dịch vụ",
     "contact": "Liên hệ",
