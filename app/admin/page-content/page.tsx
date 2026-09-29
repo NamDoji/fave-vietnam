@@ -62,15 +62,19 @@ export default function PageContentPage() {
         </button>
       </div>
 
-      {loading ? <div className="text-center py-12 text-gray-500">Đang tải...</div> : (
+      {loading ? (
+        <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+          {[...Array(4)].map((_, i) => <div key={i} className="flex items-center gap-4 px-4 py-4 border-b last:border-0 animate-pulse"><div className="h-5 bg-gray-100 rounded w-32" /><div className="flex-1 h-4 bg-gray-100 rounded hidden sm:block" /><div className="h-6 bg-gray-100 rounded w-16" /></div>)}
+        </div>
+      ) : (
         <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b">
               <tr>
-                <th className="text-left px-4 py-3 font-medium text-gray-600">Page Key</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-600 hidden sm:table-cell">Tiêu đề (VI)</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Cập nhật</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600 w-24">Thao tác</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500">Page Key</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 hidden sm:table-cell">Tiêu đề (VI)</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 hidden md:table-cell">Cập nhật</th>
+                <th className="text-right px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 w-24">Thao tác</th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -94,9 +98,9 @@ export default function PageContentPage() {
             </tbody>
           </table>
           {items.length === 0 && (
-            <div className="text-center py-12 text-gray-400">
-              <LayoutTemplate size={32} className="mx-auto mb-2 opacity-30" />
-              <p>Chưa có nội dung trang nào</p>
+            <div className="text-center py-16 text-gray-400">
+              <LayoutTemplate size={40} className="mx-auto mb-3 opacity-20" />
+              <p className="font-medium">Chưa có nội dung trang nào</p>
             </div>
           )}
         </div>

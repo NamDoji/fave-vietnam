@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, Eye, EyeOff, ChevronRight, Menu } from 'lucide-react'
+import { Plus, Pencil, Trash2, Eye, EyeOff, ChevronRight, Menu, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface MenuItem {
@@ -23,6 +23,8 @@ export default function MenusPage() {
   const [editing, setEditing] = useState<MenuItem | null>(null)
   const [form, setForm] = useState({ ...EMPTY })
   const [saving, setSaving] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => { fetchItems() }, [])
 
@@ -53,10 +55,11 @@ export default function MenusPage() {
     } finally { setSaving(false) }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm('Xoá mục menu này?')) return
-    await fetch(`/api/admin/menus?id=${id}`, { method: 'DELETE' })
-    fetchItems()
+  async function confirmDelete() {
+    if (!deleteId) return
+    setDeleting(true)
+    await fetch(`/api/admin/menus?id=${deleteId}`, { method: 'DELETE' })
+    setDeleteId(null); setDeleting(false); fetchItems()
   }
 
   async function toggleActive(item: MenuItem) {
@@ -91,7 +94,7 @@ export default function MenusPage() {
               {item.isActive ? <Eye size={14} /> : <EyeOff size={14} />}
             </button>
             <button onClick={() => openEdit(item)} className="p-1.5 text-gray-400 hover:text-blue-600 rounded"><Pencil size={14} /></button>
-            <button onClick={() => handleDelete(item.id)} className="p-1.5 text-gray-400 hover:text-red-600 rounded"><Trash2 size={14} /></button>
+            <button onClick={() => setDeleteId(item.id)} className="p-1.5 text-gray-400 hover:text-red-600 rounded"><Trash2 size={14} /></button>
           </div>
         </td>
       </tr>
@@ -111,15 +114,19 @@ export default function MenusPage() {
         </button>
       </div>
 
-      {loading ? <div className="text-center py-12 text-gray-500">Đang tải...</div> : (
+      {loading ? (
+        <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+          {[...Array(4)].map((_, i) => <div key={i} className="flex items-center gap-4 px-4 py-4 border-b last:border-0 animate-pulse"><div className="flex-1 h-4 bg-gray-100 rounded" /><div className="h-4 bg-gray-100 rounded w-24 hidden sm:block" /><div className="h-6 bg-gray-100 rounded w-20" /></div>)}
+        </div>
+      ) : (
         <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b">
               <tr>
-                <th className="text-left px-4 py-3 font-medium text-gray-600">Nhãn</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-600 hidden sm:table-cell">Đường dẫn</th>
-                <th className="text-center px-4 py-3 font-medium text-gray-600 w-20">Thứ tự</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600 w-36">Thao tác</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500">Nhãn</th>
+                <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 hidden sm:table-cell">Đường dẫn</th>
+                <th className="text-center px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 w-20">Thứ tự</th>
+                <th className="text-right px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 w-36">Thao tác</th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -127,11 +134,26 @@ export default function MenusPage() {
             </tbody>
           </table>
           {items.length === 0 && (
-            <div className="text-center py-12 text-gray-400">
-              <Menu size={32} className="mx-auto mb-2 opacity-30" />
-              <p>Chưa có mục menu nào</p>
+            <div className="text-center py-16 text-gray-400">
+              <Menu size={40} className="mx-auto mb-3 opacity-20" />
+              <p className="font-medium">Chưa có mục menu nào</p>
             </div>
           )}
+        </div>
+      )}
+
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0"><AlertTriangle size={20} className="text-red-500" /></div>
+              <div><h3 className="font-semibold text-gray-900">Xác nhận xoá menu</h3><p className="text-sm text-gray-500">Hành động này không thể hoàn tác.</p></div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
+              <button onClick={confirmDelete} disabled={deleting} className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50">{deleting ? 'Đang xoá...' : 'Xoá'}</button>
+            </div>
+          </div>
         </div>
       )}
 

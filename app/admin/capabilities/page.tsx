@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, Eye, EyeOff, FileText } from 'lucide-react'
+import { Plus, Pencil, Trash2, Eye, EyeOff, FileText, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface CapabilityProfile {
@@ -23,6 +23,8 @@ export default function CapabilitiesPage() {
   const [editing, setEditing] = useState<CapabilityProfile | null>(null)
   const [form, setForm] = useState({ ...EMPTY })
   const [saving, setSaving] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => { fetchItems() }, [])
 
@@ -51,10 +53,11 @@ export default function CapabilitiesPage() {
     } finally { setSaving(false) }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm('Xoá hồ sơ năng lực này?')) return
-    await fetch(`/api/admin/capabilities?id=${id}`, { method: 'DELETE' })
-    fetchItems()
+  async function confirmDelete() {
+    if (!deleteId) return
+    setDeleting(true)
+    await fetch(`/api/admin/capabilities?id=${deleteId}`, { method: 'DELETE' })
+    setDeleteId(null); setDeleting(false); fetchItems()
   }
 
   async function toggleActive(item: CapabilityProfile) {
@@ -74,7 +77,11 @@ export default function CapabilitiesPage() {
         </button>
       </div>
 
-      {loading ? <div className="text-center py-12 text-gray-500">Đang tải...</div> : (
+      {loading ? (
+        <div className="space-y-4">
+          {[...Array(3)].map((_, i) => <div key={i} className="bg-white rounded-xl border p-5 animate-pulse"><div className="flex gap-3"><div className="w-10 h-10 bg-gray-100 rounded-lg flex-shrink-0" /><div className="flex-1"><div className="h-4 bg-gray-100 rounded mb-2 w-48" /><div className="h-3 bg-gray-100 rounded w-32" /></div></div></div>)}
+        </div>
+      ) : (
         <div className="space-y-4">
           {items.map(item => (
             <div key={item.id} className={cn('bg-white rounded-xl border p-5', !item.isActive && 'opacity-60')}>
@@ -100,17 +107,33 @@ export default function CapabilitiesPage() {
                     {item.isActive ? <Eye size={14} /> : <EyeOff size={14} />}
                   </button>
                   <button onClick={() => openEdit(item)} className="p-1.5 text-gray-400 hover:text-blue-600 rounded"><Pencil size={14} /></button>
-                  <button onClick={() => handleDelete(item.id)} className="p-1.5 text-gray-400 hover:text-red-600 rounded"><Trash2 size={14} /></button>
+                  <button onClick={() => setDeleteId(item.id)} className="p-1.5 text-gray-400 hover:text-red-600 rounded"><Trash2 size={14} /></button>
                 </div>
               </div>
             </div>
           ))}
           {items.length === 0 && (
-            <div className="text-center py-12 text-gray-400">
-              <FileText size={32} className="mx-auto mb-2 opacity-30" />
-              <p>Chưa có hồ sơ năng lực nào</p>
+            <div className="text-center py-16 text-gray-400 bg-white rounded-xl border">
+              <FileText size={40} className="mx-auto mb-3 opacity-20" />
+              <p className="font-medium">Chưa có hồ sơ năng lực nào</p>
+              <button onClick={openCreate} className="inline-flex items-center gap-1 mt-3 text-sm text-[#1a3a5c] hover:underline"><Plus size={14} />Thêm mới</button>
             </div>
           )}
+        </div>
+      )}
+
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0"><AlertTriangle size={20} className="text-red-500" /></div>
+              <div><h3 className="font-semibold text-gray-900">Xác nhận xoá hồ sơ</h3><p className="text-sm text-gray-500">Hành động này không thể hoàn tác.</p></div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
+              <button onClick={confirmDelete} disabled={deleting} className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50">{deleting ? 'Đang xoá...' : 'Xoá'}</button>
+            </div>
+          </div>
         </div>
       )}
 

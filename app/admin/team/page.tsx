@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, Eye, EyeOff, Users } from 'lucide-react'
+import { Plus, Pencil, Trash2, Eye, EyeOff, Users, Search, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface TeamMember {
@@ -26,6 +26,9 @@ export default function AdminTeamPage() {
   const [editing, setEditing] = useState<TeamMember | null>(null)
   const [form, setForm] = useState<Partial<TeamMember>>(EMPTY)
   const [saving, setSaving] = useState(false)
+  const [search, setSearch] = useState('')
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => { fetchItems() }, [])
 
@@ -53,10 +56,11 @@ export default function AdminTeamPage() {
     } finally { setSaving(false) }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm('Xoá thành viên này?')) return
-    await fetch(`/api/admin/team?id=${id}`, { method: 'DELETE' })
-    fetchItems()
+  async function confirmDelete() {
+    if (!deleteId) return
+    setDeleting(true)
+    await fetch(`/api/admin/team?id=${deleteId}`, { method: 'DELETE' })
+    setDeleteId(null); setDeleting(false); fetchItems()
   }
 
   async function toggleActive(item: TeamMember) {
@@ -71,9 +75,21 @@ export default function AdminTeamPage() {
         <button onClick={openCreate} className="flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg hover:bg-[#00a0e9] text-sm font-medium"><Plus size={16} />Thêm thành viên</button>
       </div>
 
-      {loading ? <div className="text-center py-12 text-gray-500">Đang tải...</div> : (
+      {/* Search */}
+      <div className="bg-white rounded-xl shadow-sm border p-4 mb-4">
+        <div className="relative max-w-sm">
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Tìm thành viên..." className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" />
+        </div>
+      </div>
+
+      {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {items.map(item => (
+          {[...Array(3)].map((_, i) => (<div key={i} className="bg-white rounded-xl border p-5 animate-pulse"><div className="flex gap-3"><div className="w-14 h-14 bg-gray-100 rounded-full flex-shrink-0" /><div className="flex-1"><div className="h-4 bg-gray-100 rounded mb-2 w-24" /><div className="h-3 bg-gray-100 rounded w-32" /></div></div></div>))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {items.filter(i => !search || i.nameVi.toLowerCase().includes(search.toLowerCase()) || i.positionVi.toLowerCase().includes(search.toLowerCase())).map(item => (
             <div key={item.id} className={cn('bg-white rounded-xl border p-5 relative', !item.isActive && 'opacity-60')}>
               <div className="flex items-start gap-3">
                 {item.imageUrl ? (
@@ -95,11 +111,33 @@ export default function AdminTeamPage() {
                   {item.isActive ? <Eye size={14} /> : <EyeOff size={14} />}
                 </button>
                 <button onClick={() => openEdit(item)} className="p-1.5 text-gray-400 hover:text-blue-600 rounded"><Pencil size={14} /></button>
-                <button onClick={() => handleDelete(item.id)} className="p-1.5 text-gray-400 hover:text-red-600 rounded"><Trash2 size={14} /></button>
+                <button onClick={() => setDeleteId(item.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors" title="Xoá"><Trash2 size={14} /></button>
               </div>
             </div>
           ))}
-          {items.length === 0 && <div className="col-span-3 text-center py-12 text-gray-400"><Users size={32} className="mx-auto mb-2 opacity-30" /><p>Chưa có thành viên nào</p></div>}
+          {items.filter(i => !search || i.nameVi.toLowerCase().includes(search.toLowerCase()) || i.positionVi.toLowerCase().includes(search.toLowerCase())).length === 0 && (
+            <div className="col-span-3 text-center py-16 text-gray-400">
+              <Users size={40} className="mx-auto mb-3 opacity-20" />
+              <p className="font-medium">{search ? 'Không tìm thấy kết quả' : 'Chưa có thành viên nào'}</p>
+              {!search && <button onClick={openCreate} className="inline-flex items-center gap-1 mt-3 text-sm text-[#1a3a5c] hover:underline"><Plus size={14} />Thêm thành viên đầu tiên</button>}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Delete Modal */}
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0"><AlertTriangle size={20} className="text-red-500" /></div>
+              <div><h3 className="font-semibold text-gray-900">Xác nhận xoá thành viên</h3><p className="text-sm text-gray-500">Hành động này không thể hoàn tác.</p></div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
+              <button onClick={confirmDelete} disabled={deleting} className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50">{deleting ? 'Đang xoá...' : 'Xoá'}</button>
+            </div>
+          </div>
         </div>
       )}
 

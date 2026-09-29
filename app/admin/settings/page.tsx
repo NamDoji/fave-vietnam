@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Save, RefreshCw } from 'lucide-react'
+import { Save, RefreshCw, AlertTriangle } from 'lucide-react'
 
 interface SettingGroup { key: string; label: string; fields: { key: string; label: string; type: string; placeholder?: string }[] }
 
@@ -51,9 +51,10 @@ export default function AdminSettingsPage() {
   const [saved, setSaved] = useState(false)
   const [seeding, setSeeding] = useState(false)
   const [seedResult, setSeedResult] = useState<string[]>([])
+  const [showSeedConfirm, setShowSeedConfirm] = useState(false)
 
   async function handleSeed() {
-    if (!confirm('Seed dữ liệu mẫu vào database? Sẽ tạo thêm nếu chưa có.')) return
+    setShowSeedConfirm(false)
     setSeeding(true)
     try {
       const res = await fetch('/api/admin/seed', { method: 'POST' })
@@ -83,7 +84,7 @@ export default function AdminSettingsPage() {
     } finally { setSaving(false) }
   }
 
-  if (loading) return <div className="text-center py-12 text-gray-500">Đang tải...</div>
+  if (loading) return <div className="space-y-6">{[...Array(3)].map((_, i) => <div key={i} className="bg-white rounded-xl border overflow-hidden animate-pulse"><div className="px-6 py-4 border-b bg-gray-50 h-14" /><div className="p-6 grid grid-cols-2 gap-4">{[...Array(4)].map((_, j) => <div key={j} className="h-16"><div className="h-3 bg-gray-100 rounded mb-2 w-24" /><div className="h-9 bg-gray-100 rounded" /></div>)}</div></div>)}</div>
 
   return (
     <div>
@@ -99,7 +100,7 @@ export default function AdminSettingsPage() {
       <div className="bg-white rounded-xl shadow-sm border overflow-hidden mb-6">
         <div className="px-6 py-4 border-b bg-gray-50 flex items-center justify-between">
           <div><h2 className="font-semibold text-gray-800">Dữ liệu mẫu</h2><p className="text-xs text-gray-500 mt-0.5">Tạo sử data ban đầu nếu DB chưa có nội dung</p></div>
-          <button onClick={handleSeed} disabled={seeding} className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors">
+          <button onClick={() => setShowSeedConfirm(true)} disabled={seeding} className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors">
             {seeding ? 'Đang seed...' : '🌱 Seed dữ liệu'}
           </button>
         </div>
@@ -125,6 +126,21 @@ export default function AdminSettingsPage() {
           </div>
         ))}
       </div>
+
+      {showSeedConfirm && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-yellow-50 flex items-center justify-center flex-shrink-0"><AlertTriangle size={20} className="text-yellow-500" /></div>
+              <div><h3 className="font-semibold text-gray-900">Xác nhận Seed dữ liệu</h3><p className="text-sm text-gray-500">Sẽ tạo thêm dữ liệu mẫu nếu chưa có trong DB.</p></div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setShowSeedConfirm(false)} className="flex-1 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
+              <button onClick={handleSeed} className="flex-1 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700">Tiếp tục Seed</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

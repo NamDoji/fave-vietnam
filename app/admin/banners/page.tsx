@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, Eye, EyeOff, GripVertical, Image as ImageIcon } from 'lucide-react'
+import { Plus, Pencil, Trash2, Eye, EyeOff, GripVertical, Image as ImageIcon, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface Banner {
@@ -21,6 +21,8 @@ export default function AdminBannersPage() {
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<Banner | null>(null)
   const [saving, setSaving] = useState(false)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
   const [form, setForm] = useState({
     titleVi: '', titleEn: '',
     subtitleVi: '', subtitleEn: '',
@@ -73,10 +75,11 @@ export default function AdminBannersPage() {
     } finally { setSaving(false) }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm('Xoá banner này?')) return
-    await fetch(`/api/admin/banners?id=${id}`, { method: 'DELETE' })
-    fetchItems()
+  async function confirmDelete() {
+    if (!deleteId) return
+    setDeleting(true)
+    await fetch(`/api/admin/banners?id=${deleteId}`, { method: 'DELETE' })
+    setDeleteId(null); setDeleting(false); fetchItems()
   }
 
   async function toggleActive(b: Banner) {
@@ -241,7 +244,7 @@ export default function AdminBannersPage() {
                 <button onClick={() => openEdit(item)} className="p-2 rounded-lg bg-blue-500/80 hover:bg-blue-500 text-white shadow backdrop-blur-sm">
                   <Pencil size={14} />
                 </button>
-                <button onClick={() => handleDelete(item.id)} className="p-2 rounded-lg bg-red-500/80 hover:bg-red-500 text-white shadow backdrop-blur-sm">
+                <button onClick={() => setDeleteId(item.id)} className="p-2 rounded-lg bg-red-500/80 hover:bg-red-500 text-white shadow backdrop-blur-sm">
                   <Trash2 size={14} />
                 </button>
               </div>
@@ -253,6 +256,22 @@ export default function AdminBannersPage() {
             <Plus size={24} />
             <span className="text-sm font-medium">Thêm banner</span>
           </button>
+        </div>
+      )}
+
+      {/* Delete Modal */}
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0"><AlertTriangle size={20} className="text-red-500" /></div>
+              <div><h3 className="font-semibold text-gray-900">Xác nhận xoá banner</h3><p className="text-sm text-gray-500">Hành động này không thể hoàn tác.</p></div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
+              <button onClick={confirmDelete} disabled={deleting} className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50">{deleting ? 'Đang xoá...' : 'Xoá'}</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

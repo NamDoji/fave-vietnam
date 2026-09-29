@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, Building2 } from 'lucide-react'
+import { Plus, Pencil, Trash2, Building2, Search, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface Client { id: string; nameVi: string; nameEn: string; logoUrl: string | null; industry: string | null; projectDesc: string | null; isActive: boolean; sortOrder: number }
@@ -14,6 +14,9 @@ export default function AdminClientsPage() {
   const [editing, setEditing] = useState<Client | null>(null)
   const [form, setForm] = useState({ nameVi: '', nameEn: '', logoUrl: '', industry: '', projectDesc: '', website: '', isActive: true, sortOrder: 0 })
   const [saving, setSaving] = useState(false)
+  const [search, setSearch] = useState('')
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => { fetchItems() }, [])
 
@@ -37,10 +40,11 @@ export default function AdminClientsPage() {
     } finally { setSaving(false) }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm('Xoá khách hàng này?')) return
-    await fetch(`/api/admin/clients?id=${id}`, { method: 'DELETE' })
-    fetchItems()
+  async function confirmDelete() {
+    if (!deleteId) return
+    setDeleting(true)
+    await fetch(`/api/admin/clients?id=${deleteId}`, { method: 'DELETE' })
+    setDeleteId(null); setDeleting(false); fetchItems()
   }
 
   return (
@@ -78,9 +82,17 @@ export default function AdminClientsPage() {
         </div>
       )}
 
+      {/* Search */}
+      <div className="bg-white rounded-xl shadow-sm border p-4 mb-4">
+        <div className="relative max-w-sm">
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Tìm khách hàng..." className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" />
+        </div>
+      </div>
+
       {loading ? <div className="text-center py-12 text-gray-400">Đang tải...</div> : (
         <div className="space-y-2">
-          {items.map(item => (
+          {items.filter(i => !search || i.nameVi.toLowerCase().includes(search.toLowerCase()) || (i.nameEn || '').toLowerCase().includes(search.toLowerCase())).map(item => (
             <div key={item.id} className="bg-white rounded-2xl border border-gray-100 p-4 flex items-start gap-4 shadow-sm">
               {item.logoUrl ? (
                 <img src={item.logoUrl} alt={item.nameVi} className="w-12 h-12 object-contain rounded-xl bg-gray-50 p-1 flex-shrink-0" />
@@ -97,13 +109,34 @@ export default function AdminClientsPage() {
                   <div className="flex items-center gap-1 flex-shrink-0">
                     <span className={cn('text-xs px-2 py-0.5 rounded-full', item.isActive ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400')}>{item.isActive ? 'Hiện' : 'Ẩn'}</span>
                     <button onClick={() => openEdit(item)} className="p-1.5 text-gray-400 hover:text-blue-600 rounded-lg hover:bg-blue-50"><Pencil size={13} /></button>
-                    <button onClick={() => handleDelete(item.id)} className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50"><Trash2 size={13} /></button>
+                    <button onClick={() => setDeleteId(item.id)} className="p-1.5 text-gray-400 hover:text-red-500 rounded-lg hover:bg-red-50"><Trash2 size={13} /></button>
                   </div>
                 </div>
               </div>
             </div>
           ))}
-          {items.length === 0 && <div className="text-center py-16 text-gray-400"><Building2 size={32} className="mx-auto mb-2 opacity-30" /><p>Chưa có khách hàng nào</p></div>}
+          {items.filter(i => !search || i.nameVi.toLowerCase().includes(search.toLowerCase())).length === 0 && (
+            <div className="text-center py-16 text-gray-400 bg-white rounded-2xl border">
+              <Building2 size={40} className="mx-auto mb-3 opacity-20" />
+              <p className="font-medium">{search ? 'Không tìm thấy kết quả' : 'Chưa có khách hàng nào'}</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Delete Modal */}
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0"><AlertTriangle size={20} className="text-red-500" /></div>
+              <div><h3 className="font-semibold text-gray-900">Xác nhận xoá khách hàng</h3><p className="text-sm text-gray-500">Hành động này không thể hoàn tác.</p></div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
+              <button onClick={confirmDelete} disabled={deleting} className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50">{deleting ? 'Đang xoá...' : 'Xoá'}</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

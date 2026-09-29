@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, Users, Eye } from 'lucide-react'
+import { Plus, Pencil, Trash2, Users, Briefcase, Search, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface Recruitment { id: string; titleVi: string; department: string | null; location: string | null; isActive: boolean; deadline: string | null; createdAt: string }
@@ -14,6 +14,9 @@ export default function AdminRecruitmentPage() {
   const [saving, setSaving] = useState(false)
   const [tab, setTab] = useState<'jobs' | 'applicants'>('jobs')
   const [applicants, setApplicants] = useState<{ id: string; name: string; email: string; phone: string; status: string; createdAt: string; recruitment: { titleVi: string } }[]>([])
+  const [search, setSearch] = useState('')
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => { fetchItems(); if (tab === 'applicants') fetchApplicants() }, [tab])
 
@@ -44,24 +47,40 @@ export default function AdminRecruitmentPage() {
     } finally { setSaving(false) }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm('Xoá vị trí này?')) return
-    await fetch(`/api/admin/recruitment?id=${id}`, { method: 'DELETE' })
-    fetchItems()
+  async function confirmDelete() {
+    if (!deleteId) return
+    setDeleting(true)
+    await fetch(`/api/admin/recruitment?id=${deleteId}`, { method: 'DELETE' })
+    setDeleteId(null); setDeleting(false); fetchItems()
   }
+
+  const filteredJobs = items.filter(i => !search || i.titleVi.toLowerCase().includes(search.toLowerCase()) || (i.department || '').toLowerCase().includes(search.toLowerCase()))
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <div><h1 className="text-2xl font-bold text-gray-900">Quản lý Tuyển dụng</h1></div>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Quản lý Tuyển dụng</h1>
+          <p className="text-sm text-gray-500 mt-1">{items.length} vị trí · {applicants.length} hồ sơ</p>
+        </div>
         <button onClick={openCreate} className="flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg hover:bg-[#00a0e9] transition-colors text-sm font-medium"><Plus size={16} />Thêm vị trí</button>
       </div>
 
+      {/* Tabs */}
       <div className="flex gap-2 mb-4">
-        <button onClick={() => setTab('jobs')} className={cn('px-4 py-2 text-sm rounded-lg border', tab === 'jobs' ? 'bg-[#1a3a5c] text-white border-[#1a3a5c]' : 'bg-white text-gray-600 hover:bg-gray-50')}>Vị trí tuyển dụng ({items.length})</button>
-        <button onClick={() => setTab('applicants')} className={cn('flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg border', tab === 'applicants' ? 'bg-[#1a3a5c] text-white border-[#1a3a5c]' : 'bg-white text-gray-600 hover:bg-gray-50')}><Users size={14} />Hồ sơ ứng viên ({applicants.length})</button>
+        <button onClick={() => setTab('jobs')} className={cn('flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg border transition-colors', tab === 'jobs' ? 'bg-[#1a3a5c] text-white border-[#1a3a5c]' : 'bg-white text-gray-600 hover:bg-gray-50')}><Briefcase size={14} />Vị trí ({items.length})</button>
+        <button onClick={() => setTab('applicants')} className={cn('flex items-center gap-1.5 px-4 py-2 text-sm rounded-lg border transition-colors', tab === 'applicants' ? 'bg-[#1a3a5c] text-white border-[#1a3a5c]' : 'bg-white text-gray-600 hover:bg-gray-50')}><Users size={14} />Ứng viên ({applicants.length})</button>
       </div>
 
+      {/* Search */}
+      <div className="bg-white rounded-xl shadow-sm border p-4 mb-4">
+        <div className="relative max-w-sm">
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Tìm theo vị trí, phòng ban..." className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" />
+        </div>
+      </div>
+
+      {/* Form Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -90,55 +109,94 @@ export default function AdminRecruitmentPage() {
       )}
 
       {tab === 'jobs' ? (
-        loading ? <div className="text-center py-12 text-gray-500">Đang tải...</div> : (
+        loading ? (
+          <div className="bg-white rounded-xl shadow-sm border">{[...Array(3)].map((_, i) => (<div key={i} className="flex items-center gap-4 px-4 py-4 border-b last:border-0 animate-pulse"><div className="h-4 bg-gray-100 rounded flex-1" /></div>))}</div>
+        ) : (
           <div className="bg-white rounded-xl shadow-sm border">
-            <div className="admin-table-wrapper"><table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b"><tr>
-                <th className="text-left px-4 py-3 font-medium text-gray-600">Vị trí</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Phòng ban</th>
-                <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Hạn nộp</th>
-                <th className="text-center px-4 py-3 font-medium text-gray-600 w-24">Trạng thái</th>
-                <th className="text-right px-4 py-3 font-medium text-gray-600 w-20">Thao tác</th>
-              </tr></thead>
-              <tbody className="divide-y">
-                {items.map(item => (
-                  <tr key={item.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3"><div className="font-medium text-gray-900">{item.titleVi}</div><div className="text-gray-400 text-xs">{item.location}</div></td>
-                    <td className="px-4 py-3 text-gray-500 hidden md:table-cell text-xs">{item.department}</td>
-                    <td className="px-4 py-3 text-gray-500 hidden md:table-cell text-xs">{item.deadline ? new Date(item.deadline).toLocaleDateString('vi-VN') : '—'}</td>
-                    <td className="px-4 py-3 text-center"><span className={cn('inline-flex px-2 py-0.5 rounded-full text-xs font-medium', item.isActive ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500')}>{item.isActive ? 'Đang tuyển' : 'Đã đóng'}</span></td>
-                    <td className="px-4 py-3"><div className="flex items-center justify-end gap-1">
-                      <button onClick={() => openEdit(item)} className="p-1.5 text-gray-400 hover:text-blue-600 rounded"><Pencil size={14} /></button>
-                      <button onClick={() => handleDelete(item.id)} className="p-1.5 text-gray-400 hover:text-red-600 rounded"><Trash2 size={14} /></button>
-                    </div></td>
+            <div className="admin-table-wrapper">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 border-b">
+                  <tr>
+                    <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500">Vị trí</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 hidden md:table-cell">Phòng ban</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 hidden md:table-cell">Hạn nộp</th>
+                    <th className="text-center px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 w-28">Trạng thái</th>
+                    <th className="text-right px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 w-20">Thao tác</th>
                   </tr>
-                ))}
-              </tbody>
-            </table></div>
-            {items.length === 0 && <div className="text-center py-12 text-gray-400">Chưa có vị trí nào</div>}
+                </thead>
+                <tbody className="divide-y">
+                  {filteredJobs.map(item => (
+                    <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-4 py-3"><div className="font-medium text-gray-900">{item.titleVi}</div><div className="text-gray-400 text-xs">{item.location}</div></td>
+                      <td className="px-4 py-3 text-gray-500 hidden md:table-cell text-xs">{item.department || '—'}</td>
+                      <td className="px-4 py-3 text-gray-500 hidden md:table-cell text-xs">{item.deadline ? new Date(item.deadline).toLocaleDateString('vi-VN') : '—'}</td>
+                      <td className="px-4 py-3 text-center"><span className={cn('inline-flex px-2.5 py-1 rounded-full text-xs font-medium', item.isActive ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500')}>{item.isActive ? 'Đang tuyển' : 'Đã đóng'}</span></td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center justify-end gap-1">
+                          <button onClick={() => openEdit(item)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Chỉnh sửa"><Pencil size={14} /></button>
+                          <button onClick={() => setDeleteId(item.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors" title="Xoá"><Trash2 size={14} /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {filteredJobs.length === 0 && (
+              <div className="text-center py-16 text-gray-400">
+                <Briefcase size={40} className="mx-auto mb-3 opacity-20" />
+                <p className="font-medium">{search ? 'Không tìm thấy kết quả' : 'Chưa có vị trí nào'}</p>
+                {!search && <button onClick={openCreate} className="inline-flex items-center gap-1 mt-3 text-sm text-[#1a3a5c] hover:underline"><Plus size={14} />Thêm vị trí đầu tiên</button>}
+              </div>
+            )}
           </div>
         )
       ) : (
         <div className="bg-white rounded-xl shadow-sm border">
-          <div className="admin-table-wrapper"><table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b"><tr>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Ứng viên</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Vị trí</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Ngày nộp</th>
-              <th className="text-center px-4 py-3 font-medium text-gray-600 w-24">Trạng thái</th>
-            </tr></thead>
-            <tbody className="divide-y">
-              {applicants.map(a => (
-                <tr key={a.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3"><div className="font-medium text-gray-900">{a.name}</div><div className="text-gray-400 text-xs">{a.email} · {a.phone}</div></td>
-                  <td className="px-4 py-3 text-gray-500 hidden md:table-cell text-xs">{a.recruitment?.titleVi}</td>
-                  <td className="px-4 py-3 text-gray-500 hidden md:table-cell text-xs">{new Date(a.createdAt).toLocaleDateString('vi-VN')}</td>
-                  <td className="px-4 py-3 text-center"><span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">{a.status}</span></td>
+          <div className="admin-table-wrapper">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 border-b">
+                <tr>
+                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500">Ứng viên</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 hidden md:table-cell">Vị trí</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 hidden md:table-cell">Ngày nộp</th>
+                  <th className="text-center px-4 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500 w-28">Trạng thái</th>
                 </tr>
-              ))}
-            </tbody>
-          </table></div>
-          {applicants.length === 0 && <div className="text-center py-12 text-gray-400">Chưa có hồ sơ nào</div>}
+              </thead>
+              <tbody className="divide-y">
+                {applicants.map(a => (
+                  <tr key={a.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3"><div className="font-medium text-gray-900">{a.name}</div><div className="text-gray-400 text-xs">{a.email} · {a.phone}</div></td>
+                    <td className="px-4 py-3 text-gray-500 hidden md:table-cell text-xs">{a.recruitment?.titleVi}</td>
+                    <td className="px-4 py-3 text-gray-500 hidden md:table-cell text-xs">{new Date(a.createdAt).toLocaleDateString('vi-VN')}</td>
+                    <td className="px-4 py-3 text-center"><span className="inline-flex px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700">{a.status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {applicants.length === 0 && (
+            <div className="text-center py-16 text-gray-400">
+              <Users size={40} className="mx-auto mb-3 opacity-20" />
+              <p className="font-medium">Chưa có hồ sơ ứng viên nào</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Delete Modal */}
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0"><AlertTriangle size={20} className="text-red-500" /></div>
+              <div><h3 className="font-semibold text-gray-900">Xác nhận xoá vị trí</h3><p className="text-sm text-gray-500">Hành động này không thể hoàn tác.</p></div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
+              <button onClick={confirmDelete} disabled={deleting} className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50">{deleting ? 'Đang xoá...' : 'Xoá'}</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

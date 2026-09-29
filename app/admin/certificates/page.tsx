@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, Download, Award } from 'lucide-react'
+import { Plus, Pencil, Trash2, Download, Award, AlertTriangle, Search } from 'lucide-react'
 
 interface Certificate { id: string; nameVi: string; nameEn: string | null; issuer: string | null; issueDate: string | null; fileUrl: string | null; imageUrl: string | null }
 
@@ -11,6 +11,9 @@ export default function AdminCertificatesPage() {
   const [editing, setEditing] = useState<Certificate | null>(null)
   const [form, setForm] = useState({ nameVi: '', nameEn: '', issuer: '', issueDate: '', fileUrl: '', imageUrl: '' })
   const [saving, setSaving] = useState(false)
+  const [search, setSearch] = useState('')
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => { fetchItems() }, [])
 
@@ -35,17 +38,28 @@ export default function AdminCertificatesPage() {
     } finally { setSaving(false) }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm('Xoá chứng chỉ này?')) return
-    await fetch(`/api/admin/certificates?id=${id}`, { method: 'DELETE' })
-    fetchItems()
+  async function confirmDelete() {
+    if (!deleteId) return
+    setDeleting(true)
+    await fetch(`/api/admin/certificates?id=${deleteId}`, { method: 'DELETE' })
+    setDeleteId(null); setDeleting(false); fetchItems()
   }
+
+  const filtered = items.filter(i => !search || i.nameVi.toLowerCase().includes(search.toLowerCase()) || (i.issuer || '').toLowerCase().includes(search.toLowerCase()))
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <div><h1 className="text-2xl font-bold text-gray-900">Chứng chỉ & Giấy phép</h1><p className="text-sm text-gray-500 mt-1">{items.length} chứng chỉ</p></div>
         <button onClick={openCreate} className="flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg hover:bg-[#00a0e9] text-sm font-medium"><Plus size={16} />Thêm chứng chỉ</button>
+      </div>
+
+      {/* Search */}
+      <div className="bg-white rounded-xl shadow-sm border p-4 mb-4">
+        <div className="relative max-w-sm">
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Tìm chứng chỉ..." className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" />
+        </div>
       </div>
 
       {showForm && (
@@ -70,10 +84,20 @@ export default function AdminCertificatesPage() {
         </div>
       )}
 
-      {loading ? <div className="text-center py-12 text-gray-500">Đang tải...</div> : (
+      {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {items.map(item => (
-            <div key={item.id} className="bg-white rounded-xl border p-4 group relative">
+          {[...Array(4)].map((_, i) => <div key={i} className="bg-white rounded-xl border p-4 animate-pulse"><div className="w-full aspect-[3/4] bg-gray-100 rounded-lg mb-3" /><div className="h-4 bg-gray-100 rounded mb-2" /><div className="h-3 bg-gray-100 rounded w-2/3" /></div>)}
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="text-center py-16 text-gray-400 bg-white rounded-xl border">
+          <Award size={40} className="mx-auto mb-3 opacity-20" />
+          <p className="font-medium">{search ? 'Không tìm thấy kết quả' : 'Chưa có chứng chỉ nào'}</p>
+          {!search && <button onClick={openCreate} className="inline-flex items-center gap-1 mt-3 text-sm text-[#1a3a5c] hover:underline"><Plus size={14} />Thêm mới</button>}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {filtered.map(item => (
+            <div key={item.id} className="bg-white rounded-xl border p-4 group relative hover:shadow-md transition-shadow">
               {item.imageUrl ? <img src={item.imageUrl} alt={item.nameVi} className="w-full aspect-[3/4] object-cover rounded-lg mb-3" /> : <div className="w-full aspect-[3/4] bg-gray-100 rounded-lg mb-3 flex items-center justify-center"><Award size={32} className="text-gray-300" /></div>}
               <p className="font-medium text-sm text-gray-900 line-clamp-2">{item.nameVi}</p>
               {item.issuer && <p className="text-xs text-gray-500 mt-1">{item.issuer}</p>}
@@ -81,11 +105,26 @@ export default function AdminCertificatesPage() {
               {item.fileUrl && <a href={item.fileUrl} download className="mt-2 flex items-center gap-1 text-xs text-[#00a0e9] hover:underline"><Download size={12} />Tải xuống</a>}
               <div className="absolute top-2 right-2 hidden group-hover:flex gap-1">
                 <button onClick={() => openEdit(item)} className="p-1 bg-white rounded shadow text-gray-400 hover:text-blue-600"><Pencil size={12} /></button>
-                <button onClick={() => handleDelete(item.id)} className="p-1 bg-white rounded shadow text-gray-400 hover:text-red-600"><Trash2 size={12} /></button>
+                <button onClick={() => setDeleteId(item.id)} className="p-1 bg-white rounded shadow text-gray-400 hover:text-red-600"><Trash2 size={12} /></button>
               </div>
             </div>
           ))}
-          {items.length === 0 && <div className="col-span-full text-center py-12 text-gray-400">Chưa có chứng chỉ nào</div>}
+        </div>
+      )}
+
+      {/* Delete Modal */}
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0"><AlertTriangle size={20} className="text-red-500" /></div>
+              <div><h3 className="font-semibold text-gray-900">Xác nhận xoá chứng chỉ</h3><p className="text-sm text-gray-500">Hành động này không thể hoàn tác.</p></div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
+              <button onClick={confirmDelete} disabled={deleting} className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50">{deleting ? 'Đang xoá...' : 'Xoá'}</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

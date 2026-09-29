@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Phone, Building2, CheckCircle, Circle, Trash2, Mail } from 'lucide-react'
+import { Phone, Building2, CheckCircle, Circle, Trash2, Mail, Search, MessageSquare, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface ContactRequest {
@@ -22,6 +22,9 @@ export default function AdminContactsPage() {
   const [filter, setFilter] = useState<'' | 'unread' | 'read'>('')
   const [note, setNote] = useState('')
   const [saving, setSaving] = useState(false)
+  const [search, setSearch] = useState('')
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => { fetchItems() }, [filter])
 
@@ -35,31 +38,24 @@ export default function AdminContactsPage() {
   }
 
   async function toggleRead(id: string, isRead: boolean) {
-    await fetch('/api/admin/contacts', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, isRead }),
-    })
+    await fetch('/api/admin/contacts', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, isRead }) })
     fetchItems()
     if (selected?.id === id) setSelected(s => s ? { ...s, isRead } : null)
   }
 
   async function saveNote(id: string) {
     setSaving(true)
-    await fetch('/api/admin/contacts', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, note }),
-    })
+    await fetch('/api/admin/contacts', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, note }) })
     setSaving(false)
     fetchItems()
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm('Xoá liên hệ này?')) return
-    await fetch(`/api/admin/contacts?id=${id}`, { method: 'DELETE' })
-    if (selected?.id === id) setSelected(null)
-    fetchItems()
+  async function confirmDelete() {
+    if (!deleteId) return
+    setDeleting(true)
+    await fetch(`/api/admin/contacts?id=${deleteId}`, { method: 'DELETE' })
+    if (selected?.id === deleteId) setSelected(null)
+    setDeleteId(null); setDeleting(false); fetchItems()
   }
 
   function selectItem(item: ContactRequest) {
@@ -69,9 +65,11 @@ export default function AdminContactsPage() {
   }
 
   const unreadCount = items.filter(i => !i.isRead).length
+  const filtered = items.filter(i => !search || i.name.toLowerCase().includes(search.toLowerCase()) || i.phone.includes(search) || (i.company || '').toLowerCase().includes(search.toLowerCase()))
 
   return (
     <div>
+      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Liên hệ</h1>
@@ -79,29 +77,46 @@ export default function AdminContactsPage() {
             {items.length} yêu cầu{unreadCount > 0 && <span className="ml-2 px-1.5 py-0.5 bg-red-100 text-red-600 rounded-full text-xs font-medium">{unreadCount} chưa đọc</span>}
           </p>
         </div>
-        <a href="/api/admin/export?type=contacts" className="flex items-center gap-2 border border-gray-200 text-gray-600 px-3 py-1.5 rounded-lg hover:bg-gray-50 text-sm">
+        <a href="/api/admin/export?type=contacts" className="flex items-center gap-2 border border-gray-200 text-gray-600 px-3 py-1.5 rounded-lg hover:bg-gray-50 text-sm transition-colors">
           Xuất CSV
         </a>
       </div>
 
-      <div className="flex gap-2 mb-4">
-        {([['', 'Tất cả'], ['unread', 'Chưa đọc'], ['read', 'Đã đọc']] as const).map(([val, label]) => (
-          <button key={val} onClick={() => setFilter(val)}
-            className={cn('px-3 py-1.5 text-xs rounded-lg border transition-colors',
-              filter === val ? 'bg-[#1a3a5c] text-white border-[#1a3a5c]' : 'bg-white text-gray-600 hover:bg-gray-50')}>
-            {label}
-          </button>
-        ))}
+      {/* Filter & Search */}
+      <div className="bg-white rounded-xl shadow-sm border p-4 mb-4 flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Tìm theo tên, SĐT, công ty..." className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" />
+        </div>
+        <div className="flex gap-2">
+          {([['', 'Tất cả'], ['unread', 'Chưa đọc'], ['read', 'Đã đọc']] as const).map(([val, label]) => (
+            <button key={val} onClick={() => setFilter(val)}
+              className={cn('px-3 py-1.5 text-xs rounded-lg border transition-colors',
+                filter === val ? 'bg-[#1a3a5c] text-white border-[#1a3a5c]' : 'bg-white text-gray-600 hover:bg-gray-50')}>
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="flex gap-4">
+        {/* List */}
         <div className="flex-1 min-w-0">
-          {loading ? <div className="text-center py-12 text-gray-500">Đang tải...</div> : (
+          {loading ? (
+            <div className="bg-white rounded-xl shadow-sm border">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="flex items-start gap-3 p-4 border-b last:border-0 animate-pulse">
+                  <div className="w-4 h-4 bg-gray-100 rounded-full mt-0.5 flex-shrink-0" />
+                  <div className="flex-1"><div className="h-4 bg-gray-100 rounded w-32 mb-2" /><div className="h-3 bg-gray-100 rounded w-48" /></div>
+                </div>
+              ))}
+            </div>
+          ) : (
             <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
               <div className="divide-y">
-                {items.map(item => (
+                {filtered.map(item => (
                   <div key={item.id} onClick={() => selectItem(item)}
-                    className={cn('p-4 cursor-pointer hover:bg-gray-50 transition-colors flex items-start gap-3', selected?.id === item.id ? 'bg-blue-50' : '')}>
+                    className={cn('p-4 cursor-pointer hover:bg-gray-50 transition-colors flex items-start gap-3', selected?.id === item.id ? 'bg-blue-50 border-l-2 border-[#00a0e9]' : '')}>
                     <div className="mt-0.5 flex-shrink-0">
                       {item.isRead
                         ? <CheckCircle size={16} className="text-green-400" />
@@ -118,17 +133,23 @@ export default function AdminContactsPage() {
                     <div className="flex-shrink-0 text-xs text-gray-400">{new Date(item.createdAt).toLocaleDateString('vi-VN')}</div>
                   </div>
                 ))}
-                {items.length === 0 && <div className="text-center py-12 text-gray-400">Không có yêu cầu nào</div>}
+                {filtered.length === 0 && (
+                  <div className="text-center py-16 text-gray-400">
+                    <MessageSquare size={40} className="mx-auto mb-3 opacity-20" />
+                    <p className="font-medium">{search ? 'Không tìm thấy kết quả' : 'Không có yêu cầu nào'}</p>
+                  </div>
+                )}
               </div>
             </div>
           )}
         </div>
 
+        {/* Detail Panel */}
         {selected && (
           <div className="w-80 flex-shrink-0 bg-white rounded-xl shadow-sm border p-6 h-fit sticky top-4">
             <div className="flex items-start justify-between mb-4">
               <h3 className="font-semibold text-gray-900">{selected.name}</h3>
-              <button onClick={() => handleDelete(selected.id)} className="p-1 text-gray-400 hover:text-red-500 rounded"><Trash2 size={14} /></button>
+              <button onClick={() => setDeleteId(selected.id)} className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors" title="Xoá"><Trash2 size={14} /></button>
             </div>
             <dl className="space-y-2 text-sm">
               <div className="flex gap-2"><dt className="text-gray-500 w-20 flex-shrink-0 flex items-center gap-1"><Phone size={12} />SĐT:</dt><dd className="font-medium">{selected.phone}</dd></div>
@@ -145,7 +166,7 @@ export default function AdminContactsPage() {
                 <textarea value={note} onChange={e => setNote(e.target.value)} rows={3}
                   className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9] resize-none" placeholder="Ghi chú..." />
                 <button onClick={() => saveNote(selected.id)} disabled={saving}
-                  className="w-full mt-2 py-2 bg-[#1a3a5c] text-white text-sm rounded-lg hover:bg-[#2a5a8c] disabled:opacity-50">
+                  className="w-full mt-2 py-2 bg-[#1a3a5c] text-white text-sm rounded-lg hover:bg-[#2a5a8c] disabled:opacity-50 transition-colors">
                   {saving ? 'Đang lưu...' : 'Lưu ghi chú'}
                 </button>
               </div>
@@ -158,6 +179,22 @@ export default function AdminContactsPage() {
           </div>
         )}
       </div>
+
+      {/* Delete Modal */}
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0"><AlertTriangle size={20} className="text-red-500" /></div>
+              <div><h3 className="font-semibold text-gray-900">Xác nhận xoá liên hệ</h3><p className="text-sm text-gray-500">Hành động này không thể hoàn tác.</p></div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
+              <button onClick={confirmDelete} disabled={deleting} className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50">{deleting ? 'Đang xoá...' : 'Xoá'}</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

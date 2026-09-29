@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import { Upload, Trash2, Copy, Image as ImageIcon, FileText } from 'lucide-react'
+import { Upload, Trash2, Copy, Image as ImageIcon, FileText, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface MediaItem { id: string; filename: string; url: string; mimeType: string; size: number; altText: string | null; createdAt: string }
@@ -16,6 +16,8 @@ export default function AdminMediaPage() {
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
   const [copied, setCopied] = useState<string | null>(null)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => { fetchItems() }, [])
@@ -43,10 +45,11 @@ export default function AdminMediaPage() {
     } finally { setUploading(false) }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm('Xoá file này?')) return
-    await fetch(`/api/admin/upload?id=${id}`, { method: 'DELETE' })
-    fetchItems()
+  async function confirmDelete() {
+    if (!deleteId) return
+    setDeleting(true)
+    await fetch(`/api/admin/upload?id=${deleteId}`, { method: 'DELETE' })
+    setDeleteId(null); setDeleting(false); fetchItems()
   }
 
   function copyUrl(url: string) {
@@ -73,7 +76,11 @@ export default function AdminMediaPage() {
         <p className="text-xs text-gray-400 mt-1">Hỗ trợ JPG, PNG, WebP, PDF</p>
       </div>
 
-      {loading ? <div className="text-center py-12 text-gray-500">Đang tải...</div> : (
+      {loading ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          {[...Array(6)].map((_, i) => <div key={i} className="bg-white rounded-xl border overflow-hidden animate-pulse"><div className="w-full aspect-square bg-gray-100" /><div className="p-2"><div className="h-3 bg-gray-100 rounded mb-1" /><div className="h-3 bg-gray-100 rounded w-1/2" /></div></div>)}
+        </div>
+      ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {items.map(item => (
             <div key={item.id} className="bg-white rounded-xl border overflow-hidden group relative">
@@ -90,13 +97,28 @@ export default function AdminMediaPage() {
                 <button onClick={() => copyUrl(item.url)} className={cn('p-2 rounded-lg text-white transition-colors', copied === item.url ? 'bg-green-500' : 'bg-white/20 hover:bg-white/30')} title="Copy URL">
                   <Copy size={14} />
                 </button>
-                <button onClick={() => handleDelete(item.id)} className="p-2 rounded-lg bg-white/20 hover:bg-red-500 text-white" title="Xoá">
+                <button onClick={() => setDeleteId(item.id)} className="p-2 rounded-lg bg-white/20 hover:bg-red-500 text-white" title="Xoá">
                   <Trash2 size={14} />
                 </button>
               </div>
             </div>
           ))}
-          {items.length === 0 && <div className="col-span-full text-center py-12 text-gray-400"><ImageIcon size={32} className="mx-auto mb-2 opacity-30" /><p>Chưa có file nào</p></div>}
+          {items.length === 0 && <div className="col-span-full text-center py-16 text-gray-400"><ImageIcon size={40} className="mx-auto mb-3 opacity-20" /><p className="font-medium">Chưa có file nào</p></div>}
+        </div>
+      )}
+
+      {deleteId && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0"><AlertTriangle size={20} className="text-red-500" /></div>
+              <div><h3 className="font-semibold text-gray-900">Xác nhận xoá file</h3><p className="text-sm text-gray-500">Hành động này không thể hoàn tác.</p></div>
+            </div>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteId(null)} className="flex-1 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
+              <button onClick={confirmDelete} disabled={deleting} className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-medium hover:bg-red-600 disabled:opacity-50">{deleting ? 'Đang xoá...' : 'Xoá'}</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
