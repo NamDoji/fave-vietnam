@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 export const dynamic = 'force-dynamic'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { Calendar, Tag, ChevronRight, ArrowLeft, ArrowRight } from 'lucide-react'
+import { Calendar, Tag, ChevronRight, ArrowLeft, Share2 } from 'lucide-react'
 import prisma from '@/lib/prisma'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
@@ -18,143 +19,159 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${locale === 'vi' ? post.titleVi : post.titleEn} | ${t('siteName')}`,
     description: locale === 'vi' ? post.descriptionVi : post.descriptionEn,
+    openGraph: post.imageUrl ? { images: [post.imageUrl] } : undefined,
   }
-}
-
-const STATIC_POSTS: Record<string, {
-  title: string
-  category: string
-  date: string
-  content: string
-}> = {
-  'cong-nghe-vrv-iv-danh-gia-2024': {
-    title: 'Đánh Giá Công Nghệ VRV IV Daikin 2024: Tiết Kiệm Năng Lượng Vượt Trội',
-    category: 'Kỹ thuật',
-    date: '2024-11-15',
-    content: `
-      <h2>VRV IV là gì?</h2>
-      <p>VRV (Variable Refrigerant Volume) là hệ thống điều hòa nhiều cụm trong nhà kết nối với một cụm ngoài trời, sử dụng công nghệ biến tần inverter để điều chỉnh lưu lượng môi chất lạnh theo nhu cầu thực tế của từng không gian.</p>
-      
-      <h2>Điểm mới của VRV IV</h2>
-      <p>Thế hệ VRV IV 2024 của Daikin mang đến nhiều cải tiến đáng kể:</p>
-      <ul>
-        <li><strong>Hiệu suất năng lượng tăng 40%</strong> so với thế hệ VRV III nhờ máy nén biến tần 2 giai đoạn mới</li>
-        <li><strong>IPLV đạt 8.0</strong> - vượt tiêu chuẩn ASHRAE 90.1-2022</li>
-        <li><strong>Kết nối IoT</strong> qua Daikin Residential Controller app, giám sát và điều khiển từ xa</li>
-        <li><strong>Môi chất R-32</strong> thân thiện môi trường, GWP thấp hơn 68% so với R-410A</li>
-        <li><strong>Chiều dài đường ống tối đa 1.000m</strong>, độ chênh lệch độ cao ±50m</li>
-      </ul>
-      
-      <h2>So sánh hiệu suất</h2>
-      <p>Qua quá trình kiểm nghiệm thực tế tại các dự án FAVE đã triển khai, hệ thống VRV IV cho thấy:</p>
-      <ul>
-        <li>Mức tiêu thụ điện giảm trung bình 35-42% trong điều kiện tải một phần (PLR 25-75%)</li>
-        <li>Thời gian khởi động nhanh hơn 30%, đạt nhiệt độ đặt trong 5-7 phút</li>
-        <li>Mức độ ồn ngoài trời giảm 3dB(A) so với thế hệ cũ</li>
-      </ul>
-      
-      <h2>Ứng dụng phù hợp</h2>
-      <p>VRV IV đặc biệt phù hợp cho:</p>
-      <ul>
-        <li>Tòa nhà văn phòng 5-30 tầng</li>
-        <li>Khách sạn boutique đến 4 sao</li>
-        <li>Chuỗi bán lẻ, siêu thị, showroom</li>
-        <li>Chung cư cao cấp, biệt thự</li>
-        <li>Bệnh viện, phòng khám</li>
-      </ul>
-      
-      <h2>Kết luận</h2>
-      <p>VRV IV 2024 của Daikin là lựa chọn hàng đầu cho các dự án HVAC yêu cầu hiệu suất cao và tiết kiệm năng lượng. Liên hệ FAVE để được tư vấn giải pháp VRV phù hợp cho công trình của bạn.</p>
-    `,
-  },
 }
 
 export default async function NewsDetailPage({ params }: Props) {
   const { locale, slug } = await params
 
-  // Try static content first, then DB
-  const staticPost = STATIC_POSTS[slug]
+  const [post, relatedPosts] = await Promise.all([
+    prisma.newsPost.findUnique({
+      where: { slug, status: 'PUBLISHED' },
+      include: { category: true },
+    }).catch(() => null),
+    prisma.newsPost.findMany({
+      where: { status: 'PUBLISHED', slug: { not: slug } },
+      orderBy: { publishedAt: 'desc' },
+      take: 3,
+      select: { slug: true, titleVi: true, titleEn: true, imageUrl: true, publishedAt: true, category: { select: { nameVi: true, nameEn: true } } },
+    }).catch(() => []),
+  ])
 
-  const dbPost = await prisma.newsPost.findUnique({
-    where: { slug, status: 'PUBLISHED' },
-    include: { category: true },
-  }).catch(() => null)
+  if (!post) notFound()
 
-  if (!staticPost && !dbPost) notFound()
+  // Increment view count asynchronously
+  prisma.newsPost.update({
+    where: { id: post.id },
+    data: { viewCount: { increment: 1 } },
+  }).catch(() => {})
 
-  const title = dbPost ? (locale === 'vi' ? dbPost.titleVi : dbPost.titleEn) : staticPost?.title
-  const category = dbPost?.category?.nameVi || staticPost?.category || 'Kỹ thuật'
-  const date = dbPost?.publishedAt || (staticPost ? new Date(staticPost.date) : new Date())
-  const content = dbPost ? (locale === 'vi' ? dbPost.contentVi : dbPost.contentEn) : staticPost?.content
+  const title = locale === 'vi' ? post.titleVi : post.titleEn
+  const content = locale === 'vi' ? post.contentVi : post.contentEn
+  const description = locale === 'vi' ? post.descriptionVi : post.descriptionEn
+  const categoryName = locale === 'vi' ? post.category?.nameVi : post.category?.nameEn
+  const date = post.publishedAt || post.createdAt
 
   return (
-    <div className="pt-[88px]">
-      <div className="bg-[#f7f9fc] border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-2 text-sm text-gray-500">
-          <Link href="/" className="hover:text-[#00a0e9]">Trang chủ</Link>
+    <div style={{ paddingTop: '80px' }}>
+      {/* Breadcrumb */}
+      <div className="bg-slate-50 border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-2 text-sm text-slate-500">
+          <Link href="/" className="hover:text-blue-600 transition-colors">Trang chủ</Link>
           <ChevronRight size={14} />
-          <Link href="/tin-tuc" className="hover:text-[#00a0e9]">Tin tức</Link>
+          <Link href="/tin-tuc" className="hover:text-blue-600 transition-colors">Tin tức</Link>
           <ChevronRight size={14} />
-          <span className="text-[#1a3a5c] truncate max-w-xs">{title}</span>
+          <span className="text-slate-900 truncate max-w-xs">{title}</span>
         </div>
       </div>
+
+      {/* Hero image */}
+      {post.imageUrl && (
+        <div className="relative h-64 sm:h-80 bg-gradient-to-br from-[#0a2342] to-[#1565C0]">
+          <Image src={post.imageUrl} alt={title} fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a2342]/70 to-transparent" />
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 py-14">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
           {/* Article */}
           <article className="lg:col-span-3">
             <div className="flex items-center gap-3 mb-4">
-              <span className="flex items-center gap-1 text-xs bg-blue-50 text-[#00a0e9] px-2.5 py-0.5 rounded-full font-medium">
-                <Tag size={10} /> {category}
-              </span>
-              <span className="flex items-center gap-1 text-xs text-gray-400">
+              {categoryName && (
+                <span className="flex items-center gap-1 text-xs bg-blue-50 text-blue-600 px-2.5 py-0.5 rounded-full font-medium">
+                  <Tag size={10} /> {categoryName}
+                </span>
+              )}
+              <span className="flex items-center gap-1 text-xs text-slate-400">
                 <Calendar size={11} />
                 {new Date(date).toLocaleDateString('vi-VN', { year: 'numeric', month: 'long', day: 'numeric' })}
               </span>
+              {post.viewCount > 0 && (
+                <span className="text-xs text-slate-400">{post.viewCount} lượt xem</span>
+              )}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-bold text-[#1a3a5c] mb-6 leading-tight">{title}</h1>
+            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4 leading-tight">{title}</h1>
 
-            {content && (
-              <div
-                className="prose max-w-none"
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
+            {description && (
+              <p className="text-slate-500 text-base leading-relaxed mb-8 border-l-4 border-blue-600 pl-4">{description}</p>
             )}
 
-            {/* Navigation */}
-            <div className="flex justify-between mt-10 pt-6 border-t border-gray-100">
-              <Link href="/tin-tuc" className="flex items-center gap-2 text-[#1a3a5c] hover:text-[#00a0e9] transition-colors text-sm font-medium">
+            {content && (
+              <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: content }} />
+            )}
+
+            {/* Share + Navigation */}
+            <div className="flex flex-wrap items-center justify-between mt-10 pt-6 border-t border-slate-100 gap-4">
+              <Link href="/tin-tuc" className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors text-sm font-medium">
                 <ArrowLeft size={16} /> Quay lại danh sách
               </Link>
-              <Link href="/lien-he" className="flex items-center gap-2 text-[#00a0e9] hover:text-[#0080c0] transition-colors text-sm font-medium">
-                Liên hệ tư vấn <ArrowRight size={16} />
-              </Link>
+              <button
+                onClick={() => navigator.clipboard.writeText(window.location.href)}
+                className="flex items-center gap-2 text-sm text-slate-500 hover:text-blue-600 transition-colors"
+              >
+                <Share2 size={15} /> Chia sẻ bài viết
+              </button>
             </div>
+
+            {/* Related posts — mobile */}
+            {relatedPosts.length > 0 && (
+              <div className="mt-10 lg:hidden">
+                <h3 className="font-bold text-slate-900 mb-4">Bài viết liên quan</h3>
+                <div className="space-y-3">
+                  {relatedPosts.map((p) => (
+                    <Link key={p.slug} href={`/tin-tuc/${p.slug}`} className="flex gap-3 group">
+                      <div className="w-16 h-16 rounded-lg shrink-0 overflow-hidden bg-gradient-to-br from-[#0a2342] to-[#1565C0]">
+                        {p.imageUrl && <Image src={p.imageUrl} alt={locale === 'vi' ? p.titleVi : p.titleEn} width={64} height={64} className="w-full h-full object-cover" />}
+                      </div>
+                      <span className="text-sm text-slate-600 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">
+                        {locale === 'vi' ? p.titleVi : p.titleEn}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </article>
 
           {/* Sidebar */}
-          <aside className="space-y-6">
-            <div className="bg-gradient-to-br from-[#1a3a5c] to-[#0a2840] text-white rounded-xl p-5">
-              <h3 className="font-bold mb-3">Cần tư vấn HVAC?</h3>
-              <p className="text-gray-300 text-sm mb-4">Liên hệ chuyên gia FAVE để được hỗ trợ ngay</p>
-              <a href="tel:0981907109" className="flex items-center gap-2 w-full py-2.5 bg-[#00a0e9] text-white rounded-lg text-sm font-semibold justify-center">
+          <aside className="space-y-6 hidden lg:block">
+            <div className="rounded-xl p-5 text-white" style={{ background: 'linear-gradient(135deg, #0a1628, #0d2040)', border: '1px solid rgba(0,102,255,0.15)' }}>
+              <h3 className="font-bold mb-2">Cần tư vấn HVAC?</h3>
+              <p className="text-white/60 text-sm mb-4">Liên hệ chuyên gia FAVE để được hỗ trợ ngay</p>
+              <a href="tel:0981907109" className="flex items-center justify-center gap-2 w-full py-2.5 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-500 transition-colors">
                 0981 907 109
               </a>
+              <Link href="/lien-he" className="flex items-center justify-center gap-2 w-full py-2.5 mt-2 text-white/70 rounded-xl text-sm hover:text-white transition-colors border border-white/10 hover:border-white/20">
+                Gửi yêu cầu tư vấn →
+              </Link>
             </div>
 
-            <div className="bg-[#f7f9fc] rounded-xl p-5">
-              <h3 className="font-bold text-[#1a3a5c] mb-4">Bài viết liên quan</h3>
-              <ul className="space-y-3">
-                {Object.entries(STATIC_POSTS).filter(([s]) => s !== slug).slice(0, 3).map(([s, p]) => (
-                  <li key={s}>
-                    <Link href={`/tin-tuc/${s}`} className="text-sm text-gray-600 hover:text-[#00a0e9] transition-colors line-clamp-2">
-                      {p.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {relatedPosts.length > 0 && (
+              <div className="rounded-xl p-5" style={{ background: '#f8faff', border: '1px solid rgba(0,102,255,0.06)' }}>
+                <h3 className="font-bold text-slate-900 mb-4">Bài viết liên quan</h3>
+                <ul className="space-y-4">
+                  {relatedPosts.map((p) => {
+                    const pTitle = locale === 'vi' ? p.titleVi : p.titleEn
+                    return (
+                      <li key={p.slug}>
+                        <Link href={`/tin-tuc/${p.slug}`} className="flex gap-3 group">
+                          <div className="w-14 h-14 rounded-lg shrink-0 overflow-hidden bg-gradient-to-br from-[#0a2342] to-[#1565C0]">
+                            {p.imageUrl && <Image src={p.imageUrl} alt={pTitle} width={56} height={56} className="w-full h-full object-cover" />}
+                          </div>
+                          <span className="text-sm text-slate-600 group-hover:text-blue-600 transition-colors line-clamp-3 leading-snug">{pTitle}</span>
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ul>
+                <Link href="/tin-tuc" className="flex items-center gap-1 text-blue-600 text-sm font-medium mt-4 hover:gap-2 transition-all">
+                  Xem tất cả bài viết →
+                </Link>
+              </div>
+            )}
           </aside>
         </div>
       </div>
