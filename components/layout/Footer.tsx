@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
-import { MapPin, Phone, Mail, Clock, Wind, ArrowRight, ExternalLink } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, Building2, ArrowRight, ExternalLink, Shield, Award } from 'lucide-react'
 
 const GOOGLE_MAPS_URL = 'https://maps.google.com/?q=348+Duong+Buoi+Nghia+Do+Ba+Dinh+Ha+Noi'
 
@@ -34,50 +34,59 @@ export default function Footer() {
     { label: 'Liên hệ & Báo giá', href: '/lien-he' },
   ]
 
-  const certBadges = [
-    { code: 'ISO', label: 'ISO 9001:2015', desc: 'Quản lý chất lượng' },
-    { code: 'BV', label: 'Bureau Veritas', desc: 'Kiểm định quốc tế' },
-    { code: 'DK', label: 'Daikin', desc: 'Đại lý ủy quyền' },
-    { code: 'CR', label: 'Carrier', desc: 'Đối tác chính thức' },
+  const trustBadges = [
+    { code: 'ISO', label: 'ISO 9001:2015', desc: 'Quản lý chất lượng', color: '#1565C0' },
+    { code: 'BV', label: 'Bureau Veritas', desc: 'Kiểm định quốc tế', color: '#0288D1' },
+    { code: 'DK', label: 'Daikin', desc: 'Đại lý ủy quyền', color: '#1976D2' },
+    { code: 'CR', label: 'Carrier', desc: 'Đối tác chính thức', color: '#0d47a1' },
   ]
 
   return (
-    <footer style={{ background: '#050d1a' }} className="text-white">
+    <footer style={{ background: '#060e1e' }} className="text-white">
 
       {/* CTA bar */}
-      <div style={{ background: 'linear-gradient(135deg, #0052cc 0%, #0066ff 50%, #3385ff 100%)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div style={{ background: 'linear-gradient(135deg, #0a2342 0%, #1565C0 60%, #0288D1 100%)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-7 flex flex-col sm:flex-row items-center justify-between gap-5">
           <div>
-            <p className="font-bold text-lg text-white">Sẵn sàng bắt đầu dự án HVAC của bạn?</p>
-            <p className="text-blue-100/75 text-sm mt-0.5">Đội ngũ kỹ sư FAVE tư vấn miễn phí — báo giá chi tiết trong 24 giờ làm việc</p>
+            <p className="font-bold text-xl text-white">Sẵn sàng bắt đầu dự án HVAC của bạn?</p>
+            <p className="text-blue-100/70 text-sm mt-1">Đội ngũ kỹ sư FAVE tư vấn miễn phí — báo giá chi tiết trong 24 giờ làm việc</p>
           </div>
           <Link
             href={href('/lien-he')}
-            className="flex items-center gap-2 px-6 py-3 bg-white font-semibold rounded-xl hover:bg-blue-50 transition-all whitespace-nowrap flex-shrink-0 hover:shadow-xl"
-            style={{ color: '#0052cc' }}
+            className="flex items-center gap-2 px-6 py-3.5 bg-white font-bold rounded-xl hover:bg-orange-50 hover:text-orange-700 transition-all whitespace-nowrap flex-shrink-0"
+            style={{ color: '#0a2342', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}
           >
             Yêu cầu báo giá <ArrowRight size={16} />
           </Link>
         </div>
       </div>
 
-      {/* Cert badges bar */}
-      <div style={{ background: 'rgba(0,102,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-center gap-3 sm:gap-6">
-          {certBadges.map((badge) => (
-            <div key={badge.code} className="flex items-center gap-2">
+      {/* Trust badges bar */}
+      <div style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8">
+          {trustBadges.map((badge) => (
+            <div key={badge.code} className="flex items-center gap-2.5">
               <div
-                className="w-7 h-7 rounded-md flex items-center justify-center text-[9px] font-black"
-                style={{ background: 'rgba(0,102,255,0.2)', border: '1px solid rgba(0,102,255,0.3)', color: '#60a5fa' }}
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-black flex-shrink-0"
+                style={{
+                  background: `${badge.color}22`,
+                  border: `1px solid ${badge.color}44`,
+                  color: badge.color,
+                }}
               >
                 {badge.code}
               </div>
               <div>
-                <div className="text-white/70 text-xs font-semibold">{badge.label}</div>
+                <div className="text-white/65 text-xs font-semibold">{badge.label}</div>
                 <div className="text-white/30 text-[10px]">{badge.desc}</div>
               </div>
             </div>
           ))}
+          <div className="hidden sm:flex items-center gap-2 text-white/30 text-xs">
+            <span className="h-3 w-px bg-white/10" />
+            <Award size={12} className="text-white/30" />
+            <span>10+ Năm kinh nghiệm</span>
+          </div>
         </div>
       </div>
 
@@ -88,15 +97,18 @@ export default function Footer() {
           {/* Col 1: Brand */}
           <div>
             <Link href={href('/')} className="inline-flex items-center gap-2.5 mb-5">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20"
-                style={{ background: 'linear-gradient(135deg, #0066ff, #3385ff)' }}>
-                <Wind size={18} className="text-white" />
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{ background: 'linear-gradient(135deg, #0a2342, #1565C0)', boxShadow: '0 4px 16px rgba(21,101,192,0.3)' }}
+              >
+                <Building2 size={18} className="text-white" />
               </div>
               <div>
                 <div className="font-black text-xl text-white tracking-tight">FAVE</div>
-                <div className="text-[10px] text-blue-400/70 font-semibold tracking-[0.2em] uppercase">Vietnam</div>
+                <div className="text-[10px] text-blue-400/70 font-semibold tracking-[0.2em] uppercase">Vietnam · HVAC</div>
               </div>
             </Link>
+
             <p className="text-white/40 text-sm leading-relaxed mb-6">
               {t('description')}
             </p>
@@ -104,50 +116,74 @@ export default function Footer() {
             {/* Social links */}
             <div className="flex gap-2 mb-6">
               <a
+                href="https://linkedin.com/company/favevietnam"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-all"
+                style={{ border: '1px solid rgba(255,255,255,0.08)', fontSize: '10px', fontWeight: 800 }}
+                aria-label="LinkedIn"
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0A66C2'; (e.currentTarget as HTMLAnchorElement).style.borderColor = '#0A66C2' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = ''; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.08)' }}
+              >
+                in
+              </a>
+              <a
                 href="https://facebook.com/favevietnam"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-all hover:bg-blue-600"
-                style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-all"
+                style={{ border: '1px solid rgba(255,255,255,0.08)', fontSize: '11px', fontWeight: 900 }}
                 aria-label="Facebook"
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#1877F2'; (e.currentTarget as HTMLAnchorElement).style.borderColor = '#1877F2' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = ''; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.08)' }}
               >
-                <span className="text-[11px] font-black">fb</span>
+                fb
               </a>
               <a
                 href="https://youtube.com/favevietnam"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-all hover:bg-red-600"
-                style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-all"
+                style={{ border: '1px solid rgba(255,255,255,0.08)', fontSize: '10px', fontWeight: 900 }}
                 aria-label="YouTube"
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#FF0000'; (e.currentTarget as HTMLAnchorElement).style.borderColor = '#FF0000' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = ''; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.08)' }}
               >
-                <span className="text-[11px] font-black">yt</span>
+                yt
               </a>
               <a
                 href="https://zalo.me/0981907109"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-all font-bold"
-                style={{ border: '1px solid rgba(255,255,255,0.08)', fontSize: '10px' }}
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-all"
+                style={{ border: '1px solid rgba(255,255,255,0.08)', fontSize: '10px', fontWeight: 900 }}
                 aria-label="Zalo"
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = '#0068FF'; (e.currentTarget as HTMLAnchorElement).style.borderColor = '#0068FF' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = ''; (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255,255,255,0.08)' }}
               >
                 Za
               </a>
             </div>
 
-            {/* Registered info */}
+            {/* Company info */}
             <div
               className="p-3 rounded-lg"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
             >
-              <div className="text-white/25 text-[10px] font-semibold uppercase tracking-widest mb-1">Công ty TNHH</div>
-              <div className="text-white/45 text-xs leading-relaxed">FAVE VIETNAM<br />MST: 0109xxxxxx</div>
+              <div className="flex items-center gap-1.5 mb-1">
+                <Shield size={10} className="text-white/25" />
+                <div className="text-white/25 text-[10px] font-semibold uppercase tracking-widest">Công ty TNHH</div>
+              </div>
+              <div className="text-white/45 text-xs leading-relaxed">
+                FAVE VIETNAM<br />
+                MST: 0109xxxxxx
+              </div>
             </div>
           </div>
 
           {/* Col 2: Quick Links */}
           <div>
-            <h3 className="text-white/50 font-semibold mb-5 text-xs uppercase tracking-widest">
+            <h3 className="text-white/55 font-bold mb-5 text-xs uppercase tracking-widest">
               {t('quickLinks')}
             </h3>
             <ul className="space-y-2">
@@ -157,7 +193,12 @@ export default function Footer() {
                     href={href(link.href)}
                     className="text-white/40 text-sm hover:text-white transition-colors flex items-center gap-2 group py-0.5"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500/40 group-hover:bg-blue-400 transition-colors flex-shrink-0" />
+                    <span
+                      className="w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors"
+                      style={{ background: 'rgba(21,101,192,0.4)' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLSpanElement).style.background = '#1565C0' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLSpanElement).style.background = 'rgba(21,101,192,0.4)' }}
+                    />
                     {link.label}
                   </Link>
                 </li>
@@ -167,7 +208,7 @@ export default function Footer() {
 
           {/* Col 3: Services */}
           <div>
-            <h3 className="text-white/50 font-semibold mb-5 text-xs uppercase tracking-widest">
+            <h3 className="text-white/55 font-bold mb-5 text-xs uppercase tracking-widest">
               {t('services')}
             </h3>
             <ul className="space-y-2">
@@ -177,7 +218,10 @@ export default function Footer() {
                     href={href(link.href)}
                     className="text-white/40 text-sm hover:text-white transition-colors flex items-center gap-2 group py-0.5"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500/40 group-hover:bg-blue-400 transition-colors flex-shrink-0" />
+                    <span
+                      className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                      style={{ background: 'rgba(21,101,192,0.4)' }}
+                    />
                     {link.label}
                   </Link>
                 </li>
@@ -187,13 +231,12 @@ export default function Footer() {
 
           {/* Col 4: Contact */}
           <div>
-            <h3 className="text-white/50 font-semibold mb-5 text-xs uppercase tracking-widest">
+            <h3 className="text-white/55 font-bold mb-5 text-xs uppercase tracking-widest">
               {t('contact')}
             </h3>
             <ul className="space-y-4">
-              {/* Address + Map link */}
               <li className="flex gap-3">
-                <MapPin size={15} className="text-blue-400 mt-0.5 flex-shrink-0" />
+                <MapPin size={15} className="mt-0.5 flex-shrink-0" style={{ color: '#1976D2' }} />
                 <div>
                   <span className="text-white/40 text-sm leading-relaxed block">
                     348 Đường Bưởi, Nghĩa Đô, Ba Đình, Hà Nội
@@ -202,8 +245,8 @@ export default function Footer() {
                     href={GOOGLE_MAPS_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 mt-1.5 text-xs font-semibold transition-colors hover:text-blue-300"
-                    style={{ color: '#60a5fa' }}
+                    className="inline-flex items-center gap-1 mt-1.5 text-xs font-semibold transition-colors hover:text-blue-200"
+                    style={{ color: '#90caf9' }}
                   >
                     <ExternalLink size={10} />
                     Xem trên Google Maps
@@ -211,23 +254,21 @@ export default function Footer() {
                 </div>
               </li>
 
-              {/* Phone */}
               <li className="flex gap-3">
-                <Phone size={15} className="text-blue-400 mt-0.5 flex-shrink-0" />
+                <Phone size={15} className="mt-1 flex-shrink-0" style={{ color: '#ff7043' }} />
                 <div>
                   <a
                     href="tel:0981907109"
-                    className="text-white font-bold hover:text-blue-400 transition-colors text-base block"
+                    className="text-white font-bold hover:text-orange-300 transition-colors text-base block"
                   >
                     0981 907 109
                   </a>
-                  <span className="text-white/30 text-xs">Hotline 24/7</span>
+                  <span className="text-white/30 text-xs">Hotline — hỗ trợ 24/7</span>
                 </div>
               </li>
 
-              {/* Email */}
               <li className="flex gap-3">
-                <Mail size={15} className="text-blue-400 mt-0.5 flex-shrink-0" />
+                <Mail size={15} className="mt-0.5 flex-shrink-0" style={{ color: '#1976D2' }} />
                 <a
                   href="mailto:Favevietnam@gmail.com"
                   className="text-white/40 text-sm hover:text-white transition-colors"
@@ -236,11 +277,10 @@ export default function Footer() {
                 </a>
               </li>
 
-              {/* Hours */}
               <li className="flex gap-3">
-                <Clock size={15} className="text-blue-400 mt-0.5 flex-shrink-0" />
+                <Clock size={15} className="mt-0.5 flex-shrink-0" style={{ color: '#1976D2' }} />
                 <div>
-                  <span className="text-white/40 text-sm block">Thứ 2 – Thứ 7: 7:30 – 17:30</span>
+                  <span className="text-white/40 text-sm block">Thứ 2 – Thứ 7: 8:00 – 18:00</span>
                   <span className="text-white/40 text-sm">Chủ nhật: 8:00 – 12:00</span>
                 </div>
               </li>
@@ -248,13 +288,17 @@ export default function Footer() {
 
             {/* Emergency badge */}
             <div
-              className="mt-5 p-3 rounded-xl flex items-center gap-3"
-              style={{ background: 'rgba(0,102,255,0.1)', border: '1px solid rgba(0,102,255,0.2)' }}
+              className="mt-5 p-3.5 rounded-xl flex items-center gap-3"
+              style={{ background: 'rgba(230,81,0,0.08)', border: '1px solid rgba(230,81,0,0.2)' }}
             >
               <div className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
               <div>
                 <div className="text-white text-xs font-semibold">Hỗ trợ khẩn cấp 24/7</div>
-                <a href="tel:0981907109" className="text-blue-400 text-xs hover:text-blue-300 transition-colors">
+                <a
+                  href="tel:0981907109"
+                  className="text-xs hover:text-orange-200 transition-colors font-medium"
+                  style={{ color: '#ff8a65' }}
+                >
                   Gọi ngay: 0981 907 109
                 </a>
               </div>
@@ -264,25 +308,29 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: 'rgba(0,0,0,0.2)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/20 text-sm">
-            {t('copyright')}
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
+            <p className="text-white/20 text-sm">
+              {t('copyright')}
+            </p>
+            <span className="hidden sm:block text-white/10 text-xs">|</span>
+            <span className="text-white/15 text-xs">MST: 0109xxxxxx</span>
+          </div>
           <div className="flex flex-wrap justify-center gap-5 text-sm text-white/20">
-            <Link href={href('/chinh-sach-bao-mat')} className="hover:text-white/50 transition-colors">
+            <Link href={href('/chinh-sach-bao-mat')} className="hover:text-white/50 transition-colors text-xs">
               {t('privacyPolicy')}
             </Link>
-            <Link href={href('/dieu-khoan')} className="hover:text-white/50 transition-colors">
+            <Link href={href('/dieu-khoan')} className="hover:text-white/50 transition-colors text-xs">
               {t('terms')}
             </Link>
             <a
               href={GOOGLE_MAPS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white/50 transition-colors flex items-center gap-1"
+              className="hover:text-white/50 transition-colors flex items-center gap-1 text-xs"
             >
-              <MapPin size={12} />
+              <MapPin size={11} />
               Bản đồ
             </a>
           </div>

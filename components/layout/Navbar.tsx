@@ -5,13 +5,13 @@ import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { useRouter } from '@/i18n/navigation'
-import { Menu, X, ChevronDown, Phone, ArrowRight, Wind } from 'lucide-react'
+import { Menu, X, ChevronDown, Phone, ArrowRight, Building2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface NavItem {
   key: string
   href: string
-  children?: { label: string; href: string }[]
+  children?: { label: string; href: string; icon?: string }[]
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -40,6 +40,7 @@ const NAV_ITEMS: NavItem[] = [
 
 const PHONE = '0981907109'
 const PHONE_DISPLAY = '0981 907 109'
+const EMAIL = 'Favevietnam@gmail.com'
 
 export default function Navbar() {
   const t = useTranslations('nav')
@@ -53,7 +54,7 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 40)
+    const handleScroll = () => setIsScrolled(window.scrollY > 60)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -96,35 +97,33 @@ export default function Navbar() {
     <>
       {/* Top info bar — desktop only */}
       <div
-        className="hidden lg:block fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        className="hidden lg:block fixed top-0 left-0 right-0 z-50"
         style={{
-          background: 'rgba(5, 13, 26, 0.95)',
-          borderBottom: '1px solid rgba(255,255,255,0.05)',
+          background: '#0a2342',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
           height: '36px',
         }}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-full flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <span className="text-white/35 text-xs font-medium">
+          <div className="flex items-center gap-5">
+            <span className="text-white/40 text-xs">
               Giải pháp HVAC B2B chuyên nghiệp — Phục vụ toàn quốc
             </span>
-            <span
-              className="h-3 w-px"
-              style={{ background: 'rgba(255,255,255,0.1)' }}
-            />
-            <span className="text-white/35 text-xs">T2–T7: 7:30–17:30 · CN: 8:00–12:00</span>
+            <span className="h-3 w-px bg-white/10" />
+            <span className="text-white/40 text-xs">T2–T7: 8:00–18:00 &nbsp;·&nbsp; CN: 8:00–12:00</span>
           </div>
           <div className="flex items-center gap-4">
             <a
-              href="mailto:Favevietnam@gmail.com"
-              className="text-white/35 text-xs hover:text-white/70 transition-colors"
+              href={`mailto:${EMAIL}`}
+              className="text-white/40 text-xs hover:text-white/70 transition-colors"
             >
-              Favevietnam@gmail.com
+              {EMAIL}
             </a>
+            <span className="h-3 w-px bg-white/10" />
             <a
               href={`tel:${PHONE}`}
-              className="flex items-center gap-1.5 text-xs font-semibold transition-colors"
-              style={{ color: '#60a5fa' }}
+              className="flex items-center gap-1.5 text-xs font-bold transition-colors"
+              style={{ color: '#ff7043' }}
             >
               <Phone size={11} />
               {PHONE_DISPLAY}
@@ -133,32 +132,34 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* Main navbar */}
       <header
         className={cn(
-          'fixed left-0 right-0 z-50 transition-all duration-500',
-          isScrolled ? 'navbar-glass' : 'navbar-solid',
+          'fixed left-0 right-0 z-50 transition-all duration-200',
+          'top-0 lg:top-9',
+          isScrolled
+            ? 'bg-white shadow-[0_4px_6px_rgba(0,0,0,0.07),0_2px_4px_rgba(0,0,0,0.05)]'
+            : 'bg-white border-b border-gray-200',
         )}
-        style={{ top: '36px' }}
       >
-        {/* Scroll progress line */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-px"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(0,102,255,0.4), transparent)' }}
-        />
-
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-[68px]">
 
             {/* Logo */}
             <Link href={getHref('/')} className="flex items-center gap-2.5 group flex-shrink-0">
-              <div className="relative w-9 h-9 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-all duration-300"
-                style={{ background: 'linear-gradient(135deg, #0066ff, #3385ff)' }}>
-                <Wind size={18} className="text-white" />
-                <div className="absolute inset-0 rounded-xl" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.2), transparent)' }} />
+              <div
+                className="relative w-9 h-9 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-200"
+                style={{ background: 'linear-gradient(135deg, #0a2342, #1565C0)' }}
+              >
+                <Building2 size={17} className="text-white" />
               </div>
-              <div className="leading-none">
-                <div className="font-black text-xl text-white tracking-tight gradient-text">FAVE</div>
-                <div className="text-[10px] text-blue-400/80 font-semibold tracking-[0.2em] uppercase">Vietnam</div>
+              <div className="leading-tight">
+                <div className="font-black text-[1.1rem] tracking-tight" style={{ color: '#0a2342' }}>
+                  FAVE
+                </div>
+                <div className="text-[9px] font-semibold tracking-[0.18em] uppercase" style={{ color: '#1565C0' }}>
+                  Vietnam · HVAC
+                </div>
               </div>
             </Link>
 
@@ -169,25 +170,28 @@ export default function Navbar() {
                   {item.children ? (
                     <button
                       className={cn(
-                        'nav-link-underline flex items-center gap-1 px-3 py-2 rounded-md transition-all duration-200',
-                        'text-white/65 hover:text-white hover:bg-white/05',
-                        isActive(item.href) && 'text-white active',
+                        'nav-link-underline flex items-center gap-1 px-3 py-2 rounded-md transition-all duration-200 text-sm font-medium',
+                        isActive(item.href)
+                          ? 'text-[#1565C0] active'
+                          : 'text-slate-600 hover:text-[#0a2342] hover:bg-slate-50',
                       )}
-                      style={{ fontSize: '0.6875rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase' }}
                       onClick={() => setOpenDropdown(openDropdown === item.key ? null : item.key)}
                     >
                       {t(item.key)}
-                      <ChevronDown size={10} className={cn('opacity-50 transition-transform duration-200', openDropdown === item.key && 'rotate-180')} />
+                      <ChevronDown
+                        size={13}
+                        className={cn('opacity-50 transition-transform duration-200', openDropdown === item.key && 'rotate-180')}
+                      />
                     </button>
                   ) : (
                     <Link
                       href={getHref(item.href)}
                       className={cn(
-                        'nav-link-underline block px-3 py-2 rounded-md transition-all duration-200',
-                        'text-white/65 hover:text-white hover:bg-white/05',
-                        isActive(item.href) && 'text-white active',
+                        'nav-link-underline block px-3 py-2 rounded-md transition-all duration-200 text-sm font-medium',
+                        isActive(item.href)
+                          ? 'text-[#1565C0] active'
+                          : 'text-slate-600 hover:text-[#0a2342] hover:bg-slate-50',
                       )}
-                      style={{ fontSize: '0.6875rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase' }}
                     >
                       {t(item.key)}
                     </Link>
@@ -196,30 +200,40 @@ export default function Navbar() {
                   {/* Desktop Dropdown */}
                   {item.children && openDropdown === item.key && (
                     <div
-                      className="absolute top-full left-0 mt-2 w-60 z-50 overflow-hidden rounded-xl shadow-2xl"
-                      style={{ background: 'rgba(8, 18, 36, 0.98)', backdropFilter: 'blur(24px)', border: '1px solid rgba(0,102,255,0.2)' }}
+                      className="absolute top-full left-0 mt-2 w-64 z-50 overflow-hidden rounded-xl bg-white"
+                      style={{
+                        boxShadow: '0 10px 40px rgba(0,0,0,0.12), 0 4px 10px rgba(0,0,0,0.06)',
+                        border: '1px solid #E2E8F0',
+                      }}
                     >
-                      <div style={{ height: '2px', background: 'linear-gradient(90deg, #0066ff, #3385ff)' }} />
+                      <div style={{ height: '3px', background: 'linear-gradient(90deg, #0a2342, #1565C0)' }} />
                       <Link
                         href={getHref(item.href)}
-                        className="flex items-center justify-between px-4 py-3 transition-colors hover:bg-blue-500/10"
-                        style={{ color: '#60a5fa', fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+                        className="flex items-center justify-between px-4 py-3 hover:bg-blue-50 transition-colors"
+                        style={{
+                          color: '#1565C0',
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          letterSpacing: '0.06em',
+                          textTransform: 'uppercase',
+                          borderBottom: '1px solid #F1F5F9',
+                        }}
                         onClick={() => setOpenDropdown(null)}
                       >
                         Tất cả {t(item.key)} <ArrowRight size={11} />
                       </Link>
-                      <div className="py-1.5">
+                      <div className="py-2">
                         {item.children.map((child) => (
                           <Link
                             key={child.href}
                             href={getHref(child.href)}
-                            className="flex items-center gap-3 px-4 py-2.5 transition-colors group/item"
-                            style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.55)' }}
-                            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.9)'; (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(0,102,255,0.08)' }}
-                            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.55)'; (e.currentTarget as HTMLAnchorElement).style.background = '' }}
+                            className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 hover:text-[#0a2342] hover:bg-slate-50 transition-colors"
                             onClick={() => setOpenDropdown(null)}
                           >
-                            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'rgba(0,102,255,0.6)', flexShrink: 0, display: 'inline-block' }} />
+                            <span
+                              className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                              style={{ background: '#1565C0', opacity: 0.5 }}
+                            />
                             {child.label}
                           </Link>
                         ))}
@@ -230,38 +244,46 @@ export default function Navbar() {
               ))}
             </nav>
 
-            {/* Desktop right: Phone + Language + CTA */}
+            {/* Desktop right: Language + Phone + CTA */}
             <div className="hidden lg:flex items-center gap-2">
-              {/* Phone number prominent */}
-              <a
-                href={`tel:${PHONE}`}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg transition-all group"
-                style={{ border: '1px solid rgba(0,102,255,0.2)', background: 'rgba(0,102,255,0.06)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(0,102,255,0.15)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(0,102,255,0.06)' }}
-              >
-                <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 animate-pulse">
-                  <Phone size={10} className="text-white" />
-                </div>
-                <span className="text-white font-semibold text-sm tracking-wide">{PHONE_DISPLAY}</span>
-              </a>
-
-              {/* Language */}
               <button
                 onClick={() => switchLocale(locale === 'vi' ? 'en' : 'vi')}
-                className="px-2.5 py-1.5 rounded-md text-white/50 hover:text-white transition-colors hover:bg-white/05"
-                style={{ fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.14em' }}
+                className="px-2.5 py-1.5 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors text-xs font-semibold tracking-widest"
               >
                 {locale === 'vi' ? 'EN' : 'VI'}
               </button>
 
-              {/* CTA — "Báo giá ngay" */}
+              <a
+                href={`tel:${PHONE}`}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-sm font-semibold"
+                style={{
+                  color: '#0a2342',
+                  borderColor: '#CBD5E1',
+                  background: '#F8FAFC',
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLAnchorElement
+                  el.style.borderColor = '#1565C0'
+                  el.style.color = '#1565C0'
+                  el.style.background = '#EFF6FF'
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLAnchorElement
+                  el.style.borderColor = '#CBD5E1'
+                  el.style.color = '#0a2342'
+                  el.style.background = '#F8FAFC'
+                }}
+              >
+                <Phone size={13} />
+                {PHONE_DISPLAY}
+              </a>
+
               <Link
                 href={getHref('/lien-he')}
-                className="btn-luxury"
-                style={{ padding: '0.5rem 1.25rem', fontSize: '0.8125rem', letterSpacing: '0.06em' }}
+                className="btn-orange pulse-orange"
+                style={{ padding: '0.5rem 1.125rem', fontSize: '0.875rem' }}
               >
-                Báo giá ngay
+                Báo giá miễn phí
                 <ArrowRight size={13} />
               </Link>
             </div>
@@ -270,23 +292,26 @@ export default function Navbar() {
             <div className="flex lg:hidden items-center gap-1.5">
               <a
                 href={`tel:${PHONE}`}
-                className="flex items-center justify-center w-8 h-8 rounded-lg transition-all"
-                style={{ background: 'rgba(0,102,255,0.15)', border: '1px solid rgba(0,102,255,0.3)' }}
-                aria-label="Call hotline"
+                className="flex items-center justify-center w-9 h-9 rounded-lg transition-all"
+                style={{ background: '#FFF3E0', border: '1px solid #FFCCBC', color: '#E65100' }}
+                aria-label="Hotline"
               >
-                <Phone size={14} className="text-blue-400" />
+                <Phone size={15} />
               </a>
               <button
                 onClick={() => switchLocale(locale === 'vi' ? 'en' : 'vi')}
-                className="flex items-center justify-center w-8 h-8 text-white/60 hover:text-white transition-all active:scale-95"
-                style={{ fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.1em' }}
+                className="flex items-center justify-center w-8 h-8 text-slate-400 hover:text-slate-700 transition-all text-xs font-bold tracking-widest"
                 aria-label="Switch language"
               >
                 {locale === 'vi' ? 'EN' : 'VI'}
               </button>
               <button
-                className="flex items-center justify-center w-9 h-9 rounded-lg text-white/80 hover:text-white transition-all"
-                style={{ background: isMobileOpen ? 'rgba(0,102,255,0.2)' : 'transparent', border: isMobileOpen ? '1px solid rgba(0,102,255,0.3)' : '1px solid transparent' }}
+                className={cn(
+                  'flex items-center justify-center w-9 h-9 rounded-lg transition-all',
+                  isMobileOpen
+                    ? 'bg-slate-100 text-slate-800'
+                    : 'text-slate-600 hover:bg-slate-100',
+                )}
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
                 aria-label="Toggle menu"
               >
@@ -300,29 +325,33 @@ export default function Navbar() {
       {/* Mobile drawer */}
       <div
         className={cn(
-          'fixed left-0 right-0 bottom-0 z-40 lg:hidden flex flex-col transition-all duration-300',
-          isMobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none',
+          'fixed left-0 right-0 bottom-0 z-40 lg:hidden flex flex-col',
+          'top-16',
+          'transition-transform duration-300 ease-in-out',
+          isMobileOpen ? 'translate-x-0' : 'translate-x-full',
         )}
         style={{
-          top: '36px',
-          background: 'rgba(8, 18, 36, 0.99)',
-          backdropFilter: 'blur(24px)',
-          transform: isMobileOpen ? 'translateX(0)' : 'translateX(100%)',
-          transition: 'transform 0.3s ease, opacity 0.3s ease, visibility 0.3s',
+          background: '#ffffff',
+          borderLeft: '1px solid #E2E8F0',
+          boxShadow: '-4px 0 20px rgba(0,0,0,0.08)',
         }}
       >
-        <div style={{ height: '2px', background: 'linear-gradient(90deg, transparent, rgba(0,102,255,0.6), transparent)' }} />
+        {/* Accent top line */}
+        <div style={{ height: '3px', background: 'linear-gradient(90deg, #0a2342, #1565C0, #E65100)' }} />
 
-        {/* Header bar in drawer */}
-        <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        {/* Drawer header */}
+        <div
+          className="flex items-center justify-between px-5 py-4"
+          style={{ borderBottom: '1px solid #F1F5F9' }}
+        >
           <div>
-            <div className="text-white font-black text-lg gradient-text">FAVE Vietnam</div>
-            <div className="text-white/35 text-xs">Giải pháp HVAC B2B chuyên nghiệp</div>
+            <div className="font-black text-lg" style={{ color: '#0a2342' }}>FAVE Vietnam</div>
+            <div className="text-xs text-slate-400">Giải pháp HVAC B2B chuyên nghiệp</div>
           </div>
           <a
             href={`tel:${PHONE}`}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all"
-            style={{ background: 'rgba(0,102,255,0.15)', border: '1px solid rgba(0,102,255,0.3)', color: '#60a5fa' }}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold transition-all"
+            style={{ background: '#FFF3E0', border: '1px solid #FFCCBC', color: '#E65100' }}
           >
             <Phone size={13} />
             {PHONE_DISPLAY}
@@ -330,7 +359,7 @@ export default function Navbar() {
         </div>
 
         {/* Nav items */}
-        <nav className="flex-1 overflow-y-auto px-6 py-4 space-y-0.5">
+        <nav className="flex-1 overflow-y-auto px-4 py-3 space-y-0.5">
           {NAV_ITEMS.map((item) => (
             <div key={item.key}>
               {item.children ? (
@@ -338,24 +367,28 @@ export default function Navbar() {
                   <button
                     onClick={() => setMobileExpanded(mobileExpanded === item.key ? null : item.key)}
                     className={cn(
-                      'w-full flex items-center justify-between px-3 py-3.5 rounded-xl transition-all',
+                      'w-full flex items-center justify-between px-3 py-3.5 rounded-xl transition-all text-sm font-semibold',
                       isActive(item.href)
-                        ? 'text-white bg-blue-500/10'
-                        : 'text-white/55 hover:text-white hover:bg-white/03',
+                        ? 'text-[#1565C0] bg-blue-50'
+                        : 'text-slate-600 hover:text-[#0a2342] hover:bg-slate-50',
                     )}
-                    style={{ fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase' }}
                   >
                     <span>{t(item.key)}</span>
-                    <ChevronDown size={14} className={cn('opacity-40 transition-transform duration-300', mobileExpanded === item.key && 'rotate-180 opacity-70')} />
+                    <ChevronDown
+                      size={14}
+                      className={cn('opacity-40 transition-transform duration-300', mobileExpanded === item.key && 'rotate-180 opacity-70')}
+                    />
                   </button>
                   {mobileExpanded === item.key && (
-                    <div className="ml-3 mt-1 mb-2 space-y-0.5 rounded-xl overflow-hidden"
-                      style={{ background: 'rgba(0,102,255,0.04)', border: '1px solid rgba(0,102,255,0.1)' }}>
+                    <div
+                      className="ml-3 mt-1 mb-2 rounded-xl overflow-hidden"
+                      style={{ background: '#F8FAFC', border: '1px solid #E2E8F0' }}
+                    >
                       <Link
                         href={getHref(item.href)}
                         onClick={() => setIsMobileOpen(false)}
-                        className="flex items-center gap-2 px-4 py-3 transition-colors hover:bg-blue-500/10"
-                        style={{ color: '#60a5fa', fontSize: '0.75rem', fontWeight: 600 }}
+                        className="flex items-center gap-2 px-4 py-3 text-xs font-bold hover:bg-blue-50 transition-colors"
+                        style={{ color: '#1565C0', borderBottom: '1px solid #E2E8F0' }}
                       >
                         <ArrowRight size={12} />
                         Xem tất cả {t(item.key)}
@@ -365,10 +398,9 @@ export default function Navbar() {
                           key={child.href}
                           href={getHref(child.href)}
                           onClick={() => setIsMobileOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-white/05"
-                          style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.5)' }}
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
                         >
-                          <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(0,102,255,0.6)', flexShrink: 0, display: 'inline-block' }} />
+                          <span className="w-1 h-1 rounded-full bg-slate-300 flex-shrink-0" />
                           {child.label}
                         </Link>
                       ))}
@@ -380,12 +412,11 @@ export default function Navbar() {
                   href={getHref(item.href)}
                   onClick={() => setIsMobileOpen(false)}
                   className={cn(
-                    'flex items-center w-full px-3 py-3.5 rounded-xl transition-all',
+                    'flex items-center w-full px-3 py-3.5 rounded-xl transition-all text-sm font-semibold',
                     isActive(item.href)
-                      ? 'text-white bg-blue-500/10'
-                      : 'text-white/55 hover:text-white hover:bg-white/03',
+                      ? 'text-[#1565C0] bg-blue-50'
+                      : 'text-slate-600 hover:text-[#0a2342] hover:bg-slate-50',
                   )}
-                  style={{ fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.14em', textTransform: 'uppercase' }}
                 >
                   {t(item.key)}
                 </Link>
@@ -395,29 +426,30 @@ export default function Navbar() {
         </nav>
 
         {/* Bottom CTA */}
-        <div className="px-6 pb-8 pt-4 space-y-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="px-5 pb-8 pt-4 space-y-3" style={{ borderTop: '1px solid #F1F5F9' }}>
           <Link
             href={getHref('/lien-he')}
             onClick={() => setIsMobileOpen(false)}
-            className="btn-luxury flex items-center justify-center gap-2 w-full py-4"
+            className="btn-orange flex items-center justify-center gap-2 w-full"
+            style={{ padding: '0.875rem 1.5rem', fontSize: '1rem' }}
           >
-            <ArrowRight size={15} />
-            Yêu cầu báo giá ngay
+            <ArrowRight size={16} />
+            Yêu cầu báo giá miễn phí
           </Link>
           <div className="flex items-center justify-center gap-6 pt-1">
             <a href="https://facebook.com/favevietnam" target="_blank" rel="noopener noreferrer"
-              className="text-white/30 text-xs hover:text-white/60 transition-colors font-semibold">
+              className="text-slate-400 text-xs hover:text-slate-600 transition-colors font-semibold">
               Facebook
             </a>
             <a href="https://zalo.me/0981907109" target="_blank" rel="noopener noreferrer"
-              className="text-white/30 text-xs hover:text-white/60 transition-colors font-semibold">
+              className="text-slate-400 text-xs hover:text-slate-600 transition-colors font-semibold">
               Zalo
             </a>
           </div>
         </div>
       </div>
 
-      {/* Spacer for top info bar + navbar */}
+      {/* Spacer: top info bar (desktop only) */}
       <div className="hidden lg:block" style={{ height: '36px' }} />
     </>
   )
