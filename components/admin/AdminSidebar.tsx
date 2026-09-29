@@ -2,46 +2,63 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { signOut, useSession } from 'next-auth/react'
 import {
   LayoutDashboard, Settings, Package, Building2, Newspaper,
   MessageSquare, FileText, Image, Award, Handshake, Briefcase,
-  Zap, X, ChevronRight, Layers, Star, Users, UserCog,
-  Tag, FolderOpen, LayoutTemplate, Navigation, BookOpen
+  Zap, X, Layers, Star, Users, UserCog,
+  FolderOpen, LayoutTemplate, Navigation, BookOpen,
+  ChevronRight, LogOut, ExternalLink,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const NAV_ITEMS = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
-  { href: '/admin/banners', label: 'Banner', icon: Layers },
-  // Nội dung
-  { href: '/admin/services', label: 'Dịch vụ', icon: Settings },
-  { href: '/admin/service-categories', label: '↳ Danh mục DV', icon: Tag },
-  { href: '/admin/products', label: 'Sản phẩm', icon: Package },
-  { href: '/admin/product-categories', label: '↳ Danh mục SP', icon: Tag },
-  { href: '/admin/projects', label: 'Dự án', icon: Building2 },
-  { href: '/admin/project-categories', label: '↳ Danh mục DA', icon: FolderOpen },
-  { href: '/admin/news', label: 'Tin tức', icon: Newspaper },
-  { href: '/admin/news-categories', label: '↳ Danh mục TT', icon: Tag },
-  // Tuyển dụng & liên hệ
-  { href: '/admin/recruitment', label: 'Tuyển dụng', icon: Briefcase },
-  { href: '/admin/quotes', label: 'Báo giá', icon: FileText },
-  { href: '/admin/contacts', label: 'Liên hệ', icon: MessageSquare },
-  // Hình ảnh & thương hiệu
-  { href: '/admin/clients', label: 'Khách hàng', icon: Star },
-  { href: '/admin/partners', label: 'Đối tác', icon: Handshake },
-  { href: '/admin/certificates', label: 'Chứng chỉ', icon: Award },
-  { href: '/admin/capabilities', label: 'Năng lực', icon: BookOpen },
-  { href: '/admin/team', label: 'Đội ngũ', icon: Users },
-  // Hệ thống
-  { href: '/admin/menus', label: 'Menu', icon: Navigation },
-  { href: '/admin/page-content', label: 'Nội dung trang', icon: LayoutTemplate },
-  { href: '/admin/media', label: 'Media', icon: Image },
-  { href: '/admin/users', label: 'Tài khoản', icon: UserCog },
-  { href: '/admin/settings', label: 'Cài đặt', icon: Settings },
+interface NavItem {
+  href: string
+  label: string
+  icon: React.ElementType
+  exact?: boolean
+}
+
+interface NavGroup {
+  label: string
+  items: NavItem[]
+}
+
+const NAV_GROUPS: NavGroup[] = [
+  {
+    label: 'Nội dung',
+    items: [
+      { href: '/admin/news', label: 'Tin tức', icon: Newspaper },
+      { href: '/admin/services', label: 'Dịch vụ', icon: Settings },
+      { href: '/admin/products', label: 'Sản phẩm', icon: Package },
+      { href: '/admin/projects', label: 'Dự án', icon: Building2 },
+      { href: '/admin/recruitment', label: 'Tuyển dụng', icon: Briefcase },
+      { href: '/admin/page-content', label: 'Trang', icon: LayoutTemplate },
+    ],
+  },
+  {
+    label: 'Truyền thông',
+    items: [
+      { href: '/admin/banners', label: 'Banner', icon: Layers },
+      { href: '/admin/team', label: 'Đội ngũ', icon: Users },
+      { href: '/admin/partners', label: 'Đối tác', icon: Handshake },
+      { href: '/admin/clients', label: 'Khách hàng', icon: Star },
+      { href: '/admin/certificates', label: 'Chứng chỉ', icon: Award },
+      { href: '/admin/capabilities', label: 'Năng lực', icon: BookOpen },
+    ],
+  },
+  {
+    label: 'Hệ thống',
+    items: [
+      { href: '/admin/media', label: 'Media', icon: Image },
+      { href: '/admin/menus', label: 'Menu', icon: Navigation },
+      { href: '/admin/users', label: 'Người dùng', icon: UserCog },
+      { href: '/admin/settings', label: 'Cài đặt', icon: Settings },
+    ],
+  },
 ]
 
-// Quick-access items shown in mobile bottom bar (most used)
-const BOTTOM_BAR_ITEMS = [
+const BOTTOM_NAV: NavItem[] = [
   { href: '/admin', label: 'Tổng quan', icon: LayoutDashboard, exact: true },
   { href: '/admin/quotes', label: 'Báo giá', icon: FileText },
   { href: '/admin/contacts', label: 'Liên hệ', icon: MessageSquare },
@@ -52,93 +69,275 @@ const BOTTOM_BAR_ITEMS = [
 interface AdminSidebarProps {
   mobileOpen?: boolean
   onMobileClose?: () => void
+  collapsed?: boolean
 }
 
-export default function AdminSidebar({ mobileOpen, onMobileClose }: AdminSidebarProps) {
+function NavItemRow({
+  item,
+  active,
+  collapsed,
+  onClick,
+}: {
+  item: NavItem
+  active: boolean
+  collapsed: boolean
+  onClick?: () => void
+}) {
+  return (
+    <div className="relative">
+      {active && (
+        <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-[#0066ff] rounded-r-full" />
+      )}
+      <Link
+        href={item.href}
+        onClick={onClick}
+        title={collapsed ? item.label : undefined}
+        className={cn(
+          'relative flex items-center gap-3 rounded-xl text-sm font-medium transition-all group/item',
+          collapsed ? 'justify-center p-3' : 'px-3 py-2.5',
+          active
+            ? 'bg-[#0066ff]/15 text-white'
+            : 'text-white/60 hover:bg-white/8 hover:text-white'
+        )}
+      >
+        <item.icon
+          size={16}
+          className={cn(
+            'shrink-0',
+            active ? 'text-[#0066ff]' : 'text-white/40 group-hover/item:text-white/70'
+          )}
+        />
+        {!collapsed && <span className="truncate">{item.label}</span>}
+        {!collapsed && active && (
+          <ChevronRight size={13} className="ml-auto opacity-50 shrink-0" />
+        )}
+        {/* Tooltip when collapsed */}
+        {collapsed && (
+          <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded-md opacity-0 group-hover/item:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-lg">
+            {item.label}
+          </div>
+        )}
+      </Link>
+    </div>
+  )
+}
+
+export default function AdminSidebar({
+  mobileOpen,
+  onMobileClose,
+  collapsed = false,
+}: AdminSidebarProps) {
   const pathname = usePathname()
+  const { data: session } = useSession()
 
   function isActive(href: string, exact?: boolean) {
     if (exact) return pathname === href
-    return pathname.startsWith(href) && href !== '/admin'
+    return pathname === href || pathname.startsWith(href + '/')
   }
 
-  const SidebarContent = () => (
-    <div className="flex flex-col h-full">
-      {/* Logo */}
-      <div className="p-4 border-b border-white/10 flex items-center justify-between shrink-0">
-        <Link href="/admin" className="flex items-center gap-2.5" onClick={onMobileClose}>
-          <div className="w-9 h-9 bg-gradient-to-br from-[#1B5BB8] to-[#2E74D0] rounded-xl flex items-center justify-center shadow-lg">
-            <Zap size={18} className="text-white" />
-          </div>
-          <div>
-            <div className="font-bold text-white text-sm">FAVE Admin</div>
-            <div className="text-white/40 text-[10px] uppercase tracking-wide">Management</div>
-          </div>
-        </Link>
-        {onMobileClose && (
-          <button onClick={onMobileClose} className="p-1.5 rounded-lg hover:bg-white/10 text-white/50 md:hidden">
-            <X size={18} />
-          </button>
-        )}
-      </div>
+  const dashboardActive = pathname === '/admin'
 
-      {/* Nav */}
-      <nav className="flex-1 p-2 overflow-y-auto space-y-0.5">
-        {NAV_ITEMS.map(item => {
-          const active = item.exact ? pathname === item.href : isActive(item.href)
-          return (
-            <Link key={item.href} href={item.href} onClick={onMobileClose}
+  const sidebarInner = (isMobile: boolean) => {
+    const isCollapsed = collapsed && !isMobile
+    return (
+      <div className="flex flex-col h-full">
+        {/* Logo */}
+        <div
+          className={cn(
+            'flex items-center border-b border-white/10 shrink-0 h-16',
+            isCollapsed ? 'justify-center px-0' : 'px-4 justify-between'
+          )}
+        >
+          <Link
+            href="/admin"
+            className="flex items-center gap-2.5"
+            onClick={isMobile ? onMobileClose : undefined}
+          >
+            <div className="w-9 h-9 bg-gradient-to-br from-[#1B5BB8] to-[#0066ff] rounded-xl flex items-center justify-center shadow-lg shrink-0">
+              <Zap size={18} className="text-white" />
+            </div>
+            {!isCollapsed && (
+              <div>
+                <div className="font-bold text-white text-sm">FAVE</div>
+                <div className="text-white/40 text-[10px] uppercase tracking-wide">Admin</div>
+              </div>
+            )}
+          </Link>
+          {isMobile && (
+            <button
+              onClick={onMobileClose}
+              className="p-1.5 rounded-lg hover:bg-white/10 text-white/50"
+            >
+              <X size={18} />
+            </button>
+          )}
+        </div>
+
+        {/* Dashboard */}
+        <div className="px-2 pt-2">
+          <div className="relative">
+            {dashboardActive && (
+              <div className="absolute left-0 top-1 bottom-1 w-[3px] bg-[#0066ff] rounded-r-full" />
+            )}
+            <Link
+              href="/admin"
+              onClick={isMobile ? onMobileClose : undefined}
+              title={isCollapsed ? 'Dashboard' : undefined}
               className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group',
-                active ? 'bg-[#1B5BB8] text-white shadow-md shadow-blue-900/20' : 'text-white/60 hover:bg-white/8 hover:text-white'
+                'relative flex items-center gap-3 rounded-xl text-sm font-medium transition-all group/dash',
+                isCollapsed ? 'justify-center p-3' : 'px-3 py-2.5',
+                dashboardActive
+                  ? 'bg-[#0066ff]/15 text-white'
+                  : 'text-white/60 hover:bg-white/8 hover:text-white'
               )}
             >
-              <item.icon size={16} className={active ? 'text-white' : 'text-white/40 group-hover:text-white/70'} />
-              <span>{item.label}</span>
-              {active && <ChevronRight size={13} className="ml-auto opacity-50" />}
+              <LayoutDashboard
+                size={16}
+                className={cn(
+                  'shrink-0',
+                  dashboardActive ? 'text-[#0066ff]' : 'text-white/40 group-hover/dash:text-white/70'
+                )}
+              />
+              {!isCollapsed && <span>Dashboard</span>}
+              {!isCollapsed && dashboardActive && (
+                <ChevronRight size={13} className="ml-auto opacity-50 shrink-0" />
+              )}
+              {isCollapsed && (
+                <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded-md opacity-0 group-hover/dash:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-lg">
+                  Dashboard
+                </div>
+              )}
             </Link>
-          )
-        })}
-      </nav>
+          </div>
+        </div>
 
-      {/* Bottom */}
-      <div className="p-3 border-t border-white/10 shrink-0">
-        <a href="/" target="_blank" className="flex items-center gap-2 px-3 py-2 rounded-xl text-white/30 hover:text-white/60 text-xs hover:bg-white/8 transition-colors">
-          🌐 <span>Xem website</span>
-        </a>
+        {/* Nav groups */}
+        <nav className="flex-1 overflow-y-auto px-2 py-2 space-y-3">
+          {NAV_GROUPS.map((group) => (
+            <div key={group.label}>
+              {isCollapsed ? (
+                <div className="py-1">
+                  <div className="w-full h-px bg-white/10" />
+                </div>
+              ) : (
+                <div className="px-3 pb-1 text-[10px] font-semibold text-white/30 uppercase tracking-widest">
+                  {group.label}
+                </div>
+              )}
+              <div className="space-y-0.5">
+                {group.items.map((item) => (
+                  <NavItemRow
+                    key={item.href}
+                    item={item}
+                    active={isActive(item.href, item.exact)}
+                    collapsed={isCollapsed}
+                    onClick={isMobile ? onMobileClose : undefined}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        {/* User info + logout */}
+        <div
+          className={cn(
+            'border-t border-white/10 shrink-0',
+            isCollapsed ? 'p-2' : 'p-3'
+          )}
+        >
+          {isCollapsed ? (
+            <div className="relative group/logout">
+              <button
+                onClick={() => signOut({ callbackUrl: '/admin/login' })}
+                className="w-full flex justify-center p-2.5 rounded-xl text-red-400/60 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+              >
+                <LogOut size={16} />
+              </button>
+              <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded-md opacity-0 group-hover/logout:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-lg">
+                Đăng xuất
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-1">
+              <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/5">
+                <div className="w-7 h-7 bg-gradient-to-br from-[#0066ff] to-[#1B5BB8] rounded-lg flex items-center justify-center shrink-0">
+                  <UserCog size={13} className="text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-semibold text-white truncate">
+                    {session?.user?.name || 'Admin'}
+                  </div>
+                  <div className="text-[10px] text-white/40 truncate">
+                    {session?.user?.email}
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                <a
+                  href="/"
+                  target="_blank"
+                  className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-white/30 hover:text-white/60 text-xs hover:bg-white/8 transition-colors"
+                >
+                  <ExternalLink size={12} />
+                  <span>Website</span>
+                </a>
+                <button
+                  onClick={() => signOut({ callbackUrl: '/admin/login' })}
+                  className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-red-400/70 hover:text-red-400 text-xs hover:bg-red-500/10 transition-colors"
+                >
+                  <LogOut size={12} />
+                  <span>Đăng xuất</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex w-56 bg-[#0a1628] text-white flex-col shrink-0 h-screen sticky top-0 overflow-y-auto">
-        <SidebarContent />
+      <aside
+        className={cn(
+          'hidden md:flex bg-[#0a1628] text-white flex-col shrink-0 h-screen sticky top-0 overflow-hidden transition-all duration-300',
+          collapsed ? 'w-16' : 'w-60'
+        )}
+      >
+        {sidebarInner(false)}
       </aside>
 
-      {/* Mobile: Full-screen drawer */}
-      <div className={cn('fixed inset-0 z-50 md:hidden transition-all duration-300', mobileOpen ? 'visible' : 'invisible')}>
-        <div className={cn('absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity', mobileOpen ? 'opacity-100' : 'opacity-0')} onClick={onMobileClose} />
-        <aside className={cn('absolute left-0 top-0 bottom-0 w-64 bg-[#0a1628] text-white flex flex-col shadow-2xl transition-transform duration-300', mobileOpen ? 'translate-x-0' : '-translate-x-full')}>
-          <SidebarContent />
-        </aside>
-      </div>
+      {/* Mobile: drawer */}
+      <aside
+        className={cn(
+          'fixed left-0 top-0 bottom-0 w-64 bg-[#0a1628] text-white flex flex-col shadow-2xl z-50 md:hidden transition-transform duration-300',
+          mobileOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        {sidebarInner(true)}
+      </aside>
 
       {/* Mobile: Bottom quick-access bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white border-t border-gray-100 shadow-xl safe-area-pb">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white border-t border-gray-100 shadow-xl">
         <div className="flex items-stretch">
-          {BOTTOM_BAR_ITEMS.map(item => {
-            const active = item.exact ? pathname === item.href : pathname.startsWith(item.href) && item.href !== '/admin'
+          {BOTTOM_NAV.map((item) => {
+            const active = item.exact
+              ? pathname === item.href
+              : pathname.startsWith(item.href) && item.href !== '/admin'
             return (
-              <Link key={item.href} href={item.href}
-                className={cn('flex-1 flex flex-col items-center justify-center py-2 gap-0.5 text-[10px] font-medium transition-colors min-h-[56px]',
-                  active ? 'text-[#1B5BB8]' : 'text-gray-400'
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'flex-1 flex flex-col items-center justify-center py-2 gap-0.5 text-[10px] font-medium transition-colors min-h-[56px]',
+                  active ? 'text-[#0066ff]' : 'text-gray-400'
                 )}
               >
                 <item.icon size={20} strokeWidth={active ? 2.5 : 1.5} />
                 <span className="leading-tight">{item.label}</span>
-                {active && <div className="w-4 h-0.5 bg-[#1B5BB8] rounded-full" />}
+                {active && <div className="w-4 h-0.5 bg-[#0066ff] rounded-full" />}
               </Link>
             )
           })}
