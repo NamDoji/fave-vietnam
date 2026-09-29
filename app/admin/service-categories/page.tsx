@@ -1,6 +1,6 @@
 'use client'
-import { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, Tag, Search, AlertTriangle } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Plus, Pencil, Trash2, Tag, Search, AlertTriangle, Upload } from 'lucide-react'
 
 interface ServiceCategory {
   id: string
@@ -35,7 +35,7 @@ export default function ServiceCategoriesPage() {
     setLoading(false)
   }
 
-  function openCreate() { setEditing(null); setForm({ ...EMPTY }); setError(''); setShowForm(true) }
+  function openCreate() { setEditing(null); setForm({ ...EMPTY, sortOrder: items.length }); setError(''); setShowForm(true) }
   function openEdit(item: ServiceCategory) {
     setEditing(item)
     setForm({ nameVi: item.nameVi, nameEn: item.nameEn, slug: item.slug, sortOrder: item.sortOrder })
@@ -73,7 +73,7 @@ export default function ServiceCategoriesPage() {
           <h1 className="text-2xl font-bold text-gray-900">Danh mục Dịch vụ</h1>
           <p className="text-sm text-gray-500 mt-1">{items.length} danh mục</p>
         </div>
-        <button onClick={openCreate} className="flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg hover:bg-[#00a0e9] transition-colors text-sm font-medium">
+        <button onClick={openCreate} className="flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg hover:bg-[#0066ff] transition-colors text-sm font-medium">
           <Plus size={16} />Thêm danh mục
         </button>
       </div>
@@ -81,7 +81,7 @@ export default function ServiceCategoriesPage() {
       <div className="bg-white rounded-xl shadow-sm border p-4 mb-4">
         <div className="relative max-w-sm">
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Tìm danh mục..." className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Tìm danh mục..." className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#0066ff]" />
         </div>
       </div>
 
@@ -106,7 +106,7 @@ export default function ServiceCategoriesPage() {
                 <tr key={item.id} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      <Tag size={14} className="text-[#00a0e9] flex-shrink-0" />
+                      <Tag size={14} className="text-[#0066ff] flex-shrink-0" />
                       <div><div className="font-medium text-gray-900">{item.nameVi}</div><div className="text-xs text-gray-400">{item.nameEn}</div></div>
                     </div>
                   </td>
@@ -138,15 +138,17 @@ export default function ServiceCategoriesPage() {
           <div className="bg-white rounded-2xl w-full max-w-md shadow-xl">
             <div className="p-6 border-b"><h2 className="font-bold text-lg">{editing ? 'Sửa danh mục' : 'Thêm danh mục mới'}</h2></div>
             <div className="p-6 space-y-4">
-              <div><label className="block text-xs font-medium text-gray-600 mb-1">Tên (VI) *</label><input value={form.nameVi} onChange={e => setForm(f => ({ ...f, nameVi: e.target.value, slug: autoSlug(e.target.value) }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" /></div>
-              <div><label className="block text-xs font-medium text-gray-600 mb-1">Tên (EN)</label><input value={form.nameEn} onChange={e => setForm(f => ({ ...f, nameEn: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" /></div>
-              <div><label className="block text-xs font-medium text-gray-600 mb-1">Slug</label><input value={form.slug} onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm font-mono outline-none focus:ring-2 focus:ring-[#00a0e9]" /></div>
-              <div><label className="block text-xs font-medium text-gray-600 mb-1">Thứ tự</label><input type="number" value={form.sortOrder} onChange={e => setForm(f => ({ ...f, sortOrder: parseInt(e.target.value) || 0 }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" /></div>
+              <div className="grid grid-cols-2 gap-3">
+                <div><label className="block text-xs font-medium text-gray-600 mb-1">Tên (VI) *</label><input value={form.nameVi} onChange={e => setForm(f => ({ ...f, nameVi: e.target.value, slug: autoSlug(e.target.value) }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff]" /></div>
+                <div><label className="block text-xs font-medium text-gray-600 mb-1">Tên (EN)</label><input value={form.nameEn} onChange={e => setForm(f => ({ ...f, nameEn: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff]" /></div>
+              </div>
+              <div><label className="block text-xs font-medium text-gray-600 mb-1">Slug</label><input value={form.slug} onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm font-mono outline-none focus:ring-2 focus:ring-[#0066ff]" /></div>
+              <div><label className="block text-xs font-medium text-gray-600 mb-1">Thứ tự</label><input type="number" value={form.sortOrder} onChange={e => setForm(f => ({ ...f, sortOrder: parseInt(e.target.value) || 0 }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff]" /></div>
               {error && <div className="text-red-600 text-sm bg-red-50 px-3 py-2 rounded-lg">{error}</div>}
             </div>
             <div className="p-6 border-t flex gap-3 justify-end">
               <button onClick={() => setShowForm(false)} className="px-4 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
-              <button onClick={handleSave} disabled={saving || !form.nameVi} className="px-4 py-2 bg-[#1a3a5c] text-white rounded-lg text-sm font-medium hover:bg-[#00a0e9] disabled:opacity-50">{saving ? 'Đang lưu...' : 'Lưu'}</button>
+              <button onClick={handleSave} disabled={saving || !form.nameVi} className="px-4 py-2 bg-[#1a3a5c] text-white rounded-lg text-sm font-medium hover:bg-[#0066ff] disabled:opacity-50">{saving ? 'Đang lưu...' : 'Lưu'}</button>
             </div>
           </div>
         </div>

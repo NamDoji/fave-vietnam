@@ -1,8 +1,9 @@
 'use client'
-import { useState, useEffect } from 'react'
-import { Save, RefreshCw, AlertTriangle } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Save, RefreshCw, AlertTriangle, Upload } from 'lucide-react'
 
-interface SettingGroup { key: string; label: string; fields: { key: string; label: string; type: string; placeholder?: string }[] }
+interface SettingField { key: string; label: string; type: string; placeholder?: string; upload?: boolean }
+interface SettingGroup { key: string; label: string; fields: SettingField[] }
 
 const SETTING_GROUPS: SettingGroup[] = [
   { key: 'company', label: 'Thông tin công ty', fields: [
@@ -28,9 +29,9 @@ const SETTING_GROUPS: SettingGroup[] = [
     { key: 'gsc_verification', label: 'Google Search Console verification', type: 'text' },
   ]},
   { key: 'media', label: 'Logo & Media', fields: [
-    { key: 'logo_url', label: 'URL Logo', type: 'url' },
-    { key: 'favicon_url', label: 'URL Favicon', type: 'url' },
-    { key: 'og_image_url', label: 'OG Image URL (Social Share)', type: 'url' },
+    { key: 'logo_url', label: 'URL Logo', type: 'url', upload: true },
+    { key: 'favicon_url', label: 'URL Favicon', type: 'url', upload: true },
+    { key: 'og_image_url', label: 'OG Image URL (Social Share)', type: 'url', upload: true },
   ]},
   { key: 'stats', label: 'Số liệu thống kê (hiển thị trên website)', fields: [
     { key: 'stat_years', label: 'Số năm kinh nghiệm', type: 'text', placeholder: '10+' },
@@ -52,16 +53,8 @@ export default function AdminSettingsPage() {
   const [seeding, setSeeding] = useState(false)
   const [seedResult, setSeedResult] = useState<string[]>([])
   const [showSeedConfirm, setShowSeedConfirm] = useState(false)
-
-  async function handleSeed() {
-    setShowSeedConfirm(false)
-    setSeeding(true)
-    try {
-      const res = await fetch('/api/admin/seed', { method: 'POST' })
-      const d = await res.json()
-      setSeedResult(d.results || [d.error || 'Done'])
-    } finally { setSeeding(false) }
-  }
+  const [uploading, setUploading] = useState<string | null>(null)
+  const uploadRefs = useRef<Record<string, HTMLInputElement | null>>({})
 
   useEffect(() => { fetchSettings() }, [])
 
@@ -75,6 +68,16 @@ export default function AdminSettingsPage() {
     setLoading(false)
   }
 
+  async function handleUploadMedia(file: File, fieldKey: string) {
+    setUploading(fieldKey)
+    try {
+      const fd = new FormData(); fd.append('file', file)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const d = await res.json()
+      if (d.url) setSettings(s => ({ ...s, [fieldKey]: d.url }))
+    } finally { setUploading(null) }
+  }
+
   async function handleSave() {
     setSaving(true)
     try {
@@ -84,13 +87,23 @@ export default function AdminSettingsPage() {
     } finally { setSaving(false) }
   }
 
+  async function handleSeed() {
+    setShowSeedConfirm(false)
+    setSeeding(true)
+    try {
+      const res = await fetch('/api/admin/seed', { method: 'POST' })
+      const d = await res.json()
+      setSeedResult(d.results || [d.error || 'Done'])
+    } finally { setSeeding(false) }
+  }
+
   if (loading) return <div className="space-y-6">{[...Array(3)].map((_, i) => <div key={i} className="bg-white rounded-xl border overflow-hidden animate-pulse"><div className="px-6 py-4 border-b bg-gray-50 h-14" /><div className="p-6 grid grid-cols-2 gap-4">{[...Array(4)].map((_, j) => <div key={j} className="h-16"><div className="h-3 bg-gray-100 rounded mb-2 w-24" /><div className="h-9 bg-gray-100 rounded" /></div>)}</div></div>)}</div>
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <div><h1 className="text-2xl font-bold text-gray-900">Cài đặt website</h1><p className="text-sm text-gray-500 mt-1">Quản lý thông tin chung, SEO và cấu hình</p></div>
-        <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg hover:bg-[#00a0e9] disabled:opacity-50 text-sm font-medium">
+        <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg hover:bg-[#0066ff] disabled:opacity-50 text-sm font-medium">
           {saving ? <RefreshCw size={14} className="animate-spin" /> : <Save size={14} />}
           {saved ? 'Đã lưu!' : saving ? 'Đang lưu...' : 'Lưu cài đặt'}
         </button>
@@ -116,9 +129,32 @@ export default function AdminSettingsPage() {
                 <div key={field.key} className={field.type === 'textarea' ? 'md:col-span-2' : ''}>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{field.label}</label>
                   {field.type === 'textarea' ? (
-                    <textarea value={settings[field.key] || ''} onChange={e => setSettings(s => ({...s, [field.key]: e.target.value}))} rows={3} placeholder={field.placeholder} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9] resize-none" />
+                    <textarea value={settings[field.key] || ''} onChange={e => setSettings(s => ({...s, [field.key]: e.target.value}))} rows={3} placeholder={field.placeholder} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff] resize-none" />
+                  ) : field.upload ? (
+                    <div>
+                      <div className="flex gap-2">
+                        <input type={field.type} value={settings[field.key] || ''} onChange={e => setSettings(s => ({...s, [field.key]: e.target.value}))} placeholder={field.placeholder} className="flex-1 border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff] min-w-0" />
+                        <input
+                          ref={el => { uploadRefs.current[field.key] = el }}
+                          type="file" accept="image/*" className="hidden"
+                          onChange={e => e.target.files?.[0] && handleUploadMedia(e.target.files[0], field.key)}
+                        />
+                        <button
+                          onClick={() => uploadRefs.current[field.key]?.click()}
+                          disabled={uploading === field.key}
+                          className="flex items-center gap-1 px-3 py-2 border rounded-lg text-xs text-gray-600 hover:bg-gray-50 flex-shrink-0 disabled:opacity-50"
+                        >
+                          {uploading === field.key ? <span className="animate-spin text-sm">⟳</span> : <Upload size={13} />}Chọn
+                        </button>
+                      </div>
+                      {settings[field.key] && (
+                        <div className="mt-2 inline-flex border rounded-lg p-1.5 bg-gray-50">
+                          <img src={settings[field.key]} alt="" className="h-8 object-contain" />
+                        </div>
+                      )}
+                    </div>
                   ) : (
-                    <input type={field.type} value={settings[field.key] || ''} onChange={e => setSettings(s => ({...s, [field.key]: e.target.value}))} placeholder={field.placeholder} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" />
+                    <input type={field.type} value={settings[field.key] || ''} onChange={e => setSettings(s => ({...s, [field.key]: e.target.value}))} placeholder={field.placeholder} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff]" />
                   )}
                 </div>
               ))}

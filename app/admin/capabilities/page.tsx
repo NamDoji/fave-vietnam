@@ -1,6 +1,6 @@
 'use client'
-import { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, Eye, EyeOff, FileText, AlertTriangle } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Plus, Pencil, Trash2, Eye, EyeOff, FileText, AlertTriangle, Upload } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface CapabilityProfile {
@@ -25,6 +25,8 @@ export default function CapabilitiesPage() {
   const [saving, setSaving] = useState(false)
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const fileRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => { fetchItems() }, [])
 
@@ -41,6 +43,16 @@ export default function CapabilitiesPage() {
     setEditing(item)
     setForm({ titleVi: item.titleVi, titleEn: item.titleEn, contentVi: item.contentVi, contentEn: item.contentEn, fileUrl: item.fileUrl || '', version: item.version || '', isActive: item.isActive })
     setShowForm(true)
+  }
+
+  async function handleUploadFile(file: File) {
+    setUploading(true)
+    try {
+      const fd = new FormData(); fd.append('file', file)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const d = await res.json()
+      if (d.url) setForm(prev => ({ ...prev, fileUrl: d.url }))
+    } finally { setUploading(false) }
   }
 
   async function handleSave() {
@@ -72,7 +84,7 @@ export default function CapabilitiesPage() {
           <h1 className="text-2xl font-bold text-gray-900">Hồ sơ Năng lực</h1>
           <p className="text-sm text-gray-500 mt-1">{items.length} hồ sơ</p>
         </div>
-        <button onClick={openCreate} className="flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg hover:bg-[#00a0e9] text-sm font-medium">
+        <button onClick={openCreate} className="flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg hover:bg-[#0066ff] text-sm font-medium">
           <Plus size={16} />Thêm hồ sơ
         </button>
       </div>
@@ -88,7 +100,7 @@ export default function CapabilitiesPage() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3 min-w-0">
                   <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
-                    <FileText size={18} className="text-[#00a0e9]" />
+                    <FileText size={18} className="text-[#0066ff]" />
                   </div>
                   <div className="min-w-0">
                     <div className="font-semibold text-gray-900">{item.titleVi}</div>
@@ -96,7 +108,7 @@ export default function CapabilitiesPage() {
                     {item.version && <span className="inline-flex mt-1 px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded-full">v{item.version}</span>}
                     <p className="text-sm text-gray-500 mt-2 line-clamp-2">{item.contentVi}</p>
                     {item.fileUrl && (
-                      <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-[#00a0e9] hover:underline mt-1">
+                      <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-[#0066ff] hover:underline mt-1">
                         <FileText size={12} />Tải hồ sơ
                       </a>
                     )}
@@ -143,20 +155,29 @@ export default function CapabilitiesPage() {
             <div className="p-6 border-b"><h2 className="font-bold text-lg">{editing ? 'Sửa hồ sơ năng lực' : 'Thêm hồ sơ năng lực'}</h2></div>
             <div className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-3">
-                <div><label className="block text-xs font-medium text-gray-600 mb-1">Tiêu đề (VI) *</label><input value={form.titleVi} onChange={e => setForm(f => ({ ...f, titleVi: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" /></div>
-                <div><label className="block text-xs font-medium text-gray-600 mb-1">Tiêu đề (EN)</label><input value={form.titleEn} onChange={e => setForm(f => ({ ...f, titleEn: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" /></div>
+                <div><label className="block text-xs font-medium text-gray-600 mb-1">Tiêu đề (VI) *</label><input value={form.titleVi} onChange={e => setForm(f => ({ ...f, titleVi: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff]" /></div>
+                <div><label className="block text-xs font-medium text-gray-600 mb-1">Tiêu đề (EN)</label><input value={form.titleEn} onChange={e => setForm(f => ({ ...f, titleEn: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff]" /></div>
               </div>
-              <div><label className="block text-xs font-medium text-gray-600 mb-1">Nội dung (VI)</label><textarea value={form.contentVi} onChange={e => setForm(f => ({ ...f, contentVi: e.target.value }))} rows={4} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9] resize-none" /></div>
-              <div><label className="block text-xs font-medium text-gray-600 mb-1">Nội dung (EN)</label><textarea value={form.contentEn} onChange={e => setForm(f => ({ ...f, contentEn: e.target.value }))} rows={4} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9] resize-none" /></div>
+              <div><label className="block text-xs font-medium text-gray-600 mb-1">Nội dung (VI)</label><textarea value={form.contentVi} onChange={e => setForm(f => ({ ...f, contentVi: e.target.value }))} style={{ minHeight: 200 }} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff] resize-y" /></div>
+              <div><label className="block text-xs font-medium text-gray-600 mb-1">Nội dung (EN)</label><textarea value={form.contentEn} onChange={e => setForm(f => ({ ...f, contentEn: e.target.value }))} style={{ minHeight: 200 }} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff] resize-y" /></div>
               <div className="grid grid-cols-2 gap-3">
-                <div><label className="block text-xs font-medium text-gray-600 mb-1">URL File PDF</label><input value={form.fileUrl} onChange={e => setForm(f => ({ ...f, fileUrl: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" placeholder="https://..." /></div>
-                <div><label className="block text-xs font-medium text-gray-600 mb-1">Phiên bản</label><input value={form.version} onChange={e => setForm(f => ({ ...f, version: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#00a0e9]" placeholder="2024" /></div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">File PDF / URL</label>
+                  <div className="flex gap-2">
+                    <input value={form.fileUrl} onChange={e => setForm(f => ({ ...f, fileUrl: e.target.value }))} placeholder="https://..." className="flex-1 border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff] min-w-0" />
+                    <input ref={fileRef} type="file" accept=".pdf,image/*" className="hidden" onChange={e => e.target.files?.[0] && handleUploadFile(e.target.files[0])} />
+                    <button onClick={() => fileRef.current?.click()} disabled={uploading} className="flex items-center gap-1 px-3 py-2 border rounded-lg text-xs text-gray-600 hover:bg-gray-50 flex-shrink-0 disabled:opacity-50">
+                      {uploading ? <span className="animate-spin text-sm">⟳</span> : <Upload size={13} />}Chọn
+                    </button>
+                  </div>
+                </div>
+                <div><label className="block text-xs font-medium text-gray-600 mb-1">Phiên bản</label><input value={form.version} onChange={e => setForm(f => ({ ...f, version: e.target.value }))} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0066ff]" placeholder="2024" /></div>
               </div>
               <label className="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" checked={form.isActive} onChange={e => setForm(f => ({ ...f, isActive: e.target.checked }))} className="rounded" /><span>Hiển thị</span></label>
             </div>
             <div className="p-6 border-t flex gap-3 justify-end">
               <button onClick={() => setShowForm(false)} className="px-4 py-2 border rounded-lg text-sm text-gray-600 hover:bg-gray-50">Huỷ</button>
-              <button onClick={handleSave} disabled={saving || !form.titleVi} className="px-4 py-2 bg-[#1a3a5c] text-white rounded-lg text-sm font-medium hover:bg-[#00a0e9] disabled:opacity-50">
+              <button onClick={handleSave} disabled={saving || !form.titleVi} className="px-4 py-2 bg-[#1a3a5c] text-white rounded-lg text-sm font-medium hover:bg-[#0066ff] disabled:opacity-50">
                 {saving ? 'Đang lưu...' : 'Lưu'}
               </button>
             </div>
