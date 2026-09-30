@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { useRouter } from '@/i18n/navigation'
-import { Menu, X, ChevronDown, Phone, ArrowRight, Building2 } from 'lucide-react'
+import Image from 'next/image'
+import { Menu, X, ChevronDown, Phone, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface NavItem {
@@ -146,21 +147,15 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 lg:h-[68px]">
 
             {/* Logo */}
-            <Link href={getHref('/')} className="flex items-center gap-2.5 group flex-shrink-0">
-              <div
-                className="relative w-9 h-9 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-200"
-                style={{ background: 'linear-gradient(135deg, #0a2342, #1565C0)' }}
-              >
-                <Building2 size={17} className="text-white" />
-              </div>
-              <div className="leading-tight">
-                <div className="font-black text-[1.1rem] tracking-tight" style={{ color: '#0a2342' }}>
-                  FAVE
-                </div>
-                <div className="text-[9px] font-semibold tracking-[0.18em] uppercase" style={{ color: '#1565C0' }}>
-                  Vietnam · HVAC
-                </div>
-              </div>
+            <Link href={getHref('/')} className="flex items-center group flex-shrink-0">
+              <Image
+                src="/logo-fave.svg"
+                alt="FAVE Vietnam — Giải pháp HVAC"
+                width={140}
+                height={86}
+                className="h-11 w-auto group-hover:opacity-90 transition-opacity"
+                priority
+              />
             </Link>
 
             {/* Desktop nav */}
@@ -345,8 +340,7 @@ export default function Navbar() {
           style={{ borderBottom: '1px solid #F1F5F9' }}
         >
           <div>
-            <div className="font-black text-lg" style={{ color: '#0a2342' }}>FAVE Vietnam</div>
-            <div className="text-xs text-slate-400">Giải pháp HVAC B2B chuyên nghiệp</div>
+            <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={110} height={68} className="h-9 w-auto" />
           </div>
           <a
             href={`tel:${PHONE}`}

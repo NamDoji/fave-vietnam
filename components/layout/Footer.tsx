@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
-import { MapPin, Phone, Mail, Clock, Building2, ArrowRight, ExternalLink, Shield, Award } from 'lucide-react'
+import Image from 'next/image'
+import { MapPin, Phone, Mail, Clock, ArrowRight, ExternalLink, Shield, Award } from 'lucide-react'
 
 const GOOGLE_MAPS_URL = 'https://maps.google.com/?q=348+Duong+Buoi+Nghia+Do+Ba+Dinh+Ha+Noi'
 
@@ -96,17 +97,14 @@ export default function Footer() {
 
           {/* Col 1: Brand */}
           <div>
-            <Link href={href('/')} className="inline-flex items-center gap-2.5 mb-5">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #0a2342, #1565C0)', boxShadow: '0 4px 16px rgba(21,101,192,0.3)' }}
-              >
-                <Building2 size={18} className="text-white" />
-              </div>
-              <div>
-                <div className="font-black text-xl text-white tracking-tight">FAVE</div>
-                <div className="text-[10px] text-blue-400/70 font-semibold tracking-[0.2em] uppercase">Vietnam · HVAC</div>
-              </div>
+            <Link href={href('/')} className="inline-block mb-5">
+              <Image
+                src="/logo-fave.svg"
+                alt="FAVE Vietnam — Giải pháp HVAC"
+                width={160}
+                height={99}
+                className="h-12 w-auto brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
+              />
             </Link>
 
             <p className="text-white/40 text-sm leading-relaxed mb-6">
