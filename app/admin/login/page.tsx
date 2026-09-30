@@ -5,7 +5,6 @@ import { loginAction } from './actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import Image from 'next/image'
 import { Lock, Mail, Eye, EyeOff, AlertCircle, Globe, Shield, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -71,15 +70,8 @@ export default function AdminLoginPage() {
         <div className="relative z-10 max-w-sm text-center">
           {/* Logo */}
           <div className="flex items-center justify-center mb-8">
-            <Image
-              src="/logo-fave.svg"
-              alt="FAVE Vietnam"
-              width={180}
-              height={111}
-              className="h-16 w-auto brightness-0 invert opacity-90"
-              priority
-              unoptimized
-            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-fave.svg" alt="FAVE Vietnam" className="h-16 w-auto brightness-0 invert opacity-90" />
           </div>
 
           <h2 className="text-2xl font-bold text-white mb-3">
@@ -112,7 +104,8 @@ export default function AdminLoginPage() {
         <div className="w-full max-w-sm">
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center justify-center mb-8">
-            <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={130} height={80} className="h-11 w-auto" unoptimized />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-fave.svg" alt="FAVE Vietnam" className="h-11 w-auto" />
           </div>
 
           <div className="mb-8">

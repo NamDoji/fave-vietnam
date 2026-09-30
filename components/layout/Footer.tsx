@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
-import Image from 'next/image'
 import { MapPin, Phone, Mail, Clock, ArrowRight, ExternalLink, Shield, Award } from 'lucide-react'
 
 const GOOGLE_MAPS_URL = 'https://maps.google.com/?q=348+Duong+Buoi+Nghia+Do+Ba+Dinh+Ha+Noi'
@@ -98,13 +97,11 @@ export default function Footer() {
           {/* Col 1: Brand */}
           <div>
             <Link href={href('/')} className="inline-block mb-5">
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src="/logo-fave.svg"
                 alt="FAVE Vietnam — Giải pháp HVAC"
-                width={160}
-                height={99}
                 className="h-12 w-auto brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
-                unoptimized
               />
             </Link>
 

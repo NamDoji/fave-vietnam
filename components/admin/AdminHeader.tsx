@@ -8,7 +8,6 @@ import {
   Search, PanelLeftClose, PanelLeftOpen, Home,
 } from 'lucide-react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
 const LABEL_MAP: Record<string, string> = {
@@ -104,7 +103,8 @@ export default function AdminHeader({
         </nav>
 
         {/* Mobile: title */}
-        <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={90} height={56} className="md:hidden h-7 w-auto" unoptimized />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-fave.svg" alt="FAVE Vietnam" className="md:hidden h-7 w-auto" />
       </div>
 
       {/* Right */}

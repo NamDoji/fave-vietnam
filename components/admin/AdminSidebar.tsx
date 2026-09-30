@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import NextImage from 'next/image'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import {
@@ -163,10 +162,12 @@ export default function AdminSidebar({
           >
             {isCollapsed ? (
               <div className="w-9 h-9 rounded-xl overflow-hidden bg-white/10 flex items-center justify-center">
-                <NextImage src="/logo-fave.svg" alt="FAVE" width={32} height={32} className="w-8 h-8 object-contain brightness-0 invert" unoptimized />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logo-fave.svg" alt="FAVE" className="w-8 h-8 object-contain brightness-0 invert" />
               </div>
             ) : (
-              <NextImage src="/logo-fave.svg" alt="FAVE Vietnam" width={110} height={68} className="h-8 w-auto brightness-0 invert opacity-90" unoptimized />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo-fave.svg" alt="FAVE Vietnam" className="h-8 w-auto brightness-0 invert opacity-90" />
             )}
           </Link>
           {isMobile && (

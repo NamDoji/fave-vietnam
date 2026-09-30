@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { useRouter } from '@/i18n/navigation'
-import Image from 'next/image'
 import { Menu, X, ChevronDown, Phone, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -148,14 +147,11 @@ export default function Navbar() {
 
             {/* Logo */}
             <Link href={getHref('/')} className="flex items-center group flex-shrink-0">
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src="/logo-fave.svg"
                 alt="FAVE Vietnam — Giải pháp HVAC"
-                width={140}
-                height={86}
                 className="h-11 w-auto group-hover:opacity-90 transition-opacity"
-                priority
-                unoptimized
               />
             </Link>
 
@@ -341,7 +337,8 @@ export default function Navbar() {
           style={{ borderBottom: '1px solid #F1F5F9' }}
         >
           <div>
-            <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={110} height={68} className="h-9 w-auto" unoptimized />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-fave.svg" alt="FAVE Vietnam" className="h-9 w-auto" />
           </div>
           <a
             href={`tel:${PHONE}`}
