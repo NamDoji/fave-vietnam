@@ -23,7 +23,7 @@ export default function AdminRecruitmentPage() {
   const [form, setForm] = useState({ ...EMPTY })
   const [saving, setSaving] = useState(false)
   const [tab, setTab] = useState<'jobs' | 'applicants'>('jobs')
-  const [applicants, setApplicants] = useState<{ id: string; name: string; email: string; phone: string; status: string; createdAt: string; recruitment?: { titleVi: string } }[]>([])
+  const [applicants, setApplicants] = useState<{ id: string; name: string; email: string; phone: string; status: string; createdAt: string; job?: { titleVi: string } }[]>([])
   const [search, setSearch] = useState('')
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
@@ -220,7 +220,7 @@ export default function AdminRecruitmentPage() {
               {applicants.map(a => (
                 <tr key={a.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3"><div className="font-medium text-gray-900">{a.name}</div><div className="text-gray-400 text-xs">{a.email} · {a.phone}</div></td>
-                  <td className="px-4 py-3 text-gray-500 text-xs hidden md:table-cell">{a.recruitment?.titleVi || '—'}</td>
+                  <td className="px-4 py-3 text-gray-500 text-xs hidden md:table-cell">{a.job?.titleVi || '—'}</td>
                   <td className="px-4 py-3 text-gray-400 text-xs hidden lg:table-cell">{new Date(a.createdAt).toLocaleDateString('vi-VN')}</td>
                   <td className="px-4 py-3 text-center"><span className="inline-flex px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700">{a.status}</span></td>
                 </tr>

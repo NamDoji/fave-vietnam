@@ -55,11 +55,12 @@ export default function AdminTeamPage() {
 
   async function handleUpload(file: File) {
     setUploading(true)
-    const fd = new FormData(); fd.append('file', file)
-    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-    const d = await res.json()
-    setForm(prev => ({ ...prev, imageUrl: d.url }))
-    setUploading(false)
+    try {
+      const fd = new FormData(); fd.append('file', file)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const d = await res.json()
+      if (d.url) setForm(prev => ({ ...prev, imageUrl: d.url }))
+    } finally { setUploading(false) }
   }
 
   async function handleSave() {
