@@ -104,7 +104,7 @@ export default function AdminHeader({
 
         {/* Mobile: title */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-fave.svg" alt="FAVE Vietnam" className="md:hidden h-7 w-auto" />
+        <img src="/logo-fave-compact.svg" alt="FAVE Vietnam" className="md:hidden h-8 w-auto" />
       </div>
 
       {/* Right */}

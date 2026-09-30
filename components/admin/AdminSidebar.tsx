@@ -163,11 +163,11 @@ export default function AdminSidebar({
             {isCollapsed ? (
               <div className="w-9 h-9 rounded-xl overflow-hidden bg-white/10 flex items-center justify-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logo-fave.svg" alt="FAVE" className="w-8 h-8 object-contain brightness-0 invert" />
+                <img src="/logo-fave-compact.svg" alt="FAVE" className="w-8 h-6 object-contain brightness-0 invert" />
               </div>
             ) : (
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo-fave.svg" alt="FAVE Vietnam" className="h-8 w-auto brightness-0 invert opacity-90" />
+              <img src="/logo-fave-compact.svg" alt="FAVE Vietnam" className="h-8 w-auto brightness-0 invert opacity-90" />
             )}
           </Link>
           {isMobile && (

@@ -149,9 +149,9 @@ export default function Navbar() {
             <Link href={getHref('/')} className="flex items-center group flex-shrink-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/logo-fave.svg"
+                src="/logo-fave-compact.svg"
                 alt="FAVE Vietnam — Giải pháp HVAC"
-                className="h-11 w-auto group-hover:opacity-90 transition-opacity"
+                className="h-12 w-auto group-hover:opacity-90 transition-opacity"
               />
             </Link>
 
@@ -338,7 +338,7 @@ export default function Navbar() {
         >
           <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-fave.svg" alt="FAVE Vietnam" className="h-9 w-auto" />
+            <img src="/logo-fave-compact.svg" alt="FAVE Vietnam" className="h-10 w-auto" />
           </div>
           <a
             href={`tel:${PHONE}`}

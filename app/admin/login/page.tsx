@@ -71,7 +71,7 @@ export default function AdminLoginPage() {
           {/* Logo */}
           <div className="flex items-center justify-center mb-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-fave.svg" alt="FAVE Vietnam" className="h-16 w-auto brightness-0 invert opacity-90" />
+            <img src="/logo-fave-compact.svg" alt="FAVE Vietnam" className="h-16 w-auto brightness-0 invert opacity-90" />
           </div>
 
           <h2 className="text-2xl font-bold text-white mb-3">
@@ -105,7 +105,7 @@ export default function AdminLoginPage() {
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center justify-center mb-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-fave.svg" alt="FAVE Vietnam" className="h-11 w-auto" />
+            <img src="/logo-fave-compact.svg" alt="FAVE Vietnam" className="h-11 w-auto" />
           </div>
 
           <div className="mb-8">

@@ -99,9 +99,9 @@ export default function Footer() {
             <Link href={href('/')} className="inline-block mb-5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/logo-fave.svg"
+                src="/logo-fave-compact.svg"
                 alt="FAVE Vietnam — Giải pháp HVAC"
-                className="h-12 w-auto brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
+                className="h-14 w-auto brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
               />
             </Link>
 
