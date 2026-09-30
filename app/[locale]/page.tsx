@@ -10,8 +10,6 @@ import ClientsSection from '@/components/sections/ClientsSection'
 import PartnersSection from '@/components/sections/PartnersSection'
 import NewsSection from '@/components/sections/NewsSection'
 import QuoteFormSection from '@/components/sections/QuoteFormSection'
-import FloatingContact from '@/components/FloatingContact'
-
 type Props = { params: Promise<{ locale: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -45,7 +43,6 @@ export default async function HomePage() {
       <PartnersSection />
       <NewsSection />
       <QuoteFormSection />
-      <FloatingContact />
     </>
   )
 }

@@ -333,19 +333,15 @@ export default function Navbar() {
 
         {/* Drawer header */}
         <div
-          className="flex items-center justify-between px-5 py-4"
+          className="flex items-center justify-end px-5 py-3"
           style={{ borderBottom: '1px solid #F1F5F9' }}
         >
-          <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-fave-compact.svg" alt="FAVE Vietnam" className="h-10 w-auto" />
-          </div>
           <a
             href={`tel:${PHONE}`}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold transition-all"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold transition-all"
             style={{ background: '#FFF3E0', border: '1px solid #FFCCBC', color: '#E65100' }}
           >
-            <Phone size={13} />
+            <Phone size={14} />
             {PHONE_DISPLAY}
           </a>
         </div>
