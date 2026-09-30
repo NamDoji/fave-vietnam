@@ -78,6 +78,7 @@ export default function AdminLoginPage() {
               height={111}
               className="h-16 w-auto brightness-0 invert opacity-90"
               priority
+              unoptimized
             />
           </div>
 
@@ -111,7 +112,7 @@ export default function AdminLoginPage() {
         <div className="w-full max-w-sm">
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center justify-center mb-8">
-            <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={130} height={80} className="h-11 w-auto" />
+            <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={130} height={80} className="h-11 w-auto" unoptimized />
           </div>
 
           <div className="mb-8">

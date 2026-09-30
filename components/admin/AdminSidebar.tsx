@@ -163,10 +163,10 @@ export default function AdminSidebar({
           >
             {isCollapsed ? (
               <div className="w-9 h-9 rounded-xl overflow-hidden bg-white/10 flex items-center justify-center">
-                <NextImage src="/logo-fave.svg" alt="FAVE" width={32} height={32} className="w-8 h-8 object-contain brightness-0 invert" />
+                <NextImage src="/logo-fave.svg" alt="FAVE" width={32} height={32} className="w-8 h-8 object-contain brightness-0 invert" unoptimized />
               </div>
             ) : (
-              <NextImage src="/logo-fave.svg" alt="FAVE Vietnam" width={110} height={68} className="h-8 w-auto brightness-0 invert opacity-90" />
+              <NextImage src="/logo-fave.svg" alt="FAVE Vietnam" width={110} height={68} className="h-8 w-auto brightness-0 invert opacity-90" unoptimized />
             )}
           </Link>
           {isMobile && (

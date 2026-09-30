@@ -155,6 +155,7 @@ export default function Navbar() {
                 height={86}
                 className="h-11 w-auto group-hover:opacity-90 transition-opacity"
                 priority
+                unoptimized
               />
             </Link>
 
@@ -340,7 +341,7 @@ export default function Navbar() {
           style={{ borderBottom: '1px solid #F1F5F9' }}
         >
           <div>
-            <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={110} height={68} className="h-9 w-auto" />
+            <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={110} height={68} className="h-9 w-auto" unoptimized />
           </div>
           <a
             href={`tel:${PHONE}`}

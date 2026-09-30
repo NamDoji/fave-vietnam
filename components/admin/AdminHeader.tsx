@@ -104,7 +104,7 @@ export default function AdminHeader({
         </nav>
 
         {/* Mobile: title */}
-        <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={90} height={56} className="md:hidden h-7 w-auto" />
+        <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={90} height={56} className="md:hidden h-7 w-auto" unoptimized />
       </div>
 
       {/* Right */}
