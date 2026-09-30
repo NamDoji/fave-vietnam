@@ -7,7 +7,10 @@ interface Category { id: string; nameVi: string }
 interface Project {
   id: string; titleVi: string; titleEn: string; slug: string; imageUrl: string | null
   location: string | null; clientName: string | null; isActive: boolean; isFeatured: boolean
-  sectorVi: string | null; completedDate: string | null; category?: { nameVi: string } | null
+  sectorVi: string | null; sectorEn: string | null; completedDate: string | null
+  descriptionVi: string; descriptionEn: string; contentVi: string; contentEn: string
+  categoryId: string | null; scale: string | null; sortOrder: number
+  category?: { nameVi: string } | null
 }
 
 const SECTORS = ['Tòa nhà văn phòng', 'Trung tâm thương mại', 'Nhà máy', 'Khách sạn', 'Bệnh viện', 'Khu dân cư', 'Cơ quan nhà nước']
@@ -54,20 +57,20 @@ export default function AdminProjectsPage() {
     setShowForm(true)
   }
 
-  function openEdit(p: Project & { categoryId?: string; descriptionVi?: string; contentVi?: string; scale?: string; sectorEn?: string }) {
+  function openEdit(p: Project) {
     setEditing(p)
     setForm({
       titleVi: p.titleVi, titleEn: p.titleEn,
-      descriptionVi: p.descriptionVi || '', descriptionEn: '',
-      contentVi: p.contentVi || '', contentEn: '',
+      descriptionVi: p.descriptionVi || '', descriptionEn: p.descriptionEn || '',
+      contentVi: p.contentVi || '', contentEn: p.contentEn || '',
       imageUrl: p.imageUrl || '',
-      categoryId: (p as any).categoryId || '',
+      categoryId: p.categoryId || '',
       location: p.location || '', clientName: p.clientName || '',
-      sectorVi: p.sectorVi || '', sectorEn: '',
-      scale: (p as any).scale || '',
+      sectorVi: p.sectorVi || '', sectorEn: p.sectorEn || '',
+      scale: p.scale || '',
       completedDate: p.completedDate ? p.completedDate.slice(0, 10) : '',
       isActive: p.isActive, isFeatured: p.isFeatured,
-      sortOrder: (p as any).sortOrder ?? 0
+      sortOrder: p.sortOrder ?? 0
     })
     setShowForm(true)
   }
@@ -222,7 +225,7 @@ export default function AdminProjectsPage() {
                     <td className="px-4 py-3 text-center"><Star size={14} className={cn(item.isFeatured ? 'text-yellow-500 fill-yellow-500' : 'text-gray-200')} /></td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
-                        <button onClick={() => openEdit(item as any)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"><Pencil size={14} /></button>
+                        <button onClick={() => openEdit(item)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"><Pencil size={14} /></button>
                         <button onClick={() => setDeleteId(item.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"><Trash2 size={14} /></button>
                       </div>
                     </td>

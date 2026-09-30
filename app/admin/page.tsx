@@ -21,10 +21,10 @@ interface DashboardStats {
 async function getDashboardStats(): Promise<DashboardStats> {
   try {
     const [quotes, contacts, news, applicants, recentQuotes, recentContacts] = await Promise.all([
-      prisma.quoteRequest.count(),
-      prisma.contactRequest.count(),
+      prisma.quoteRequest.count({ where: { status: 'NEW' } }),
+      prisma.contactRequest.count({ where: { isRead: false } }),
       prisma.newsPost.count({ where: { status: 'PUBLISHED' } }),
-      prisma.applicant.count(),
+      prisma.applicant.count({ where: { status: 'NEW' } }),
       prisma.quoteRequest.findMany({ orderBy: { createdAt: 'desc' }, take: 5 }),
       prisma.contactRequest.findMany({
         orderBy: { createdAt: 'desc' },

@@ -4,7 +4,7 @@ import { Plus, Pencil, Trash2, Star, Package, Search, AlertTriangle, Upload, Loa
 import { cn } from '@/lib/utils'
 
 interface Category { id: string; nameVi: string }
-interface Product { id: string; nameVi: string; nameEn: string; slug: string; imageUrl: string | null; isActive: boolean; isFeatured: boolean; sortOrder: number; descriptionVi: string; category?: { nameVi: string } | null }
+interface Product { id: string; nameVi: string; nameEn: string; slug: string; imageUrl: string | null; isActive: boolean; isFeatured: boolean; sortOrder: number; descriptionVi: string; descriptionEn: string; contentVi: string; contentEn: string; categoryId: string | null; category?: { nameVi: string } | null }
 
 const EMPTY = { nameVi: '', nameEn: '', descriptionVi: '', descriptionEn: '', contentVi: '', contentEn: '', imageUrl: '', categoryId: '', isActive: true, isFeatured: false, sortOrder: 0 }
 
@@ -44,14 +44,14 @@ export default function AdminProductsPage() {
     setShowForm(true)
   }
 
-  function openEdit(p: Product & { categoryId?: string }) {
+  function openEdit(p: Product) {
     setEditing(p)
     setForm({
       nameVi: p.nameVi, nameEn: p.nameEn,
-      descriptionVi: p.descriptionVi || '', descriptionEn: '',
-      contentVi: '', contentEn: '',
+      descriptionVi: p.descriptionVi || '', descriptionEn: p.descriptionEn || '',
+      contentVi: p.contentVi || '', contentEn: p.contentEn || '',
       imageUrl: p.imageUrl || '',
-      categoryId: (p as any).categoryId || '',
+      categoryId: p.categoryId || '',
       isActive: p.isActive, isFeatured: p.isFeatured, sortOrder: p.sortOrder
     })
     setShowForm(true)
@@ -194,7 +194,7 @@ export default function AdminProductsPage() {
                     <td className="px-4 py-3 text-center"><span className={cn('inline-flex px-2.5 py-1 rounded-full text-xs font-medium', item.isActive ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500')}>{item.isActive ? 'Hiện' : 'Ẩn'}</span></td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-1">
-                        <button onClick={() => openEdit(item as any)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"><Pencil size={14} /></button>
+                        <button onClick={() => openEdit(item)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"><Pencil size={14} /></button>
                         <button onClick={() => setDeleteId(item.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"><Trash2 size={14} /></button>
                       </div>
                     </td>
