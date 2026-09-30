@@ -37,3 +37,15 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: 'Lỗi máy chủ' }, { status: 500 })
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+    if (!id) return NextResponse.json({ error: 'Thiếu ID' }, { status: 400 })
+    await prisma.quoteRequest.delete({ where: { id } })
+    return NextResponse.json({ success: true })
+  } catch {
+    return NextResponse.json({ error: 'Lỗi máy chủ' }, { status: 500 })
+  }
+}

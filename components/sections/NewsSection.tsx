@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { ArrowRight, Calendar, Tag } from 'lucide-react'
@@ -147,11 +148,12 @@ export default function NewsSection() {
                   style={{ background: 'linear-gradient(135deg, #0d1f3c, #0a1628)' }}
                 >
                   {post.thumbnail ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <Image
                       src={post.thumbnail}
                       alt={title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      unoptimized
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">

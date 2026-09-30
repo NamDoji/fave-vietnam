@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { uploadFile } from '@/lib/upload'
+import { uploadFile, deleteFile } from '@/lib/upload'
 import prisma from '@/lib/prisma'
 
 export async function GET(request: NextRequest) {
@@ -55,6 +55,7 @@ export async function DELETE(request: NextRequest) {
     if (!media) return NextResponse.json({ error: 'Không tìm thấy' }, { status: 404 })
 
     await prisma.media.delete({ where: { id } })
+    await deleteFile(media.url)
     return NextResponse.json({ success: true })
   } catch {
     return NextResponse.json({ error: 'Lỗi máy chủ' }, { status: 500 })

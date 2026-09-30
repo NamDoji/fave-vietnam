@@ -27,6 +27,13 @@ interface NavGroup {
 
 const NAV_GROUPS: NavGroup[] = [
   {
+    label: 'CRM',
+    items: [
+      { href: '/admin/contacts', label: 'Liên hệ', icon: MessageSquare },
+      { href: '/admin/quotes', label: 'Báo giá', icon: FileText },
+    ],
+  },
+  {
     label: 'Nội dung',
     items: [
       { href: '/admin/news', label: 'Tin tức', icon: Newspaper },

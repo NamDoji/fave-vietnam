@@ -22,13 +22,13 @@ export async function POST(request: NextRequest) {
     const session = await auth()
     if (!session?.user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const body = await request.json()
-    const { email, name, password, role } = body
+    const { email, name, password, role, isActive } = body
     if (!email || !password) return NextResponse.json({ error: 'Thiếu email hoặc mật khẩu' }, { status: 400 })
     const existing = await prisma.user.findUnique({ where: { email } })
     if (existing) return NextResponse.json({ error: 'Email đã tồn tại' }, { status: 409 })
     const hash = await bcrypt.hash(password, 12)
     const user = await prisma.user.create({
-      data: { email, name, password: hash, role: role || 'EDITOR' },
+      data: { email, name, password: hash, role: role || 'EDITOR', ...(isActive !== undefined && { isActive }) },
       select: { id: true, email: true, name: true, role: true, isActive: true, createdAt: true },
     })
     return NextResponse.json(user, { status: 201 })

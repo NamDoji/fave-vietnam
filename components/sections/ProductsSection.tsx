@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useLocale } from 'next-intl'
 import { ArrowRight, Package, Star } from 'lucide-react'
@@ -111,7 +112,7 @@ export default function ProductsSection() {
               <div className="h-44 relative overflow-hidden"
                 style={{ background: `linear-gradient(135deg, ${product.accent}10, ${product.accent}05)` }}>
                 {product.imageUrl
-                  ? <img src={product.imageUrl} alt={product.nameVi} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  ? <Image src={product.imageUrl} alt={product.nameVi} fill className="object-cover group-hover:scale-105 transition-transform duration-500" unoptimized />
                   : <div className="absolute inset-0 flex items-center justify-center text-5xl opacity-30 group-hover:opacity-50 group-hover:scale-110 transition-all duration-500">{product.emoji}</div>
                 }
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"

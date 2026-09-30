@@ -1,4 +1,4 @@
-import { writeFile, mkdir } from 'fs/promises'
+import { writeFile, mkdir, unlink } from 'fs/promises'
 import path from 'path'
 
 const UPLOAD_DIR = process.env.UPLOAD_DIR || './public/uploads'
@@ -64,6 +64,14 @@ export async function uploadImage(file: File, subfolder: string = 'images'): Pro
     throw new Error('Chỉ hỗ trợ file ảnh: JPEG, PNG, WebP, GIF')
   }
   return uploadFile(file, subfolder)
+}
+
+export async function deleteFile(url: string): Promise<void> {
+  // url is like /uploads/subfolder/filename
+  if (!url.startsWith('/uploads/')) return
+  const relativePath = url.slice('/uploads/'.length)
+  const filePath = path.join(process.cwd(), UPLOAD_DIR, relativePath)
+  await unlink(filePath).catch(() => null)
 }
 
 export function isImageType(mimeType: string): boolean {
