@@ -1,12 +1,13 @@
 'use client'
 
 import Link from 'next/link'
+import NextImage from 'next/image'
 import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import {
   LayoutDashboard, Settings, Package, Building2, Newspaper,
   MessageSquare, FileText, Image, Award, Handshake, Briefcase,
-  Zap, X, Layers, Star, Users, UserCog,
+  X, Layers, Star, Users, UserCog,
   FolderOpen, LayoutTemplate, Navigation, BookOpen,
   ChevronRight, LogOut, ExternalLink,
 } from 'lucide-react'
@@ -153,14 +154,12 @@ export default function AdminSidebar({
             className="flex items-center gap-2.5"
             onClick={isMobile ? onMobileClose : undefined}
           >
-            <div className="w-9 h-9 bg-gradient-to-br from-[#1B5BB8] to-[#0066ff] rounded-xl flex items-center justify-center shadow-lg shrink-0">
-              <Zap size={18} className="text-white" />
-            </div>
-            {!isCollapsed && (
-              <div>
-                <div className="font-bold text-white text-sm">FAVE</div>
-                <div className="text-white/40 text-[10px] uppercase tracking-wide">Admin</div>
+            {isCollapsed ? (
+              <div className="w-9 h-9 rounded-xl overflow-hidden bg-white/10 flex items-center justify-center">
+                <NextImage src="/logo-fave.svg" alt="FAVE" width={32} height={32} className="w-8 h-8 object-contain brightness-0 invert" />
               </div>
+            ) : (
+              <NextImage src="/logo-fave.svg" alt="FAVE Vietnam" width={110} height={68} className="h-8 w-auto brightness-0 invert opacity-90" />
             )}
           </Link>
           {isMobile && (

@@ -8,6 +8,7 @@ import {
   Search, PanelLeftClose, PanelLeftOpen, Home,
 } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
 const LABEL_MAP: Record<string, string> = {
@@ -103,7 +104,7 @@ export default function AdminHeader({
         </nav>
 
         {/* Mobile: title */}
-        <span className="md:hidden font-bold text-[#0a1628] text-sm">FAVE Admin</span>
+        <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={90} height={56} className="md:hidden h-7 w-auto" />
       </div>
 
       {/* Right */}

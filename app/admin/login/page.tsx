@@ -5,7 +5,8 @@ import { loginAction } from './actions'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Zap, Lock, Mail, Eye, EyeOff, AlertCircle, Globe, Shield, Users } from 'lucide-react'
+import Image from 'next/image'
+import { Lock, Mail, Eye, EyeOff, AlertCircle, Globe, Shield, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const schema = z.object({
@@ -69,16 +70,15 @@ export default function AdminLoginPage() {
 
         <div className="relative z-10 max-w-sm text-center">
           {/* Logo */}
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="w-14 h-14 bg-gradient-to-br from-[#1B5BB8] to-[#0066ff] rounded-2xl flex items-center justify-center shadow-xl shadow-blue-900/30">
-              <Zap size={28} className="text-white" />
-            </div>
-            <div className="text-left">
-              <div className="font-black text-3xl text-white tracking-tight">FAVE</div>
-              <div className="text-xs text-[#0066ff] tracking-widest uppercase font-semibold">
-                Vietnam
-              </div>
-            </div>
+          <div className="flex items-center justify-center mb-8">
+            <Image
+              src="/logo-fave.svg"
+              alt="FAVE Vietnam"
+              width={180}
+              height={111}
+              className="h-16 w-auto brightness-0 invert opacity-90"
+              priority
+            />
           </div>
 
           <h2 className="text-2xl font-bold text-white mb-3">
@@ -110,13 +110,8 @@ export default function AdminLoginPage() {
       <div className="flex-1 flex items-center justify-center p-6 bg-white">
         <div className="w-full max-w-sm">
           {/* Mobile logo */}
-          <div className="lg:hidden flex items-center justify-center gap-2.5 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#1B5BB8] to-[#0066ff] rounded-xl flex items-center justify-center shadow-lg">
-              <Zap size={20} className="text-white" />
-            </div>
-            <div>
-              <div className="font-black text-xl text-[#0a1628]">FAVE Admin</div>
-            </div>
+          <div className="lg:hidden flex items-center justify-center mb-8">
+            <Image src="/logo-fave.svg" alt="FAVE Vietnam" width={130} height={80} className="h-11 w-auto" />
           </div>
 
           <div className="mb-8">
