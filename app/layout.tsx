@@ -1,4 +1,13 @@
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import Analytics from '@/components/Analytics'
+
+const inter = Inter({
+  subsets: ['latin', 'vietnamese'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 export const metadata: Metadata = {
   title: 'FAVE Việt Nam - Giải Pháp HVAC Chuyên Nghiệp',
@@ -11,16 +20,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      {children}
-    </>
+    <html lang="vi" className={inter.variable}>
+      <body>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID || 'GTM-XXXXXXX'}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+        {children}
+        <Analytics />
+      </body>
+    </html>
   )
 }
