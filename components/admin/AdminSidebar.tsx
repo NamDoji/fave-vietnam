@@ -166,7 +166,7 @@ export default function AdminSidebar({
                 <img src="/logo-fave-compact.svg" alt="FAVE" className="w-8 h-6 object-contain brightness-0 invert" />
               </div>
             ) : (
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              // eslint-disable-next-line @next/next/no-img-element
               <img src="/logo-fave-compact.svg" alt="FAVE Vietnam" className="h-8 w-auto brightness-0 invert opacity-90" />
             )}
           </Link>
