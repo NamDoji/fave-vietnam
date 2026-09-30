@@ -211,6 +211,24 @@
     "privacyPolicy": "Privacy Policy",
     "terms": "Terms of Use"
   },
+  "testimonials": {
+    "badge": "What Clients Say",
+    "title": "Trusted by Hundreds of Businesses",
+    "statsStrip": "500+ Projects | 10+ Years | ISO 9001:2015 | Daikin & Carrier Authorized"
+  },
+  "clients": {
+    "badge": "Trusted Partners",
+    "title": "Hundreds of Businesses Have Chosen FAVE",
+    "subtitle": "From office buildings and shopping malls to factories and hospitals",
+    "footer": "And hundreds more businesses nationwide",
+    "cta": "View Our Projects"
+  },
+  "painPoints": {
+    "painTitle": "What Problems Are You Facing?",
+    "solTitle": "FAVE Solves It",
+    "cta": "Call Now — Free Consultation",
+    "or": "or fill the form for our engineer to call you back"
+  },
   "floating": {
     "hotline": "Hotline",
     "zalo": "Zalo",

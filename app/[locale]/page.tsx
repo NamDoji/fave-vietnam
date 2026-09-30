@@ -1,13 +1,16 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import HeroSection from '@/components/sections/HeroSection'
-import AboutSection from '@/components/sections/AboutSection'
+import PainPointsSection from '@/components/sections/PainPointsSection'
 import ServicesSection from '@/components/sections/ServicesSection'
-import ProductsSection from '@/components/sections/ProductsSection'
+import AboutSection from '@/components/sections/AboutSection'
 import ProjectsSection from '@/components/sections/ProjectsSection'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
+import ClientsSection from '@/components/sections/ClientsSection'
 import PartnersSection from '@/components/sections/PartnersSection'
 import NewsSection from '@/components/sections/NewsSection'
 import QuoteFormSection from '@/components/sections/QuoteFormSection'
+import FloatingContact from '@/components/FloatingContact'
 
 type Props = { params: Promise<{ locale: string }> }
 
@@ -33,13 +36,16 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
+      <PainPointsSection />
       <ServicesSection />
       <AboutSection />
       <ProjectsSection />
-      <ProductsSection />
+      <TestimonialsSection />
+      <ClientsSection />
       <PartnersSection />
       <NewsSection />
       <QuoteFormSection />
+      <FloatingContact />
     </>
   )
 }

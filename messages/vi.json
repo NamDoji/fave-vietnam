@@ -211,6 +211,24 @@
     "privacyPolicy": "Chính sách bảo mật",
     "terms": "Điều khoản sử dụng"
   },
+  "testimonials": {
+    "badge": "Khách Hàng Nói Gì",
+    "title": "Được Tin Tưởng Bởi Hàng Trăm Doanh Nghiệp",
+    "statsStrip": "500+ dự án | 10+ năm | ISO 9001:2015 | Đại lý Daikin & Carrier"
+  },
+  "clients": {
+    "badge": "Đối Tác Tin Tưởng",
+    "title": "Hàng Trăm Doanh Nghiệp Đã Chọn FAVE",
+    "subtitle": "Từ tòa nhà văn phòng, trung tâm thương mại đến nhà máy sản xuất và bệnh viện",
+    "footer": "Và hàng trăm doanh nghiệp khác trên toàn quốc",
+    "cta": "Xem Dự Án Của Chúng Tôi"
+  },
+  "painPoints": {
+    "painTitle": "Bạn Đang Gặp Vấn Đề Gì?",
+    "solTitle": "FAVE Giải Quyết Ngay",
+    "cta": "Gọi Ngay — Tư Vấn Miễn Phí",
+    "or": "hoặc điền form để kỹ sư liên hệ lại"
+  },
   "floating": {
     "hotline": "Hotline",
     "zalo": "Zalo",
