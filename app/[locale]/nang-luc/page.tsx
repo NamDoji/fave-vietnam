@@ -11,8 +11,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'metadata' })
   return {
-    title: `Năng Lực & Chứng Chỉ | ${t('siteName')}`,
-    description: 'Hồ sơ năng lực FAVE Vietnam: ISO 9001:2015, 100+ kỹ sư HVAC, đại lý Daikin & Carrier, 500+ dự án hoàn thành, 10+ năm kinh nghiệm.',
+    title: `Năng lực & Chứng chỉ | ISO 9001:2015, Đại lý Daikin — ${t('siteName')}`,
+    description: 'Hồ sơ năng lực FAVE Vietnam: ISO 9001:2015, chứng chỉ PCCC, đại lý ủy quyền Daikin & Carrier, 100+ kỹ sư HVAC, 500+ dự án. Tải hồ sơ năng lực PDF miễn phí.',
+    keywords: 'năng lực HVAC, chứng chỉ ISO 9001 HVAC, đại lý Daikin Việt Nam, đại lý Carrier Việt Nam, hồ sơ năng lực FAVE, kỹ sư HVAC chuyên nghiệp, chứng chỉ PCCC',
   }
 }
 

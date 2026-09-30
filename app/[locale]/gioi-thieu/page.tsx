@@ -11,8 +11,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'metadata' })
   return {
-    title: `Về Chúng Tôi | ${t('siteName')}`,
-    description: 'FAVE Việt Nam - 10+ năm kinh nghiệm HVAC, 500+ dự án, 100+ kỹ sư. Đại lý ủy quyền Daikin & Carrier, chứng chỉ ISO 9001:2015.',
+    title: `Về Chúng Tôi | 10+ năm HVAC chuyên nghiệp — ${t('siteName')}`,
+    description: 'FAVE Việt Nam — đơn vị HVAC uy tín thành lập 2016 tại Hà Nội. 10+ năm kinh nghiệm, 500+ dự án, 100+ kỹ sư chuyên nghiệp. Đại lý ủy quyền Daikin & Carrier, chứng chỉ ISO 9001:2015.',
+    keywords: 'FAVE Vietnam, về chúng tôi, công ty HVAC Hà Nội, đại lý Daikin, đại lý Carrier, ISO 9001 HVAC, nhà thầu HVAC uy tín, kỹ sư HVAC',
   }
 }
 

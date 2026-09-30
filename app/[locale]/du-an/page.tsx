@@ -11,9 +11,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'metadata' })
   return {
-    title: `Dự Án Tiêu Biểu | ${t('siteName')}`,
+    title: `Dự Án HVAC Tiêu Biểu | Tòa nhà, Nhà máy, Bệnh viện — ${t('siteName')}`,
     description:
-      'FAVE Vietnam đã hoàn thành 500+ dự án HVAC từ nhà máy công nghiệp, bệnh viện, tòa nhà thương mại đến hạ tầng công cộng trên toàn quốc.',
+      'FAVE Vietnam đã hoàn thành 500+ dự án HVAC trên toàn quốc: tòa nhà văn phòng, nhà máy công nghiệp, bệnh viện, trung tâm thương mại, khách sạn. Giá trị dự án lên đến 2.000 tỷ đồng.',
+    keywords: 'dự án HVAC, dự án điều hòa trung tâm, HVAC tòa nhà, HVAC nhà máy, HVAC bệnh viện, dự án Chiller, dự án VRV VRF, FAVE Vietnam',
   }
 }
 

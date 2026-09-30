@@ -11,9 +11,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'metadata' })
   return {
-    title: `Dịch Vụ HVAC Toàn Diện | ${t('siteName')}`,
+    title: `Dịch vụ HVAC | Bảo trì, Sửa chữa, Lắp đặt — ${t('siteName')}`,
     description:
-      'Điều hòa trung tâm, thông gió công nghiệp, hệ thống lạnh, VRV/VRF, phòng sạch, bảo trì 24/7. FAVE Vietnam — đối tác HVAC B2B hàng đầu.',
+      'FAVE Vietnam cung cấp dịch vụ HVAC toàn diện: bảo trì điều hòa trung tâm, sửa chữa Chiller, lắp đặt VRV/VRF, thông gió công nghiệp, phòng sạch GMP. Phản hồi trong 4 giờ, 24/7.',
+    keywords: 'dịch vụ HVAC, bảo trì điều hòa trung tâm, sửa chữa Chiller, lắp đặt VRV VRF, thông gió công nghiệp, phòng sạch, HVAC Hà Nội, FAVE Vietnam',
   }
 }
 
